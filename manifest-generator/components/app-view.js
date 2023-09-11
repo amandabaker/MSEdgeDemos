@@ -1,4 +1,4 @@
-// A split page to show the manifest viewer in the right pane and the editor in the left pane.
+// A split app-view to show the manifest viewer in the right pane and the editor in the left pane.
 
 import './manifest-view/index.js';
 
@@ -11,28 +11,28 @@ template.innerHTML = `
       height: 100vh;
     }
 
-    .page {
+    .app-view {
       display: flex;
       flex: 1;
       overflow: hidden;
     }
 
-    .page > * {
+    .app-view > * {
       flex: 1;
       overflow: auto;
     }
     
-    .page > *:first-child {
+    .app-view > *:first-child {
       border-right: 1px solid #eee;
     }
   </style>
-  <div class="page">
+  <div class="app-view">
     <placeholder-component></placeholder-component>
     <manifest-view></manifest-view>
   </div>
 `;
 
-class Page extends HTMLElement {
+class AppView extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -52,4 +52,4 @@ class Page extends HTMLElement {
   }
 }
 
-customElements.define('page-component', Page);
+customElements.define('app-view', AppView);
