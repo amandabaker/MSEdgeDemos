@@ -1,4 +1,4 @@
-import './json-array.js';
+import "./json-array.js";
 
 // Define a custom element for representing a JSON node
 const template = document.createElement("template");
@@ -35,9 +35,9 @@ class Node extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log('connected');
-    this.key = this.getAttribute('key');
-    this.value = this.getAttribute('value');
+    console.log("connected");
+    this.key = this.getAttribute("key");
+    this.value = this.getAttribute("value");
     this.render();
   }
 
@@ -50,18 +50,18 @@ class Node extends HTMLElement {
   }
 
   render() {
-    const node = this.shadowRoot.querySelector('.node');
+    const node = this.shadowRoot.querySelector(".node");
 
-    const type = this.getAttribute('type');
-    const key = this.shadowRoot.querySelector('.key');
-    const value = this.shadowRoot.querySelector('.value');
+    const type = this.getAttribute("type");
+    const key = this.shadowRoot.querySelector(".key");
+    const value = this.shadowRoot.querySelector(".value");
     key.textContent = `"${this.key}" : `;
-    if (type === 'object' || type === 'array') {
-      node.addEventListener('click', (e) => {
-        const isCollapsed = node.getAttribute('collapsed') !== null;
-        node.toggleAttribute('collapsed');
+    if (type === "object" || type === "array") {
+      node.addEventListener("click", (e) => {
+        const isCollapsed = node.getAttribute("collapsed") !== null;
+        node.toggleAttribute("collapsed");
         if (!isCollapsed) {
-          value.innerHTML = '...';
+          value.innerHTML = "...";
         } else {
           this.renderValue(value, type, this.value);
         }
@@ -72,17 +72,16 @@ class Node extends HTMLElement {
   }
 
   renderValue(element, type, value) {
-    if (type === 'array') {
+    if (type === "array") {
       element.innerHTML = `<json-array json="${value}"></json-array>`;
       return;
     }
-    if (type === 'object') {
+    if (type === "object") {
       element.innerHTML = `<json-view json="${value}"></json-view>`;
       return;
     }
     element.textContent = value;
   }
-
 }
 
 customElements.define("json-node", Node);

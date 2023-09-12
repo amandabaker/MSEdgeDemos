@@ -29,8 +29,8 @@ class JSONView extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log('connected');
-    const jsonValue = this.getAttribute('json');
+    console.log("connected");
+    const jsonValue = this.getAttribute("json");
     this.json = JSON.parse(decodeURIComponent(jsonValue));
     this.render();
   }
@@ -40,15 +40,15 @@ class JSONView extends HTMLElement {
   }
 
   render() {
-    const jsonView = this.shadowRoot.querySelector('.json');
-    jsonView.addEventListener('click', (e) => {
-      const isCollapsed = jsonView.getAttribute('collapsed') !== null;
-      jsonView.toggleAttribute('collapsed');
+    const jsonView = this.shadowRoot.querySelector(".json");
+    jsonView.addEventListener("click", (e) => {
+      const isCollapsed = jsonView.getAttribute("collapsed") !== null;
+      jsonView.toggleAttribute("collapsed");
       if (isCollapsed) {
-        jsonView.innerHTML = '';
+        jsonView.innerHTML = "";
         this.renderNodes(jsonView, this.json);
       } else {
-        jsonView.innerHTML = '...';
+        jsonView.innerHTML = "...";
       }
       e.stopPropagation();
     });
@@ -57,8 +57,8 @@ class JSONView extends HTMLElement {
   }
 
   renderNodes(jsonView, json) {
-    Object.keys(json).forEach(key => {
-      const node = document.createElement('json-node');
+    Object.keys(json).forEach((key) => {
+      const node = document.createElement("json-node");
       var nodeType = typeof json[key];
       // find if object is an array
       if (Array.isArray(json[key])) {
