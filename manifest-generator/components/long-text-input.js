@@ -28,7 +28,7 @@ class LongTextInput extends HTMLElement {
       this.#inputElement.setAttribute(
         "placeholder",
         `${this.getAttribute("placeholder-text")}`
-      );
+      );∏
     }
 
     // Style the elements
