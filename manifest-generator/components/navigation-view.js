@@ -1,7 +1,8 @@
+import "./styled-button.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
   <link rel="stylesheet" href="styles/defaults.css" />
-  <link rel="stylesheet" href="styles/button.css" />
   <style> 
     .left-pane {
       height: 100%;
@@ -30,9 +31,9 @@ template.innerHTML = `
       <slot></slot>
     </div>
     <div class="nav-bar">
-      <button class="btn-secondary" id="prev">prev</button>
-      <button class="btn-secondary" id="skip">skip</button>
-      <button class="btn-primary" id="next">next</button>
+      <styled-button type="secondary" id="prev">prev</styled-button>
+      <styled-button type="secondary" id="skip">skip</styled-button>
+      <styled-button type="primary" id="next">next</styled-button>
     </div>
   </div>
 `;
