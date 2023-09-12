@@ -1,4 +1,4 @@
-import Node from "./node.js";
+import Node from './node.js';
 
 // Define a custom element for representing a JSON document
 const template = document.createElement('template');
@@ -37,7 +37,7 @@ class JSONView extends HTMLElement {
     const json = this.json;
     const jsonView = this.shadowRoot.querySelector('.json');
 
-    Object.keys(json).forEach(key => {
+    Object.keys(json).forEach((key) => {
       const node = document.createElement('json-node');
       var nodeType = typeof json[key];
       // find if object is an array
@@ -48,7 +48,10 @@ class JSONView extends HTMLElement {
       // if the value is an object, add values recursively
       if (nodeType === 'object' || nodeType === 'array') {
         node.setAttribute('key', key);
-        node.setAttribute('value', encodeURIComponent(JSON.stringify(json[key])));
+        node.setAttribute(
+          'value',
+          encodeURIComponent(JSON.stringify(json[key]))
+        );
         jsonView.appendChild(node);
         return;
       }

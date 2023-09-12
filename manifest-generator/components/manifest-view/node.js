@@ -1,4 +1,3 @@
-
 // Define a custom element for representing a JSON node
 const template = document.createElement('template');
 template.innerHTML = `
@@ -84,13 +83,17 @@ class Node extends HTMLElement {
       const jsonValue = JSON.parse(decodeURIComponent(this.value));
       for (let json of jsonValue) {
         document.createElement('json-view');
-        value.innerHTML += `<json-view json="${encodeURIComponent(JSON.stringify(json))}"></json-view>`;
+        value.innerHTML += `<json-view json="${encodeURIComponent(
+          JSON.stringify(json)
+        )}"></json-view>`;
       }
       return;
     }
     if (type === 'object') {
       document.createElement('json-view');
-      value.innerHTML = `<json-view json="${encodeURIComponent(this.value)}"></json-view>`;
+      value.innerHTML = `<json-view json="${encodeURIComponent(
+        this.value
+      )}"></json-view>`;
       return;
     }
     value.textContent = this.value;

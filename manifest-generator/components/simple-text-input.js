@@ -10,29 +10,32 @@ class SimpleTextInput extends HTMLElement {
     super();
 
     // Create a shadow root
-    const shadow = this.attachShadow({mode: 'open'});
+    const shadow = this.attachShadow({ mode: 'open' });
 
     const tableWrapper = document.createElement('div');
-    tableWrapper.setAttribute("class", "table");
+    tableWrapper.setAttribute('class', 'table');
 
     // Create the page label
     const inputLabel = document.createElement('p');
-    inputLabel.setAttribute("class", "tableitem");
-    if (this.getAttribute("label")) {
-      inputLabel.textContent = `${this.getAttribute("label")}`;
+    inputLabel.setAttribute('class', 'tableitem');
+    if (this.getAttribute('label')) {
+      inputLabel.textContent = `${this.getAttribute('label')}`;
     } else {
-      inputLabel.setAttribute("hidden", true);
+      inputLabel.setAttribute('hidden', true);
     }
 
     // Create the input element
     const inputElement = document.createElement('input');
-    inputElement.setAttribute("class", "tableitem");
-    if (this.getAttribute("placeholder-text")) {
-      inputElement.setAttribute("placeholder", `${this.getAttribute("placeholder-text")}`);
+    inputElement.setAttribute('class', 'tableitem');
+    if (this.getAttribute('placeholder-text')) {
+      inputElement.setAttribute(
+        'placeholder',
+        `${this.getAttribute('placeholder-text')}`
+      );
     }
 
     // Style the elements
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.textContent = `.tableitem {
       align-self: center;
     }
@@ -54,4 +57,3 @@ class SimpleTextInput extends HTMLElement {
 
 // Define the new element
 customElements.define('simple-text-input', SimpleTextInput);
-
