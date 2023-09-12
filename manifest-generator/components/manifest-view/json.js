@@ -35,10 +35,6 @@ class JSONView extends HTMLElement {
     this.render();
   }
 
-  disconnectedCallback() {
-    // console.log("disconnected");
-  }
-
   render() {
     const jsonView = this.shadowRoot.querySelector(".json");
     jsonView.addEventListener("click", (e) => {
