@@ -1,7 +1,7 @@
 // Component for a images as radio buttons.
 /*
   Usage:
-  <radio-button-group></radio-button>
+  <display-mode></display-mode>
 
 */
 
@@ -88,7 +88,7 @@ template.innerHTML = `
     </div>
 `;
 
-class RadioButtonGroup extends HTMLElement {
+class DisplayMode extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -107,4 +107,4 @@ class RadioButtonGroup extends HTMLElement {
 }
 
 // Define the new element
-customElements.define("radio-button-group", RadioButtonGroup);
+customElements.define("display-mode", DisplayMode);
