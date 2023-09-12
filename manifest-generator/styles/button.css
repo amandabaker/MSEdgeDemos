@@ -6,7 +6,7 @@ button {
   background-image: none;
 
   font-family: inherit;
-  font-size: 18px;
+  font-size: 16px;
 
   text-transform: uppercase;
 
@@ -23,7 +23,7 @@ a.btn-secondary:focus-visible {
   border: none;
   color: var(--c-white);
   text-transform: uppercase;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 3em;
   margin: 0 0.2em;
 }
@@ -32,7 +32,7 @@ button.btn-primary,
 a.btn-primary {
   background-color: var(--c-blue);
   font-weight: 500;
-  padding: 0.5em 1.2em;
+  padding: 0.8em 1.5em;
   border-radius: var(--border-radius);
 
   transition: var(--transition-color);
@@ -56,7 +56,7 @@ button.btn-secondary,
 a.btn-secondary {
   background-color: var(--c-gray);
   font-weight: 500;
-  padding: 0.5em 1.2em;
+  padding: 0.8em 1.5em;
   border-radius: var(--border-radius);
 
   transition: var(--transition-color);
