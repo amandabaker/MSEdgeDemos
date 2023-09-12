@@ -83,12 +83,17 @@ class NavigationView extends HTMLElement {
         })
       );
     });
+
+    this.shadowRoot.querySelector("slot").addEventListener("slotchange", () => {
+      this.togglePage(this.currentId);
+    });
   }
 
   static get observedAttributes() {
     return Object.values(attributes).map((opt) => opt.name);
   }
 
+  // This method doesn't validate any form inputs, just html attributes.
   validateAttributes(changedValue) {
     Object.entries(attributes).forEach(([field, opts]) => {
       if (changedValue !== undefined && opts.name !== changedValue) return;
@@ -104,18 +109,17 @@ class NavigationView extends HTMLElement {
   togglePage(id) {
     const pages = this.querySelectorAll(this.pageSelector);
     pages.forEach((page) => {
-      page.toggleAttribute("hidden", page.id !== id);
+      page.toggleAttribute("hidden", page.pageId !== id);
     });
   }
 
   connectedCallback() {
     this.validateAttributes();
-    this.togglePage(this.currentId);
   }
 
-  attributeChangedCallback(attr, _oldVal, newVal) {
+  attributeChangedCallback(attr, oldVal, newVal) {
     this.validateAttributes();
-    if (attr == attributes.currentId.name) {
+    if (oldVal !== null && attr == attributes.currentId.name) {
       this.togglePage(newVal);
     }
   }

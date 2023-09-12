@@ -26,10 +26,9 @@ class PageView extends HTMLElement {
 
     // Set the id field based on the id attribute
     this.#id = this.getAttribute("page-id");
-    console.log("this page's ID is = " + this.#id);
   }
 
-  getId() {
+  get pageId() {
     return this.#id;
   }
 }

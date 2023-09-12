@@ -31,10 +31,10 @@ template.innerHTML = `
   </style>
   <div class="app-view">
     <navigation-view current-id="page-1" page-selector="page-view">
-       <page-view id="page-1" title="Page 1">
+      <page-view page-id="page-1" title="Page 1">
           <p slot="text">Page 1</p>
       </page-view> 
-      <page-view id="page-2" title="Page 2">
+      <page-view page-id="page-2" title="Page 2">
           <p slot="text">Page 2</p>
       </page-view>
     </navigation-view>
@@ -69,7 +69,9 @@ class AppView extends HTMLElement {
   }
 
   skipPage() {
-    Math.min(this.currentPageIdIndex + 1, this.pageIds.length - 1);
+    this.jumpToPage(
+      Math.min(this.currentPageIdIndex + 1, this.pageIds.length - 1)
+    );
   }
 
   jumpToPage(pageIndex) {
