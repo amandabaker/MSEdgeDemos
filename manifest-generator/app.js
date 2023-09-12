@@ -1,9 +1,9 @@
-import { readManifestFromLocalStorage } from './state.js';
+import { readManifestFromLocalStorage } from "./state.js";
 
 const registerServiceWorker = async () => {
   try {
-    await navigator.serviceWorker.register('sw.js');
-    console.log('Service worker registered');
+    await navigator.serviceWorker.register("sw.js");
+    console.log("Service worker registered");
   } catch (e) {
     console.log(`Registration failed: ${e}`);
   }

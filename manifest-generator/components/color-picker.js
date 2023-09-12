@@ -7,25 +7,25 @@ class ColorPicker extends HTMLElement {
   inputElement;
   constructor() {
     super();
-    this.inputElement = document.createElement('input');
+    this.inputElement = document.createElement("input");
 
     // Create a shadow root
-    const shadow = this.attachShadow({ mode: 'open' });
+    const shadow = this.attachShadow({ mode: "open" });
 
-    const tableWrapper = document.createElement('div');
-    tableWrapper.setAttribute('class', 'table');
+    const tableWrapper = document.createElement("div");
+    tableWrapper.setAttribute("class", "table");
 
     // Create the page label
-    const inputLabel = document.createElement('p');
-    inputLabel.setAttribute('class', 'tableitem');
-    inputLabel.textContent = `${this.getAttribute('label')}`;
+    const inputLabel = document.createElement("p");
+    inputLabel.setAttribute("class", "tableitem");
+    inputLabel.textContent = `${this.getAttribute("label")}`;
 
     // Create the input element
-    this.inputElement.setAttribute('type', 'color');
-    this.inputElement.setAttribute('class', 'tableitem');
+    this.inputElement.setAttribute("type", "color");
+    this.inputElement.setAttribute("class", "tableitem");
 
     // Style the elements
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `.tableitem {
         align-self: center;
       }
@@ -50,4 +50,4 @@ class ColorPicker extends HTMLElement {
 }
 
 // Define the new element
-customElements.define('color-picker', ColorPicker);
+customElements.define("color-picker", ColorPicker);
