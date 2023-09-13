@@ -19,19 +19,20 @@ template.innerHTML = `
           }
 
     .item-label {
-        align-self: left;
-        margin-left: 20px;
+        margin-left: 5px;
     }
 
     .radio-button {
-    margin: 10px;
-    cursor: pointer;
+        cursor: pointer;
     }
 
     .radio-button img {
-        width: 100px; /* Adjust the image size as needed */
+        max-width: 100%; /* Adjust the image size as needed */
         border: 2px solid transparent;
+        border-radius: 15px;
         padding: 5px;
+        margin-top:5px;
+        margin-bottom:15px;
     }
 
     .radio-button input[type="radio"] {
@@ -39,50 +40,51 @@ template.innerHTML = `
     }
 
     .radio-button input[type="radio"]:checked + img {
-        border-color: blue; /* Style the selected image */
-        border-radius: 5px;
+        border-color: white; /* Style the selected image */
+        border-radius: 15px;
     }
 
     .label-radio-container {
         display:inline-block;
         align-self:center;
+        text-align:left;
     }
     </style>
 
     <div class="table">
         <div class="label-radio-container">
-            <label class="item-label">minimal-ui</label>
+            <label class="item-label">Minimal-UI</label>
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="minimal-ui">
-                        <img src="/manifest-generator/icons/48X48.png" alt="minimal-ui">
+                        <img src="/manifest-generator/images/minimal-ui.png" alt="minimal-ui">
                 </label>
             </div>
         </div>
         <div class="label-radio-container">
-            <label class="item-label">standalone</label>
+            <label class="item-label">Standalone</label>
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="standalone">
-                    <img src="/manifest-generator/icons/48X48.png" alt="standalone">
+                    <img src="/manifest-generator/images/standalone.png" alt="standalone">
                 </label>
             </div>
         </div>
         <div class="label-radio-container">
-            <label class="item-label">fullscreen</label>
+            <label class="item-label">Fullscreen</label>
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="fullscreen">
-                    <img src="/manifest-generator/icons/48X48.png" alt="fullscreen">
+                    <img src="/manifest-generator/images/fullscreen.png" alt="fullscreen">
                 </label>
             </div>
         </div>
         <div class="label-radio-container">
-            <label class="item-label">browser</label>
+            <label class="item-label">Browser</label>
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="browser">
-                    <img src="/manifest-generator/icons/48X48.png" alt="browser">
+                    <img src="/manifest-generator/images/browser.png" alt="browser">
                 </label>
             </div>
         </div>
