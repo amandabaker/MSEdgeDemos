@@ -9,7 +9,7 @@ const registerServiceWorker = async () => {
 };
 
 if (navigator.serviceWorker) {
-  registerServiceWorker();
+  registerServiceWorker();   
 }
 
 // Grab previous state from Local Storage so that progress is not lost
