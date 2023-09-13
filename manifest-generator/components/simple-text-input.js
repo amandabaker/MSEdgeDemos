@@ -23,6 +23,7 @@ class SimpleTextInput extends HTMLElement {
 
     // Create the input element
     this.#inputElement = document.createElement("input");
+    this.#inputElement.setAttribute("type", "text");
     this.#inputElement.setAttribute("class", "table-item");
     if (this.getAttribute("placeholder-text")) {
       this.#inputElement.setAttribute(
