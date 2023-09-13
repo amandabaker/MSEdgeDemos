@@ -60,7 +60,8 @@ h2,
 h3,
 p,
 span,
-a {
+a,
+label {
   color: var(--c-text);
 }
 
@@ -93,7 +94,8 @@ h3 {
 
 p,
 span,
-a {
+a,
+label {
   font-size: 16px;
   line-height: 150%;
   letter-spacing: 2%;
