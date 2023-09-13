@@ -18,7 +18,7 @@ class PageView extends HTMLElement {
     </style>
 
     <h2 id="title">${this.getAttribute("title")}</h2>
-    <slot name="text">My Default Text</slot>`;
+    <slot name="text">ERROR: Slot not filled</slot>`;
 
     // Create a shadow root
     this.attachShadow({ mode: "open" });

@@ -20,7 +20,19 @@ const json = {
       type: "image/png",
     },
   ],
-  "prefer_related_applications": false,
+  categories: [],
+  display_override: [],
+  file_handlers: [],
+  id: "",
+  orientation: "any",
+  prefer_related_applications: false,
+  related_applications: "",
+  protocol_handlers: [],
+  scope: "",
+  screenshot: [],
+  share_target: {},
+  shortcut: {},
+  widgets: {},
 };
 
 // Define a custom element for representing a JSON node
@@ -50,7 +62,10 @@ class ManifestView extends HTMLElement {
     const manifestView = this.shadowRoot.querySelector(".manifest-view");
     const jsonView = document.createElement("json-view");
     jsonView.setAttribute("json", encodeURIComponent(JSON.stringify(json)));
-    jsonView.setAttribute("selected-page-id", this.getAttribute("current-page-id"));
+    jsonView.setAttribute(
+      "selected-page-id",
+      this.getAttribute("current-page-id")
+    );
     jsonView.setAttribute("root", true);
     manifestView.appendChild(jsonView);
   }
@@ -62,7 +77,10 @@ class ManifestView extends HTMLElement {
   attributeChangedCallback(name) {
     if (name === "current-page-id") {
       const jsonView = this.shadowRoot.querySelector("json-view");
-      jsonView.setAttribute("selected-page-id", this.getAttribute("current-page-id"));
+      jsonView.setAttribute(
+        "selected-page-id",
+        this.getAttribute("current-page-id")
+      );
     }
   }
 }
