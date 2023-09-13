@@ -4,7 +4,7 @@ template.innerHTML = `
     .node {
       display: flex;
       flex-direction: column;
-      margin-bottom: 1rem;
+      margin-bottom: .2rem;
     }
 
     .node::before {

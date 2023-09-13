@@ -31,15 +31,15 @@ template.innerHTML = `
     }
   </style>
   <div class="app-view">
-    <navigation-view current-id="page-1" page-selector="page-view">
-      <page-view page-id="page-1" title="Page 1">
+    <navigation-view current-id="name" page-selector="page-view">
+      <page-view page-id="name" title="Page 1">
         <p slot="text">Page 1</p>
       </page-view>
-      <page-view page-id="page-2" title="Page 2">
+      <page-view page-id="short_name" title="Page 2">
         <p slot="text">Page 2</p>
       </page-view>
     </navigation-view>
-    <manifest-view></manifest-view>
+    <manifest-view current-page-id="name"></manifest-view>
   </div>
 `;
 
@@ -51,7 +51,8 @@ class AppView extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.navigationView = this.shadowRoot.querySelector("navigation-view");
 
-    this.pageIds = ["page-1", "page-2"];
+    // use keys if the web app manifest as page ids.
+    this.pageIds = ["name", "short_name"];
     this.currentPageIdIndex = 0;
 
     this.navigationView.addEventListener("next", () => this.nextPage());
@@ -79,6 +80,11 @@ class AppView extends HTMLElement {
     this.currentPageIdIndex = pageIndex;
     this.navigationView.setAttribute(
       "current-id",
+      this.pageIds[this.currentPageIdIndex]
+    );
+    const manifestView = this.shadowRoot.querySelector("manifest-view");
+    manifestView.setAttribute(
+      "current-page-id",
       this.pageIds[this.currentPageIdIndex]
     );
   }

@@ -7,6 +7,7 @@
   --c-gray-light: #898b90;
   --c-blue-gray: #898b90;
   --c-blue-dark: #2870ff;
+  --c-selected-key: #FDAEB7;
   --c-red: #cb463a;
   --c-bkg-card: var(--c-bkg-secondary);
   --c-text: var(--c-white);
@@ -24,6 +25,7 @@
 :before {
   box-sizing: border-box;
   border: 0 solid #e5e7eb;
+  color: var(--c-text);
 }
 
 html {
@@ -61,6 +63,7 @@ h3,
 p,
 span,
 a,
+div,
 label {
   color: var(--c-text);
 }
