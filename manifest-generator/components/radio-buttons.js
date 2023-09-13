@@ -21,6 +21,7 @@ class RadioButtons extends HTMLElement {
         let radioButton = document.createElement("input");
         radioButton.setAttribute("type", "radio");
         radioButton.setAttribute("name", "radio-group");
+        radioButton.setAttribute("value", element);
         tableItem.append(radioButton);
         // Create radio button label and append
         let radioLabel = document.createElement("label");
@@ -40,9 +41,23 @@ class RadioButtons extends HTMLElement {
         flex-direction: column;
       }`;
 
+      const stylesheetDefault = document.createElement("link");
+      stylesheetDefault.setAttribute("rel", "stylesheet");
+      stylesheetDefault.setAttribute("href", "../styles/defaults.css");
+      shadow.append(stylesheetDefault);
+
       // Append the table and style to the shadow DOM
       shadow.append(tableWrapper);
       shadow.append(style);
+    }
+
+    getUserInput() {
+      const inputElement = this.shadowRoot.querySelector(
+        "input[type='radio']:checked"
+      );
+      if (inputElement) {
+        return inputElement.value;
+      }
     }
   }
   
