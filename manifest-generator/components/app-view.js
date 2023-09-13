@@ -8,22 +8,23 @@ import "./simple-text-input.js";
 import "./display-mode.js";
 import "./color-picker.js";
 import "./long-text-input.js";
+import "./radio-buttons.js";
 
 const pageInfo = [
   {
     id: "name",
     title: "What's your app's name?",
-    content: `<simple-text-input slot="text"></simple-text-input>`,
+    content: `<simple-text-input slot="text" placeholder-text="App name"></simple-text-input>`,
   },
   {
     id: "short_name",
     title: "Now give it a nice short name",
-    content: `<simple-text-input slot="text"></simple-text-input>`,
+    content: `<simple-text-input slot="text" placeholder-text="Short name"></simple-text-input>`,
   },
   {
     id: "start_url",
     title: "Give me a start url",
-    content: `<simple-text-input slot="text"></simple-text-input>`,
+    content: `<simple-text-input slot="text" placeholder-text="Start url"></simple-text-input>`,
   },
   {
     id: "display",
@@ -43,12 +44,12 @@ const pageInfo = [
   {
     id: "description",
     title: "Provide a description",
-    content: `<long-text-input slot="text"></long-text-input>`,
+    content: `<long-text-input slot="text" placeholder-text="Description"></long-text-input>`,
   },
   {
     id: "icons",
     title: "give me some icons",
-    content: `<simple-text-input slot="text"></simple-text-input>`,
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
   },
   {
     id: "categories",
@@ -68,12 +69,52 @@ const pageInfo = [
   {
     id: "id",
     title: "Choose an ID",
-    content: `<simple-text-input slot="text"></simple-text-input>`,
+    content: `<simple-text-input slot="text" placeholder-text="ID"></simple-text-input>`,
   },
   {
     id: "orientation",
     title: "Choose an orientation",
-    content: `<radio-button slot="text"></radio-button>`,
+    content: `<radio-buttons slot="text" options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
+  },
+  {
+    id: "prefer_related_applications",
+    title: "Set prefer_related_applications",
+    content: `<radio-buttons slot="text" options="true,false"></radio-buttons>`,
+  },
+  {
+    id: "related_applications",
+    title: "Set your related applications",
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+  },
+  {
+    id: "protocol_handlers",
+    title: "Set your protocol handlers",
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+  },
+  {
+    id: "scope",
+    title: "Choose a scope",
+    content: `<simple-text-input slot="text" placeholder-text="Scope"></simple-text-input>`,
+  },
+  {
+    id: "screenshot",
+    title: "Add a screenshot",
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+  },
+  {
+    id: "share_target",
+    title: "Add a share target",
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+  },
+  {
+    id: "shortcut",
+    title: "Add a shortcut",
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+  },
+  {
+    id: "widgets",
+    title: "Add a widget",
+    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
   },
 ];
 
@@ -142,7 +183,11 @@ class AppView extends HTMLElement {
   }
 
   prevPage() {
-    this.jumpToPage(Math.max(this.currentPageIdIndex - 1, 0));
+    this.currentPageIdIndex--;
+    if (this.currentPageIdIndex == -1) {
+      this.currentPageIdIndex = pageInfo.length - 1;
+    }
+    this.jumpToPage(this.currentPageIdIndex);
   }
 
   skipPage() {
