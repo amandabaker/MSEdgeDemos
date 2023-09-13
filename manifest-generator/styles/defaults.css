@@ -51,6 +51,7 @@ h5,
 h6 {
   font-size: inherit;
   font-weight: inherit;
+  margin-top: 0;
 }
 a {
   color: inherit;

@@ -9,6 +9,7 @@ import "./display-mode.js";
 import "./color-picker.js";
 import "./long-text-input.js";
 import "./radio-buttons.js";
+import "./styled-card.js";
 import { updateManifest } from "../state.js";
 
 const pageInfo = [
