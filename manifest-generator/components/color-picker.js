@@ -18,9 +18,10 @@ class ColorPicker extends HTMLElement {
 
     // Create the input element
     this.#inputElement.setAttribute("type", "color");
+    this.#inputElement.value = "#cd5d5d"
     this.#inputElement.setAttribute("class", "container-item");
 
-    container.append(this.inputElement);
+    container.append(this.#inputElement);
 
     // Style the elements
     const style = document.createElement("style");
@@ -31,6 +32,13 @@ class ColorPicker extends HTMLElement {
 
     .container-item {
       align-self: center;
+    }
+
+    input[type="color"] {
+      height: 100px;
+      width: 100px;
+      border-radius: 15px;
+      padding: 6px;
     }`;
 
     const stylesheet = document.createElement("link");
