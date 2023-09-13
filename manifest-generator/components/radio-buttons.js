@@ -17,6 +17,7 @@ class RadioButtons extends HTMLElement {
     // Create a label/radio button for each item
     array.forEach((element) => {
       let tableItem = document.createElement("div");
+      tableItem.setAttribute("class", "table-item");
       // Create radio button and append
       let radioButton = document.createElement("input");
       radioButton.setAttribute("type", "radio");
@@ -32,13 +33,29 @@ class RadioButtons extends HTMLElement {
 
     // Style the elements
     const style = document.createElement("style");
-    style.textContent = `.tableitem {
-        align-self: center;
+    style.textContent = `.table-item {
+        margin-bottom: 10px;
       }
 
       .table {
         display: flex;
         flex-direction: column;
+      }
+
+      label {
+        margin-left: 15px;
+      }
+
+      input[type="radio"] {
+        width: 2%;
+        height: 2em;
+        margin-top: -1px;
+        vertical-align: middle;
+        margin-right: 0;
+      }
+      
+      input[type="radio"]:checked {
+        accent-color: #353942;
       }`;
 
     const stylesheetDefault = document.createElement("link");
