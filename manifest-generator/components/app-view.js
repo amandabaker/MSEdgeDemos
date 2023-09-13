@@ -4,6 +4,90 @@ import "./manifest-view/index.js";
 import "./navigation-view.js";
 import "./page-view.js";
 import "./styled-button.js";
+import "./simple-text-input.js";
+import "./display-mode.js";
+import "./color-picker.js";
+import "./long-text-input.js";
+
+const pageInfo = [
+  {
+    id: "name",
+    title: "What's your app's name?",
+    content: `<simple-text-input slot="text"></simple-text-input>`,
+  },
+  {
+    id: "short_name",
+    title: "Now give it a nice short name",
+    content: `<simple-text-input slot="text"></simple-text-input>`,
+  },
+  {
+    id: "start_url",
+    title: "Give me a start url",
+    content: `<simple-text-input slot="text"></simple-text-input>`,
+  },
+  {
+    id: "display",
+    title: "Set a display mode",
+    content: `<display-mode slot="text"></display-mode>`,
+  },
+  {
+    id: "background_color",
+    title: "Pick a background color",
+    content: `<color-picker slot="text"></color-picker>`,
+  },
+  {
+    id: "theme_color",
+    title: "Pick a theme color",
+    content: `<color-picker slot="text"></color-picker>`,
+  },
+  {
+    id: "description",
+    title: "Provide a description",
+    content: `<long-text-input slot="text"></long-text-input>`,
+  },
+  {
+    id: "icons",
+    title: "give me some icons",
+    content: `<simple-text-input slot="text"></simple-text-input>`,
+  },
+  {
+    id: "categories",
+    title: "Categories",
+    content: `<p slot="text">TBD</p>`,
+  },
+  {
+    id: "display_override",
+    title: "Display Override",
+    content: `<p slot="text">TBD</p>`,
+  },
+  {
+    id: "file_handlers",
+    title: "File handlers",
+    content: `<p slot="text">TBD</p>`,
+  },
+  {
+    id: "id",
+    title: "Choose an ID",
+    content: `<simple-text-input slot="text"></simple-text-input>`,
+  },
+  {
+    id: "orientation",
+    title: "Choose an orientation",
+    content: `<radio-button slot="text"></radio-button>`,
+  },
+];
+
+const renderPages = () => {
+  let pages = "";
+  for (let page of pageInfo) {
+    pages += `
+    <page-view page-id="${page.id}" title="${page.title}">
+      ${page.content}
+    </page-view>
+    `;
+  }
+  return pages;
+};
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -31,15 +115,10 @@ template.innerHTML = `
     }
   </style>
   <div class="app-view">
-    <navigation-view current-id="name" page-selector="page-view">
-      <page-view page-id="name" title="Page 1">
-        <p slot="text">Page 1</p>
-      </page-view>
-      <page-view page-id="short_name" title="Page 2">
-        <p slot="text">Page 2</p>
-      </page-view>
+    <navigation-view current-id="${pageInfo[0].id}" page-selector="page-view">
+      ${renderPages()}
     </navigation-view>
-    <manifest-view current-page-id="name"></manifest-view>
+    <manifest-view current-page-id="${pageInfo[0].id}"></manifest-view>
   </div>
 `;
 
@@ -51,8 +130,6 @@ class AppView extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.navigationView = this.shadowRoot.querySelector("navigation-view");
 
-    // use keys if the web app manifest as page ids.
-    this.pageIds = ["name", "short_name"];
     this.currentPageIdIndex = 0;
 
     this.navigationView.addEventListener("next", () => this.nextPage());
@@ -61,9 +138,7 @@ class AppView extends HTMLElement {
   }
 
   nextPage() {
-    this.jumpToPage(
-      Math.min(this.currentPageIdIndex + 1, this.pageIds.length - 1)
-    );
+    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
   }
 
   prevPage() {
@@ -71,21 +146,19 @@ class AppView extends HTMLElement {
   }
 
   skipPage() {
-    this.jumpToPage(
-      Math.min(this.currentPageIdIndex + 1, this.pageIds.length - 1)
-    );
+    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
   }
 
   jumpToPage(pageIndex) {
     this.currentPageIdIndex = pageIndex;
     this.navigationView.setAttribute(
       "current-id",
-      this.pageIds[this.currentPageIdIndex]
+      pageInfo[this.currentPageIdIndex].id
     );
     const manifestView = this.shadowRoot.querySelector("manifest-view");
     manifestView.setAttribute(
       "current-page-id",
-      this.pageIds[this.currentPageIdIndex]
+      pageInfo[this.currentPageIdIndex].id
     );
   }
 }

@@ -55,7 +55,7 @@ template.innerHTML = `
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="minimal-ui">
-                        <img src="../icons/48X48.png" alt="minimal-ui">
+                        <img src="/manifest-generator/icons/48X48.png" alt="minimal-ui">
                 </label>
             </div>
         </div>
@@ -64,7 +64,7 @@ template.innerHTML = `
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="standalone">
-                    <img src="../icons/48X48.png" alt="standalone">
+                    <img src="/manifest-generator/icons/48X48.png" alt="standalone">
                 </label>
             </div>
         </div>
@@ -73,7 +73,7 @@ template.innerHTML = `
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="fullscreen">
-                    <img src="../icons/48X48.png" alt="fullscreen">
+                    <img src="/manifest-generator/icons/48X48.png" alt="fullscreen">
                 </label>
             </div>
         </div>
@@ -82,7 +82,7 @@ template.innerHTML = `
             <div class="table-item">
                 <label class="radio-button">
                     <input type="radio" name="radio-group" value="browser">
-                    <img src="../icons/48X48.png" alt="browser">
+                    <img src="/manifest-generator/icons/48X48.png" alt="browser">
                 </label>
             </div>
         </div>

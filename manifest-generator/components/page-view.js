@@ -17,7 +17,7 @@ class PageView extends HTMLElement {
       }
     </style>
 
-    <h1 id="title">${this.getAttribute("title")}</h1>
+    <h2 id="title">${this.getAttribute("title")}</h2>
     <slot name="text">My Default Text</slot>`;
 
     // Create a shadow root
