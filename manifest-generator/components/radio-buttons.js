@@ -35,7 +35,7 @@ class RadioButtons extends HTMLElement {
     style.textContent = `.tableitem {
         align-self: center;
       }
-    
+
       .table {
         display: flex;
         flex-direction: column;
@@ -43,7 +43,10 @@ class RadioButtons extends HTMLElement {
 
     const stylesheetDefault = document.createElement("link");
     stylesheetDefault.setAttribute("rel", "stylesheet");
-    stylesheetDefault.setAttribute("href", "../styles/defaults.css");
+    stylesheetDefault.setAttribute(
+      "href",
+      "/manifest-generator/styles/defaults.css"
+    );
     shadow.append(stylesheetDefault);
 
     // Append the table and style to the shadow DOM

@@ -36,7 +36,7 @@ class LongTextInput extends HTMLElement {
     style.textContent = `.table-item {
       align-self: center;
     }
-  
+
     .table {
       display: flex;
       flex-direction: column;
@@ -44,7 +44,10 @@ class LongTextInput extends HTMLElement {
 
     const stylesheetDefault = document.createElement("link");
     stylesheetDefault.setAttribute("rel", "stylesheet");
-    stylesheetDefault.setAttribute("href", "../styles/defaults.css");
+    stylesheetDefault.setAttribute(
+      "href",
+      "/manifest-generator/styles/defaults.css"
+    );
 
     const stylesheetInput = document.createElement("link");
     stylesheetInput.setAttribute("rel", "stylesheet");

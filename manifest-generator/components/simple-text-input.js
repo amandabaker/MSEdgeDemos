@@ -36,7 +36,7 @@ class SimpleTextInput extends HTMLElement {
     style.textContent = `.table-item {
       align-self: center;
     }
-  
+
     .table {
       display: flex;
       flex-direction: column;
@@ -45,11 +45,17 @@ class SimpleTextInput extends HTMLElement {
     // Import stylesheets
     const stylesheetDefault = document.createElement("link");
     stylesheetDefault.setAttribute("rel", "stylesheet");
-    stylesheetDefault.setAttribute("href", "../styles/defaults.css");
+    stylesheetDefault.setAttribute(
+      "href",
+      "/manifest-generator/styles/defaults.css"
+    );
 
     const stylesheetInput = document.createElement("link");
     stylesheetInput.setAttribute("rel", "stylesheet");
-    stylesheetInput.setAttribute("href", "../styles/input.css");
+    stylesheetInput.setAttribute(
+      "href",
+      "/manifest-generator/styles/input.css"
+    );
 
     // Append the text and input elements to the table
     tableWrapper.append(inputLabel);

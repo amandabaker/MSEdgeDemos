@@ -7,7 +7,7 @@
 
 const template = document.createElement("template");
 template.innerHTML = `
-    <link rel="stylesheet" href="../styles/defaults.css" />
+    <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
     <style>
     .table-item {
             align-self: center;
@@ -33,11 +33,11 @@ template.innerHTML = `
         border: 2px solid transparent;
         padding: 5px;
     }
-    
+
     .radio-button input[type="radio"] {
         display: none; /* Hide the default radio button input */
     }
-    
+
     .radio-button input[type="radio"]:checked + img {
         border-color: blue; /* Style the selected image */
         border-radius: 5px;

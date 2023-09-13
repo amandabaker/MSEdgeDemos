@@ -7,7 +7,7 @@ import "./styled-button.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
-  <link rel="stylesheet" href="styles/defaults.css" />
+  <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
   <style>
     :host {
       display: flex;
@@ -25,7 +25,7 @@ template.innerHTML = `
       flex: 1;
       overflow: auto;
     }
-    
+
     .app-view > *:first-child {
       border-right: 1px solid #eee;
     }
@@ -34,7 +34,7 @@ template.innerHTML = `
     <navigation-view current-id="page-1" page-selector="page-view">
       <page-view page-id="page-1" title="Page 1">
         <p slot="text">Page 1</p>
-      </page-view> 
+      </page-view>
       <page-view page-id="page-2" title="Page 2">
         <p slot="text">Page 2</p>
       </page-view>
