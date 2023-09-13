@@ -2,8 +2,8 @@ import "./styled-button.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
-  <link rel="stylesheet" href="styles/defaults.css" />
-  <style> 
+  <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
+  <style>
     .left-pane {
       height: 100%;
       overflow: hidden;
@@ -19,12 +19,12 @@ template.innerHTML = `
       display: grid;
       padding: 10px;
       width: 100%;
-      grid-template-columns: 1fr auto auto; 
+      grid-template-columns: 1fr auto auto;
     }
 
     #prev, #skip, #next {
       justify-self: start;
-    } 
+    }
   </style>
   <div class="left-pane">
     <div class="page-wrapper">

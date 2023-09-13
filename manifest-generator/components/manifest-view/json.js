@@ -3,7 +3,7 @@ import "./node.js";
 // Define a custom element for representing a JSON document
 const template = document.createElement("template");
 template.innerHTML = `
-  <link rel="stylesheet" href="styles/defaults.css" />
+  <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
   <style>
     .json {
       padding: 1rem;

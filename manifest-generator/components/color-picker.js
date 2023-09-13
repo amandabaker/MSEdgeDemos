@@ -28,14 +28,14 @@ class ColorPicker extends HTMLElement {
       display: flex;
       justify-content: center;
     }
-    
+
     .container-item {
       align-self: center;
     }`;
 
     const stylesheet = document.createElement("link");
     stylesheet.setAttribute("rel", "stylesheet");
-    stylesheet.setAttribute("href", "styles/defaults.css");
+    stylesheet.setAttribute("href", "/manifest-generator/styles/defaults.css");
 
     // Append the container and style to the shadow DOM
     shadow.append(container);

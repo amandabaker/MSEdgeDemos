@@ -1,7 +1,7 @@
 const template = document.createElement("template");
 template.innerHTML = `
-  <link rel="stylesheet" href="styles/defaults.css" />
-  <link rel="stylesheet" href="styles/button.css" />
+  <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
+  <link rel="stylesheet" href="/manifest-generator/styles/button.css" />
   <button class="btn-primary"><slot></slot></button>
 `;
 
