@@ -20,7 +20,6 @@ template.innerHTML = `
 
     .item-label {
         align-self: left;
-        margin-left: 20px;
     }
 
     .radio-button {
@@ -39,7 +38,7 @@ template.innerHTML = `
     }
 
     .radio-button input[type="radio"]:checked + img {
-        border-color: blue; /* Style the selected image */
+        border-color: white; /* Style the selected image */
         border-radius: 5px;
     }
 
