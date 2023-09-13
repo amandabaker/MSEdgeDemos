@@ -8,11 +8,22 @@ template.innerHTML = `
     .node {
       display: flex;
       flex-direction: row;
-      margin-bottom: 1rem;
+      margin-bottom: .1rem;
+    }
+
+    .node span {
+      color: var(--c-gray-light);
+    }
+
+    .node[selected=true] span {
+      color: var(--c-selected-key);
+    }
+
+    .node span[type="boolean"] {
+      color: var(--c-blue);
     }
 
     .node .key {
-      color: #a71d5d;
       font-weight: bold;
       margin-left: 1rem;
       white-space: nowrap;
@@ -40,23 +51,37 @@ class Node extends HTMLElement {
     this.render();
   }
 
-  observedAttributes() {
-    return ["key", "value"];
+  static get observedAttributes() {
+    return ["key", "value", "selected"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "key") {
+      this.key = newValue;
+    }
+    if (name === "value") {
+      this.value = newValue;
+    }
+    if (name === "selected") {
+      const node = this.shadowRoot.querySelector(".node");
+      node.setAttribute("selected", newValue === "true");
+      return;
+    }
+    this.render();
   }
 
   render() {
     const node = this.shadowRoot.querySelector(".node");
-
     const type = this.getAttribute("type");
     const key = this.shadowRoot.querySelector(".key");
     const value = this.shadowRoot.querySelector(".value");
     key.textContent = `"${this.key}" : `;
-    if (type === "object" || type === "array") {
+    if (type === "array") {
       node.addEventListener("click", (e) => {
         const isCollapsed = node.getAttribute("collapsed") !== null;
         node.toggleAttribute("collapsed");
         if (!isCollapsed) {
-          value.innerHTML = "...";
+          value.innerHTML = "[...]";
         } else {
           this.renderValue(value, type, this.value);
         }
@@ -76,6 +101,7 @@ class Node extends HTMLElement {
       return;
     }
     element.textContent = value;
+    element.setAttribute("type", type);
   }
 }
 

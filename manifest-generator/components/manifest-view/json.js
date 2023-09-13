@@ -6,7 +6,7 @@ template.innerHTML = `
   <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
   <style>
     .json {
-      padding: 1rem;
+      padding: .2rem;
       width: 100%;
       max-width: 600px;
       margin: 0 auto;
@@ -35,9 +35,29 @@ class JSONView extends HTMLElement {
     this.render();
   }
 
+  static get observedAttributes() {
+    return ["selected-page-id", "json"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "selected-page-id") {
+      this.toggleSelectedPage(newValue);
+    }
+    if (name === "json") {
+      this.json = JSON.parse(decodeURIComponent(newValue));
+      this.render();
+    }
+  }
+
   render() {
     const jsonView = this.shadowRoot.querySelector(".json");
+    jsonView.innerHTML = "";
+    const isRoot = this.getAttribute("root") !== null;
+    const isSelectedPage = this.getAttribute("selected-page-id");
     jsonView.addEventListener("click", (e) => {
+      if (isRoot) {
+        return;
+      }
       const isCollapsed = jsonView.getAttribute("collapsed") !== null;
       jsonView.toggleAttribute("collapsed");
       if (isCollapsed) {
@@ -49,10 +69,21 @@ class JSONView extends HTMLElement {
       e.stopPropagation();
     });
 
-    this.renderNodes(jsonView, this.json);
+    this.renderNodes(jsonView, this.json, isSelectedPage);
   }
 
-  renderNodes(jsonView, json) {
+  toggleSelectedPage(selectedPageId) {
+    const jsonView = this.shadowRoot.querySelector(".json");
+    for (let child of jsonView.children) {
+      if (child.getAttribute("key") === selectedPageId) {
+        child.setAttribute("selected", true);
+      } else {
+        child.removeAttribute("selected");
+      }
+    }
+  }
+
+  renderNodes(jsonView, json, isSelectedPage) {
     Object.keys(json).forEach((key) => {
       const node = document.createElement("json-node");
       var nodeType = typeof json[key];
@@ -61,6 +92,7 @@ class JSONView extends HTMLElement {
         nodeType = "array";
       }
       node.setAttribute("type", nodeType);
+      node.setAttribute("selected", isSelectedPage === key);
       // if the value is an object, add values recursively
       if (nodeType === "object" || nodeType === "array") {
         node.setAttribute("key", key);
