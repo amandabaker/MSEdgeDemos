@@ -21,7 +21,7 @@ class ColorPicker extends HTMLElement {
     this.#inputElement.setAttribute("class", "container-item");
 
     container.append(this.inputElement);
-    
+
     // Style the elements
     const style = document.createElement("style");
     style.textContent = `.container {
