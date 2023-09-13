@@ -52,7 +52,7 @@ function validateUrl(url) {
   return "";
 }
 
-function validateBoolean(boolean) {
+function validateBoolean(prefer) {
   // check prefer is a valid boolean.
   if (typeof prefer !== "boolean") {
     return "must be a boolean";

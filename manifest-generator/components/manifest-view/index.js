@@ -1,39 +1,6 @@
 import "./json.js";
 
-const json = {
-  name: "manifest-generator",
-  short_name: "manifest-generator",
-  start_url: "/",
-  display: "standalone",
-  background_color: "#fff",
-  theme_color: "#fff",
-  description: "A simple tool to generate a web app manifest",
-  icons: [
-    {
-      src: "https://manifest-gen.now.sh/static/icon-192x192.png",
-      sizes: "192x192",
-      type: "image/png",
-    },
-    {
-      src: "https://manifest-gen.now.sh/static/icon-512x512.png",
-      sizes: "512x512",
-      type: "image/png",
-    },
-  ],
-  categories: [],
-  display_override: [],
-  file_handlers: [],
-  id: "",
-  orientation: "any",
-  prefer_related_applications: false,
-  related_applications: "",
-  protocol_handlers: [],
-  scope: "",
-  screenshot: [],
-  share_target: {},
-  shortcut: {},
-  widgets: {},
-};
+import { getManifest } from "../../state.js";
 
 // Define a custom element for representing a JSON node
 const template = document.createElement("template");
@@ -61,13 +28,27 @@ class ManifestView extends HTMLElement {
 
     const manifestView = this.shadowRoot.querySelector(".manifest-view");
     const jsonView = document.createElement("json-view");
-    jsonView.setAttribute("json", encodeURIComponent(JSON.stringify(json)));
+    jsonView.setAttribute(
+      "json",
+      encodeURIComponent(JSON.stringify(getManifest()))
+    );
     jsonView.setAttribute(
       "selected-page-id",
       this.getAttribute("current-page-id")
     );
     jsonView.setAttribute("root", true);
     manifestView.appendChild(jsonView);
+
+    document.addEventListener("page-change", (e) => {
+      this.setAttribute("current-page-id", e.detail.pageId);
+    });
+
+    document.addEventListener("manifest-change", (e) => {
+      jsonView.setAttribute(
+        "json",
+        encodeURIComponent(JSON.stringify(e.detail.manifest))
+      );
+    });
   }
 
   static get observedAttributes() {
