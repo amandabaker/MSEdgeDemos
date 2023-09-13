@@ -176,6 +176,22 @@ class AppView extends HTMLElement {
     this.navigationView.addEventListener("next", () => this.nextPage());
     this.navigationView.addEventListener("prev", () => this.prevPage());
     this.navigationView.addEventListener("skip", () => this.skipPage());
+
+    document.addEventListener("page-change", (e) => {
+      this.navigationView.setAttribute("current-id", e.detail.pageId);
+      this.currentPageIdIndex =
+        e.detail.index !== undefined
+          ? e.detail.index
+          : (() => {
+              // get the index of the page from the pageInfo array.
+              for (let i = 0; i < pageInfo.length; i++) {
+                if (pageInfo[i].id === e.detail.pageId) {
+                  return i;
+                }
+              }
+              return 0;
+            })();
+    });
   }
 
   nextPage() {
@@ -196,14 +212,19 @@ class AppView extends HTMLElement {
 
   jumpToPage(pageIndex) {
     this.currentPageIdIndex = pageIndex;
-    this.navigationView.setAttribute(
-      "current-id",
-      pageInfo[this.currentPageIdIndex].id
-    );
-    const manifestView = this.shadowRoot.querySelector("manifest-view");
-    manifestView.setAttribute(
-      "current-page-id",
-      pageInfo[this.currentPageIdIndex].id
+    this.dispatchPageChangeEvent();
+  }
+
+  dispatchPageChangeEvent() {
+    document.dispatchEvent(
+      new CustomEvent("page-change", {
+        composed: true,
+        bubbles: true,
+        detail: {
+          pageId: pageInfo[this.currentPageIdIndex].id,
+          index: this.currentPageIdIndex,
+        },
+      })
     );
   }
 }

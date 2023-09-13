@@ -76,15 +76,16 @@ class Node extends HTMLElement {
     const key = this.shadowRoot.querySelector(".key");
     const value = this.shadowRoot.querySelector(".value");
     key.textContent = `"${this.key}" : `;
-    if (type === "array") {
+    const isTopLevel = this.getAttribute("top-level") !== null;
+    if (isTopLevel) {
       node.addEventListener("click", (e) => {
-        const isCollapsed = node.getAttribute("collapsed") !== null;
-        node.toggleAttribute("collapsed");
-        if (!isCollapsed) {
-          value.innerHTML = "[...]";
-        } else {
-          this.renderValue(value, type, this.value);
-        }
+        document.dispatchEvent(
+          new CustomEvent("page-change", {
+            detail: {
+              pageId: this.key,
+            },
+          })
+        );
         e.stopPropagation();
       });
     }

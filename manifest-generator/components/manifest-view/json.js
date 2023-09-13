@@ -43,9 +43,12 @@ class JSONView extends HTMLElement {
     if (name === "selected-page-id") {
       this.toggleSelectedPage(newValue);
     }
-    if (name === "json") {
-      this.json = JSON.parse(decodeURIComponent(newValue));
-      this.render();
+    if (name === "json" && newValue) {
+      const decodedValue = decodeURIComponent(newValue);
+      try {
+        this.json = JSON.parse(decodedValue);
+        this.render();
+      } catch (e) {}
     }
   }
 
@@ -54,22 +57,8 @@ class JSONView extends HTMLElement {
     jsonView.innerHTML = "";
     const isRoot = this.getAttribute("root") !== null;
     const isSelectedPage = this.getAttribute("selected-page-id");
-    jsonView.addEventListener("click", (e) => {
-      if (isRoot) {
-        return;
-      }
-      const isCollapsed = jsonView.getAttribute("collapsed") !== null;
-      jsonView.toggleAttribute("collapsed");
-      if (isCollapsed) {
-        jsonView.innerHTML = "";
-        this.renderNodes(jsonView, this.json);
-      } else {
-        jsonView.innerHTML = "...";
-      }
-      e.stopPropagation();
-    });
 
-    this.renderNodes(jsonView, this.json, isSelectedPage);
+    this.renderNodes(jsonView, this.json, isSelectedPage, isRoot);
   }
 
   toggleSelectedPage(selectedPageId) {
@@ -83,7 +72,7 @@ class JSONView extends HTMLElement {
     }
   }
 
-  renderNodes(jsonView, json, isSelectedPage) {
+  renderNodes(jsonView, json, isSelectedPage, isRoot) {
     Object.keys(json).forEach((key) => {
       const node = document.createElement("json-node");
       var nodeType = typeof json[key];
@@ -91,6 +80,7 @@ class JSONView extends HTMLElement {
       if (Array.isArray(json[key])) {
         nodeType = "array";
       }
+      node.setAttribute("top-level", isRoot);
       node.setAttribute("type", nodeType);
       node.setAttribute("selected", isSelectedPage === key);
       // if the value is an object, add values recursively
