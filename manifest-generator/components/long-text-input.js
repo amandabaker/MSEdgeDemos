@@ -51,7 +51,7 @@ class LongTextInput extends HTMLElement {
 
     const stylesheetInput = document.createElement("link");
     stylesheetInput.setAttribute("rel", "stylesheet");
-    stylesheetInput.setAttribute("href", "../styles/input.css");
+    stylesheetInput.setAttribute("href", "/manifest-generator/styles/input.css");
 
     // Append the text and input elements to the table
     tableWrapper.append(inputLabel);
