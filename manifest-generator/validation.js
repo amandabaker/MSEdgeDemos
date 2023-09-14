@@ -92,22 +92,6 @@ function validateIconType(iconType) {
   return validateString(iconType);
 }
 
-function validateDescription(description) {
-  return validateString(description);
-}
-
-function validateShortName(shortName) {
-  return validateString(shortName);
-}
-
-function validateBackgroundColor(color) {
-  return validateColor(color);
-}
-
-function validateThemeColor(color) {
-  return validateColor(color);
-}
-
 function validateDisplayOverride(displayOverride) {
   let validString = validateString(displayOverride);
   if (validString && validString.length > 0) {
@@ -174,4 +158,20 @@ export const validateDisplay = (display) => {
   }
 
   return "";
+};
+
+export const validateShortName = (shortName) => {
+  return validateString(shortName);
+};
+
+export const validateBackgroundColor = (color) => {
+  return validateColor(color);
+};
+
+export const validateThemeColor = (color) => {
+  return validateColor(color);
+};
+
+export const validateDescription = (description) => {
+  return validateString(description);
 };

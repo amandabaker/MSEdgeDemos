@@ -20,6 +20,10 @@ import {
   validateName,
   validateStartUrl,
   validateDisplay,
+  validateShortName,
+  validateBackgroundColor,
+  validateThemeColor,
+  validateDescription,
 } from "../validation.js";
 import { updateManifest } from "../state.js";
 
@@ -41,6 +45,7 @@ const pageInfo = [
     validation: {
       required: false,
       type: "string",
+      fn: validateShortName,
     },
   },
   {
@@ -70,6 +75,7 @@ const pageInfo = [
     validation: {
       required: false,
       type: "string",
+      fn: validateBackgroundColor,
     },
   },
   {
@@ -79,6 +85,7 @@ const pageInfo = [
     validation: {
       required: false,
       type: "string",
+      fn: validateThemeColor,
     },
   },
   {
@@ -88,6 +95,7 @@ const pageInfo = [
     validation: {
       required: false,
       type: "string",
+      fn: validateDescription,
     },
   },
   {
@@ -101,6 +109,11 @@ const pageInfo = [
             <simple-text-input field-id="type" placeholder="placeholder" label="type"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      required: true,
+      type: "array",
+      fn: null,
+    },
   },
   {
     id: "categories",
