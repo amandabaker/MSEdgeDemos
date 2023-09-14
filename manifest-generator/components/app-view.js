@@ -237,10 +237,7 @@ class AppView extends HTMLElement {
     });
   }
 
-  nextPage() {
-    this.updateManifest();
-    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
-
+  updateValidationState() {
     const pageId = pageInfo[this.currentPageIdIndex].id;
     const page = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
@@ -258,13 +255,24 @@ class AppView extends HTMLElement {
     }
   }
 
+  nextPage() {
+    // TODO(stahon): Should we block manifest updates on invalid data?
+    this.updateManifest();
+    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
+
+    updateValidationState();
+  }
+
   prevPage() {
+    // TODO(stahon): Should we block manifest updates on invalid data?
     this.updateManifest();
     this.currentPageIdIndex--;
     if (this.currentPageIdIndex == -1) {
       this.currentPageIdIndex = pageInfo.length - 1;
     }
     this.jumpToPage(this.currentPageIdIndex);
+
+    updateValidationState();
   }
 
   skipPage() {
