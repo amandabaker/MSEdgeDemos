@@ -96,12 +96,25 @@ const pageInfo = [
   {
     id: "related_applications",
     title: "Set your related applications",
-    content: `<p>COMBO PLACEHOLDER</p>`,
+    content: `
+        <multi-block-form fields="['platform','url', 'id']" value="[{'platform': '','url': '', 'id': ''}]">
+          <div slot="form">
+            <simple-text-input field-id="platform" placeholder="windows" label="platform"></simple-text-input>
+            <simple-text-input field-id="url" placeholder="https://path.to.store.app/my-app" label="URL"></simple-text-input>
+            <simple-text-input field-id="id" placeholder="com.example.app1" label="id"></simple-text-input>
+          </div>
+        </multi-block-form>`,
   },
   {
     id: "protocol_handlers",
     title: "Set your protocol handlers",
-    content: `<p>COMBO PLACEHOLDER</p>`,
+    content: `
+        <multi-block-form fields="['protocol','url']" value="[{'protocol': '','url': ''}]">
+          <div slot="form">
+            <simple-text-input field-id="protocol" placeholder="web+customProtocol" label="protocol"></simple-text-input>
+            <simple-text-input field-id="url" placeholder="https://my.app/?uri=%s" label="url"></simple-text-input>
+          </div>
+        </multi-block-form>`,
   },
   {
     id: "scope",
@@ -110,8 +123,17 @@ const pageInfo = [
   },
   {
     id: "screenshot",
-    title: "Add a screenshot",
-    content: `<p>COMBO PLACEHOLDER</p>`,
+    title: "Add screenshots",
+    content: `
+        <multi-block-form fields="['src','sizes', 'type', 'form_factor' , 'label' ]" value="[{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}]">
+          <div slot="form">
+            <simple-text-input field-id="src" placeholder="screenshot1.webp" label="src"></simple-text-input>
+            <simple-text-input field-id="sizes" placeholder="1280x720" label="sizes"></simple-text-input>
+            <simple-text-input field-id="type" placeholder="image/webp" label="type"></simple-text-input>
+            <simple-text-input field-id="form_factor" placeholder="wide" label="form_factor"></simple-text-input>
+            <simple-text-input field-id="label" placeholder="Homescreen of Awesome App" label="label"></simple-text-input>
+          </div>
+        </multi-block-form>`,
   },
   {
     id: "share_target",
@@ -121,7 +143,14 @@ const pageInfo = [
   {
     id: "shortcut",
     title: "Add a shortcut",
-    content: `<p>COMBO PLACEHOLDER</p>`,
+    content: `
+        <multi-block-form fields="['name','url', 'description' ]" value="[{'name': '','url': '', 'description': ''}]">
+          <div slot="form">
+            <simple-text-input field-id="name" placeholder="Today's agenda" label="name"></simple-text-input>
+            <simple-text-input field-id="url" placeholder="/today" label="url"></simple-text-input>
+            <simple-text-input field-id="description" placeholder="List of events planned for today" label="description"></simple-text-input>
+          </div>
+        </multi-block-form>`,
   },
   {
     id: "widgets",
