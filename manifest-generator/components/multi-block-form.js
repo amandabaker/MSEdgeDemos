@@ -20,12 +20,16 @@ template.innerHTML = `
       border-radius: 999px;
       cursor: pointer;
     }
-    button:hover {
+    button:not(:disabled):hover {
       background-color: var(--c-bkg-secondary) 
     }
     #new-block {
       align-self: start;
       padding-right: 1em;
+    }
+    #new-block:disabled {
+      opacity: 0.3; 
+      cursor: default;
     }
     .block {
       display: flex;
@@ -73,6 +77,7 @@ const attributeOptions = {
   maxNumberOfBlocks: {
     name: "max-number-of-blocks",
     required: false,
+    type: "number",
   },
 };
 
@@ -116,7 +121,18 @@ class MultiBlockForm extends HTMLElement {
     }
   }
 
+  disableAddNewButton() {
+    this.newBlock.toggleAttribute("disabled", true);
+  }
+  enableAddNewButton() {
+    this.newBlock.toggleAttribute("disabled", false);
+  }
+
   addBlock(index) {
+    if (index === this.props.maxNumberOfBlocks) return;
+    if (index === this.props.maxNumberOfBlocks - 1) {
+      this.disableAddNewButton();
+    }
     if (index === this.#value.length) {
       this.#value[index] = Object.fromEntries(
         this.props.fields.map((k) => [k, ""])
@@ -151,6 +167,7 @@ class MultiBlockForm extends HTMLElement {
 
   removeBlock(index) {
     if (!this.#value[index]) return;
+    this.enableAddNewButton();
 
     this.#value.splice(index, 1);
     const block = this.#blocksElement.querySelector(`#block-${index}`);
@@ -187,6 +204,8 @@ class MultiBlockForm extends HTMLElement {
         this.props[field] = JSON.parse(
           this.getAttribute(opts.name).replace(/'/g, '"')
         );
+      if (opts.type === "number")
+        this.props[field] = parseFloat(this.getAttribute(opts.name));
     });
   }
 

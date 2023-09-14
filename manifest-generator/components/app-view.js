@@ -54,7 +54,7 @@ const pageInfo = [
     id: "icons",
     title: "give me some icons",
     content: `
-        <multi-block-form fields="['field-1','field-2']" value="[{'field-1':'value', 'field-2':'value-2'}, {'field-1':'value-5', 'field-2':'value-4'}]">
+        <multi-block-form max-number-of-blocks="3" fields="['field-1','field-2']" value="[{'field-1':'value', 'field-2':'value-2'}, {'field-1':'value-5', 'field-2':'value-4'}]">
           <div slot="form">
             <simple-text-input field-id="field-1" placeholder="placeholder" label="label"></simple-text-input>
             <simple-text-input field-id="field-2" placeholder="placeholder" label="label 2"></simple-text-input>
