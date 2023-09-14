@@ -66,7 +66,7 @@ class SimpleTextInput extends HTMLElement {
     this.#inputElement.value =
       this.getAttribute(attributeOptions.value.name) || "";
 
-    this.#errorText = this.shadowRoot.querySelector("id", "error-text");
+    this.#errorText = this.shadowRoot.querySelector("#error-text");
   }
 
   getUserInput() {

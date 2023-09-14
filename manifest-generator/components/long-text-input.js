@@ -68,7 +68,7 @@ class LongTextInput extends HTMLElement {
 
     // Append the table and style to the shadow DOM
     shadow.append(tableWrapper);
-    shadow.append(errorText);
+    shadow.append(this.#errorText);
     shadow.append(style);
     shadow.append(stylesheetDefault);
     shadow.append(stylesheetInput);

@@ -33,7 +33,9 @@ const pageInfo = [
   {
     id: "display",
     title: "Set a display mode",
-    content: `<display-mode></display-mode>`,
+    // This would eventually need a input control we don't have yet. Use simple-text-input
+    // for now as not to break the manifest.json on submission of this page.
+    content: `<simple-text-input placeholder-text="Placeholder"></simple-text-input>`,
   },
   {
     id: "background_color",
@@ -245,13 +247,15 @@ class AppView extends HTMLElement {
     );
 
     // Notify the slot that the validation succeeded or failed.
-    page.shadowRoot
-      .querySelector("slot")
-      .assignedElements()[0]
-      .onValidationCheck(
+    // Some slots don't have onValidationCheck() - just see if that function
+    // exists before trying to call it.
+    const input = page.shadowRoot.querySelector("slot").assignedElements()[0];
+    if (input && typeof input.onValidationCheck === "function") {
+      input.onValidationCheck(
         true /* validation successful? */,
         "error" /* error message */
       );
+    }
   }
 
   prevPage() {
