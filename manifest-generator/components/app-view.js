@@ -16,41 +16,79 @@ import { updateManifest, getManifest } from "../state.js";
 
 const manifest = getManifest();
 
+import {
+  validateName,
+  validateStartUrl,
+  validateDisplay,
+} from "../validation.js";
+import { updateManifest } from "../state.js";
+
 const pageInfo = [
   {
     id: "name",
     title: "What's your app's name?",
     content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
+    validation: {
+      required: true,
+      type: "string",
+      fn: validateName,
+    },
   },
   {
     id: "short_name",
     title: "Now give it a nice short name",
     content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
+    validation: {
+      required: false,
+      type: "string",
+    },
   },
   {
     id: "start_url",
     title: "Give me a start url",
     content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
+    validation: {
+      required: true,
+      type: "string",
+      fn: validateStartUrl,
+    },
   },
   {
     id: "display",
     title: "Set a display mode",
     content: `<display-mode></display-mode>`,
+    validation: {
+      required: true,
+      type: "string",
+      fn: validateDisplay,
+    },
   },
   {
     id: "background_color",
     title: "Pick a background color",
     content: `<color-picker value="${manifest.background_color}"></color-picker>`,
+    validation: {
+      required: false,
+      type: "string",
+    },
   },
   {
     id: "theme_color",
     title: "Pick a theme color",
     content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
+    validation: {
+      required: false,
+      type: "string",
+    },
   },
   {
     id: "description",
     title: "Provide a description",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
+    validation: {
+      required: false,
+      type: "string",
+    },
   },
   {
     id: "icons",
@@ -256,23 +294,21 @@ class AppView extends HTMLElement {
   }
 
   nextPage() {
-    // TODO(stahon): Should we block manifest updates on invalid data?
-    this.updateManifest();
-    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
-
-    updateValidationState();
+    if (this.maybeUpdateManifest()) {
+      this.jumpToPage(
+        Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1)
+      );
+    }
   }
 
   prevPage() {
-    // TODO(stahon): Should we block manifest updates on invalid data?
-    this.updateManifest();
-    this.currentPageIdIndex--;
-    if (this.currentPageIdIndex == -1) {
-      this.currentPageIdIndex = pageInfo.length - 1;
+    if (this.maybeUpdateManifest()) {
+      this.currentPageIdIndex--;
+      if (this.currentPageIdIndex == -1) {
+        this.currentPageIdIndex = pageInfo.length - 1;
+      }
+      this.jumpToPage(this.currentPageIdIndex);
     }
-    this.jumpToPage(this.currentPageIdIndex);
-
-    updateValidationState();
   }
 
   skipPage() {
@@ -298,13 +334,23 @@ class AppView extends HTMLElement {
   }
 
   // To-do: Update this to use events.
-  updateManifest() {
-    const pageId = pageInfo[this.currentPageIdIndex].id;
-    const page = this.shadowRoot.querySelector(
+  maybeUpdateManifest() {
+    const page = pageInfo[this.currentPageIdIndex];
+    const pageId = page.id;
+    const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );
-    const value = page.getUserInput();
-    updateManifest(pageId, value);
+    const value = pageElement.getUserInput();
+    const required = page.validation.required;
+    let validation = "";
+    validation = page.validation.fn(value);
+
+    if (validation === "") {
+      updateManifest(pageId, value);
+      return true;
+    }
+
+    return false;
   }
 }
 

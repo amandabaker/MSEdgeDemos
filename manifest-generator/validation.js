@@ -61,23 +61,6 @@ function validateBoolean(prefer) {
   return "";
 }
 
-function validateName(name) {
-  return validateString(name);
-}
-
-function validateStartUrl(startUrl) {
-  return validateUrl(startUrl);
-}
-
-function validateDisplay(display) {
-  let validValues = ["fullscreen", "standalone", "minimal-ui", "browser"];
-  if (!validValues.includes(display)) {
-    return "Display must be one of " + validValues.join(", ");
-  }
-
-  return "";
-}
-
 function validateIconSrc(iconSrc) {
   // check if iconSrc is null or undefined or empty.
   if (!iconSrc) {
@@ -175,3 +158,20 @@ function validatePreferRelatedApplications(prefer) {
 function validateScope(scope) {
   return validateUrl(scope);
 }
+
+export const validateName = (name) => {
+  return validateString(name);
+};
+
+export const validateStartUrl = (startUrl) => {
+  return validateUrl(startUrl);
+};
+
+export const validateDisplay = (display) => {
+  let validValues = ["fullscreen", "standalone", "minimal-ui", "browser"];
+  if (!validValues.includes(display)) {
+    return "Display must be one of " + validValues.join(", ");
+  }
+
+  return "";
+};
