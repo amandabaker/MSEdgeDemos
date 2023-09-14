@@ -44,18 +44,24 @@ export const getManifest = () => {
   return structuredClone(manifestState);
 };
 
+export const updateManifest = (key, value) => {
+  const manifest = getManifest();
+  manifest[key] = value;
+  setManifest(manifest);
+}
+
 // Write (Set) entire object LocalStorage.
 // Other places can use this as:
 // let state = getManifest();
 // state.name = "new value";
 // setManifest(state);
-export const setManifest = (newState) => {
+const setManifest = (newState) => {
   if (newState == manifestState) {
     return;
   }
 
   document.dispatchEvent(
-    new CustomEvent("manifest-changed", {
+    new CustomEvent("manifest-change", {
       detail: {
         oldManifest: manifestState,
         manifest: newState,
