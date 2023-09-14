@@ -54,9 +54,8 @@ const pageInfo = [
     id: "icons",
     title: "give me some icons",
     content: `
-        <multi-block-form max-number-of-blocks="3" fields="['color','src','sizes','type']" value="[{'color': '#000000','src': '/', 'sizes':'200x200', 'type': 'png'}]">
+        <multi-block-form max-number-of-blocks="3" fields="['src','sizes','type']" value="[{'src': '/', 'sizes':'200x200', 'type': 'png'}]">
           <div slot="form">
-            <color-picker field-id="color"></color-picker>
             <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
             <simple-text-input field-id="type" placeholder="placeholder" label="type"></simple-text-input>
