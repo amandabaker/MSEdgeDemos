@@ -16,6 +16,7 @@ template.innerHTML = `
   <div class="table">
     <label hidden></label>
     <input type="text" />
+    <p id="error-text" hidden>Input field invalid</p>
   </div>
 `;
 
@@ -38,6 +39,7 @@ const attributeOptions = {
 // See simple-text-input-example.html for usage examples.
 class SimpleTextInput extends HTMLElement {
   #inputElement;
+  #errorText;
 
   constructor() {
     super();
@@ -63,6 +65,8 @@ class SimpleTextInput extends HTMLElement {
 
     this.#inputElement.value =
       this.getAttribute(attributeOptions.value.name) || "";
+
+    this.#errorText = this.shadowRoot.querySelector("#error-text");
   }
 
   getUserInput() {
@@ -96,6 +100,17 @@ class SimpleTextInput extends HTMLElement {
     this.validateAttributes(attr);
     if (oldVal !== null && attr == attributeOptions.value.name)
       this.#inputElement.value = this.props.value;
+  }
+
+  onValidationCheck(did_succeed, errorText) {
+    if (did_succeed) {
+      this.#inputElement.removeAttribute("error");
+      this.#errorText.setAttribute("hidden", "");
+    } else {
+      this.#errorText.textContent = errorText;
+      this.#inputElement.setAttribute("error", "");
+      this.#errorText.removeAttribute("hidden");
+    }
   }
 }
 

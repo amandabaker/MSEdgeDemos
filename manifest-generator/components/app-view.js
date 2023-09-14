@@ -33,7 +33,9 @@ const pageInfo = [
   {
     id: "display",
     title: "Set a display mode",
-    content: `<display-mode></display-mode>`,
+    // This would eventually need a input control we don't have yet. Use simple-text-input
+    // for now as not to break the manifest.json on submission of this page.
+    content: `<simple-text-input placeholder-text="Placeholder"></simple-text-input>`,
   },
   {
     id: "background_color",
@@ -235,18 +237,42 @@ class AppView extends HTMLElement {
     });
   }
 
+  updateValidationState() {
+    const pageId = pageInfo[this.currentPageIdIndex].id;
+    const page = this.shadowRoot.querySelector(
+      `page-view[page-id="${pageId}"]`
+    );
+
+    // Notify the slot that the validation succeeded or failed.
+    // Some slots don't have onValidationCheck() - just see if that function
+    // exists before trying to call it.
+    const input = page.shadowRoot.querySelector("slot").assignedElements()[0];
+    if (input && typeof input.onValidationCheck === "function") {
+      input.onValidationCheck(
+        true /* validation successful? */,
+        "error" /* error message */
+      );
+    }
+  }
+
   nextPage() {
+    // TODO(stahon): Should we block manifest updates on invalid data?
     this.updateManifest();
     this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
+
+    updateValidationState();
   }
 
   prevPage() {
+    // TODO(stahon): Should we block manifest updates on invalid data?
     this.updateManifest();
     this.currentPageIdIndex--;
     if (this.currentPageIdIndex == -1) {
       this.currentPageIdIndex = pageInfo.length - 1;
     }
     this.jumpToPage(this.currentPageIdIndex);
+
+    updateValidationState();
   }
 
   skipPage() {

@@ -3,6 +3,7 @@
 
 class LongTextInput extends HTMLElement {
   #inputElement;
+  #errorText;
   constructor() {
     super();
 
@@ -30,6 +31,11 @@ class LongTextInput extends HTMLElement {
         `${this.getAttribute("placeholder-text")}`
       );
     }
+
+    // Create the optionally visible error element
+    this.#errorText = document.createElement("p");
+    this.#errorText.textContent = "TEMPORARY ERROR MESSAGE";
+    this.#errorText.setAttribute("class", "text-error");
 
     // Style the elements
     const style = document.createElement("style");
@@ -62,6 +68,7 @@ class LongTextInput extends HTMLElement {
 
     // Append the table and style to the shadow DOM
     shadow.append(tableWrapper);
+    shadow.append(this.#errorText);
     shadow.append(style);
     shadow.append(stylesheetDefault);
     shadow.append(stylesheetInput);
@@ -69,6 +76,17 @@ class LongTextInput extends HTMLElement {
 
   getUserInput() {
     return this.#inputElement.value;
+  }
+
+  onValidationCheck(did_succeed, errorText) {
+    if (did_succeed) {
+      this.#inputElement.removeAttribute("error");
+      this.#errorText.setAttribute("hidden", "");
+    } else {
+      this.#errorText.textContent = errorText;
+      this.#inputElement.setAttribute("error", "");
+      this.#errorText.removeAttribute("hidden");
+    }
   }
 }
 
