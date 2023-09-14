@@ -62,15 +62,7 @@ function validateBoolean(prefer) {
 }
 
 function validateIconSrc(iconSrc) {
-  // check if iconSrc is null or undefined or empty.
-  if (!iconSrc) {
-    return "Icon src is required";
-  }
-
-  // check if iconSrc is a string.
-  if (typeof iconSrc !== "string") {
-    return "Icon src must be a string";
-  }
+  return validateUrl(iconSrc);
 }
 
 function validateIconSizes(iconSizes) {
@@ -174,4 +166,25 @@ export const validateThemeColor = (color) => {
 
 export const validateDescription = (description) => {
   return validateString(description);
+};
+
+export const validateIcons = (icons) => {
+  for (let icon of icons) {
+    let validSrc = validateIconSrc(icon.src);
+    if (validSrc && validSrc.length > 0) {
+      return validSrc;
+    }
+
+    let validSizes = validateIconSizes(icon.sizes);
+    if (validSizes && validSizes.length > 0) {
+      return validSizes;
+    }
+
+    let validType = validateIconType(icon.type);
+    if (validType && validType.length > 0) {
+      return validType;
+    }
+  }
+
+  return "";
 };

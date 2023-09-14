@@ -24,6 +24,7 @@ import {
   validateBackgroundColor,
   validateThemeColor,
   validateDescription,
+  validateIcons,
 } from "../validation.js";
 import { updateManifest } from "../state.js";
 
@@ -112,7 +113,7 @@ const pageInfo = [
     validation: {
       required: true,
       type: "array",
-      fn: null,
+      fn: validateIcons,
     },
   },
   {
@@ -354,7 +355,6 @@ class AppView extends HTMLElement {
       `page-view[page-id="${pageId}"]`
     );
     const value = pageElement.getUserInput();
-    const required = page.validation.required;
     let validation = "";
     validation = page.validation.fn(value);
 
