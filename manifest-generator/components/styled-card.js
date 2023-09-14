@@ -1,7 +1,7 @@
 const template = document.createElement("template");
 template.innerHTML = `
-  <link rel="stylesheet" href="styles/defaults.css" />
-  <link rel="stylesheet" href="styles/card.css" />
+  <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
+  <link rel="stylesheet" href="/manifest-generator/styles/card.css" />
   <div class="card"><slot></slot></div>
 `;
 
@@ -10,7 +10,9 @@ const attributes = {};
 class StyledCard extends HTMLElement {
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: "open" });
+    const shadow = this.attachShadow({
+      mode: "open",
+    });
     shadow.append(template.content.cloneNode(true));
     this.button = this.shadowRoot.querySelector("button");
   }

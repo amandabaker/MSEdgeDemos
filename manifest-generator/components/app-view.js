@@ -10,6 +10,8 @@ import "./color-picker.js";
 import "./long-text-input.js";
 import "./radio-buttons.js";
 import "./styled-card.js";
+import "./multi-block-form.js";
+import "./simple-text-input.js";
 import { updateManifest } from "../state.js";
 
 const pageInfo = [
@@ -151,6 +153,7 @@ template.innerHTML = `
     .app-view > * {
       flex: 1;
       overflow: auto;
+      height: 100%;
     }
 
     .app-view > *:first-child {
