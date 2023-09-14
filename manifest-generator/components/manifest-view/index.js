@@ -2,6 +2,12 @@ import "./json.js";
 
 import { getManifest } from "../../state.js";
 import "./copy-button.js";
+import "./unset-field.js";
+import {
+  getManifest,
+  getUnsetFields,
+  addFieldToManifest,
+} from "../../state.js";
 
 // Define a custom element for representing a JSON node
 const template = document.createElement("template");
@@ -18,10 +24,17 @@ template.innerHTML = `
     display: inline;
     padding-right: 50%;
   }
+  .unset-field-list {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  }
 </style>
 <div class="manifest-view">
     <h2>Manifest</h2>
     <copy-button></copy-button>
+</div>
+<div class="unset-field-list">
 </div>
 `;
 
@@ -33,18 +46,25 @@ class ManifestView extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     const manifestView = this.shadowRoot.querySelector(".manifest-view");
-    const jsonView = document.createElement("json-view");
-    jsonView.setAttribute(
+    this.jsonView = document.createElement("json-view");
+    this.jsonView.setAttribute(
       "json",
       encodeURIComponent(JSON.stringify(getManifest()))
     );
-    jsonView.setAttribute(
+    this.jsonView.setAttribute(
+      "unset-fields",
+      encodeURIComponent(JSON.stringify(getUnsetFields()))
+    );
+    this.jsonView.setAttribute(
       "selected-page-id",
       this.getAttribute("current-page-id")
     );
-    jsonView.setAttribute("root", true);
-    manifestView.appendChild(jsonView);
+    this.jsonView.setAttribute("root", true);
+    manifestView.appendChild(this.jsonView);
 
+    this.unsetFieldListView =
+      this.shadowRoot.querySelector(".unset-field-list");
+    this.renderUnsetFields();
     document.addEventListener("page-change", (e) => {
       this.setAttribute("current-page-id", e.detail.pageId);
     });
@@ -69,6 +89,24 @@ class ManifestView extends HTMLElement {
         this.getAttribute("current-page-id")
       );
     }
+  }
+
+  renderUnsetFields() {
+    this.unsetFieldListView.innerHTML = "";
+    getUnsetFields().forEach((fieldKey) => {
+      const unsetFieldView = document.createElement("unset-field");
+      unsetFieldView.innerHTML = fieldKey;
+      unsetFieldView.setAttribute("key", fieldKey);
+      this.unsetFieldListView.append(unsetFieldView);
+      unsetFieldView.addEventListener("fieldclick", (e) => {
+        addFieldToManifest(e.detail.key);
+        this.jsonView.setAttribute(
+          "unset-fields",
+          encodeURIComponent(JSON.stringify(getUnsetFields()))
+        );
+        this.renderUnsetFields();
+      });
+    });
   }
 }
 

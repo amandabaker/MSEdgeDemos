@@ -34,7 +34,23 @@ const defaultManifestJson = {
   widgets: {},
 };
 
+const defaultUnsetFields = [
+  "categories",
+  "display_override",
+  "file_handlers",
+  "id",
+  "orientation",
+  "related_applications",
+  "protocol_handlers",
+  "scope",
+  "screenshot",
+  "share_target",
+  "shortcut",
+  "widgets",
+];
+
 let manifestState = {};
+let unsetFieldsState = {};
 
 // Read (Get) entire object from LocalStorage.
 // Other places can use this as:
@@ -42,6 +58,15 @@ let manifestState = {};
 // state.name ...
 export const getManifest = () => {
   return structuredClone(manifestState);
+};
+
+export const getUnsetFields = () => {
+  return structuredClone(unsetFieldsState);
+};
+
+export const addFieldToManifest = (key) => {
+  const index = unsetFieldsState.findIndex((fieldKey) => fieldKey === key);
+  unsetFieldsState.splice(index, 1);
 };
 
 export const updateManifest = (key, value) => {
@@ -78,4 +103,8 @@ export const readManifestFromLocalStorage = () => {
   manifestState = manifestString
     ? JSON.parse(manifestString)
     : defaultManifestJson;
+  const unsetFieldsValue = localStorage.getItem("unsetFields");
+  unsetFieldsState = unsetFieldsValue
+    ? JSON.parse(unsetFieldsValue)
+    : defaultUnsetFields;
 };
