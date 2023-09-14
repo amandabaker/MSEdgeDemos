@@ -31,6 +31,13 @@ class PageView extends HTMLElement {
   get pageId() {
     return this.#id;
   }
+
+  getUserInput() {
+    let inputElements = this.shadowRoot
+      .querySelector("slot")
+      .assignedElements();
+    return inputElements[0].getUserInput();
+  }
 }
 
 // Define the new element
