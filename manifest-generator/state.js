@@ -48,7 +48,7 @@ export const updateManifest = (key, value) => {
   const manifest = getManifest();
   manifest[key] = value;
   setManifest(manifest);
-}
+};
 
 // Write (Set) entire object LocalStorage.
 // Other places can use this as:

@@ -196,7 +196,7 @@ class AppView extends HTMLElement {
   }
 
   nextPage() {
-    this.updateManifest()
+    this.updateManifest();
     this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
   }
 
@@ -234,7 +234,9 @@ class AppView extends HTMLElement {
   // To-do: Update this to use events.
   updateManifest() {
     const pageId = pageInfo[this.currentPageIdIndex].id;
-    const page = this.shadowRoot.querySelector(`page-view[page-id="${pageId}"]`);
+    const page = this.shadowRoot.querySelector(
+      `page-view[page-id="${pageId}"]`
+    );
     const value = page.getUserInput();
     updateManifest(pageId, value);
   }
