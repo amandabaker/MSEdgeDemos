@@ -1,3 +1,24 @@
+const attributeOptions = {
+  // The default value of the component, must be an array of objects each with field defined in `fields`  
+  value: {
+    name: "value",
+    required: true,
+    type: "JSON",
+  },
+  // The fields ids of all the form inputs in your form. All fields should have a field-id attribute.
+  fields: {
+    name: "fields",
+    required: true,
+    type: "JSON",
+  },
+  // The max number of blocks the user can add.
+  maxNumberOfBlocks: {
+    name: "max-number-of-blocks",
+    required: false,
+    type: "number",
+  },
+};
+
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
@@ -61,24 +82,6 @@ const createCardTemplate = (id, formHTML) => {
     </div>
   `;
   return cardTemplate;
-};
-
-const attributeOptions = {
-  value: {
-    name: "value",
-    required: true,
-    type: "JSON",
-  },
-  fields: {
-    name: "fields",
-    required: true,
-    type: "JSON",
-  },
-  maxNumberOfBlocks: {
-    name: "max-number-of-blocks",
-    required: false,
-    type: "number",
-  },
 };
 
 class MultiBlockForm extends HTMLElement {
