@@ -238,6 +238,20 @@ class AppView extends HTMLElement {
   nextPage() {
     this.updateManifest();
     this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
+
+    const pageId = pageInfo[this.currentPageIdIndex].id;
+    const page = this.shadowRoot.querySelector(
+      `page-view[page-id="${pageId}"]`
+    );
+
+    // Notify the slot that the validation succeeded or failed.
+    page.shadowRoot
+      .querySelector("slot")
+      .assignedElements()[0]
+      .onValidationCheck(
+        true /* validation successful? */,
+        "error" /* error message */
+      );
   }
 
   prevPage() {
