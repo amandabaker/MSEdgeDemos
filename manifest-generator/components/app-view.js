@@ -25,6 +25,9 @@ import {
   validateThemeColor,
   validateDescription,
   validateIcons,
+  validateOrientation,
+  validatePreferRelatedApplications,
+  validateScope,
 } from "../validation.js";
 import { updateManifest } from "../state.js";
 
@@ -120,31 +123,61 @@ const pageInfo = [
     id: "categories",
     title: "Categories",
     content: `<p>TBD</p>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "display_override",
     title: "Display Override",
     content: `<p>TBD</p>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "file_handlers",
     title: "File handlers",
     content: `<p>TBD</p>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "id",
     title: "Choose an ID",
     content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
+    validation: {
+      required: false,
+      type: "string",
+      fn: () => "",
+    },
   },
   {
     id: "orientation",
     title: "Choose an orientation",
     content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
+    validation: {
+      required: false,
+      type: "string",
+      fn: () => validateOrientation,
+    },
   },
   {
     id: "prefer_related_applications",
     title: "Set prefer_related_applications",
     content: `<radio-buttons options="true,false"></radio-buttons>`,
+    validation: {
+      required: false,
+      type: "bool",
+      fn: validatePreferRelatedApplications,
+    },
   },
   {
     id: "related_applications",
@@ -157,6 +190,11 @@ const pageInfo = [
             <simple-text-input field-id="id" placeholder="com.example.app1" label="id"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "protocol_handlers",
@@ -173,6 +211,11 @@ const pageInfo = [
     id: "scope",
     title: "Choose a scope",
     content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
+    validation: {
+      required: false,
+      type: "string",
+      fn: validateScope,
+    },
   },
   {
     id: "screenshot",
@@ -187,11 +230,21 @@ const pageInfo = [
             <simple-text-input field-id="label" placeholder="Homescreen of Awesome App" label="label"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "share_target",
     title: "Add a share target",
     content: `<p>COMBO PLACEHOLDER</p>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "shortcut",
@@ -204,11 +257,21 @@ const pageInfo = [
             <simple-text-input field-id="description" placeholder="List of events planned for today" label="description"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "widgets",
     title: "Add a widget",
     content: `<p>COMBO PLACEHOLDER</p>`,
+    validation: {
+      required: false,
+      type: "array",
+      fn: () => "",
+    },
   },
 ];
 

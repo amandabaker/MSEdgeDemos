@@ -104,37 +104,6 @@ function validateDisplayOverride(displayOverride) {
   return "";
 }
 
-function validateOrientation(orientation) {
-  let validString = validateString(iconSizes);
-  if (validString && validString.length > 0) {
-    return validString;
-  }
-
-  let validValues = [
-    "any",
-    "natural",
-    "landscape",
-    "portrait",
-    "portrait-primary",
-    "portrait-secondary",
-    "landscape-primary",
-    "landscape-secondary",
-  ];
-  if (!validValues.includes(orientation)) {
-    return "must be one of " + validValues.join(", ");
-  }
-
-  return "";
-}
-
-function validatePreferRelatedApplications(prefer) {
-  return validateBoolean(prefer);
-}
-
-function validateScope(scope) {
-  return validateUrl(scope);
-}
-
 export const validateName = (name) => {
   return validateString(name);
 };
@@ -187,4 +156,35 @@ export const validateIcons = (icons) => {
   }
 
   return "";
+};
+
+export const validateOrientation = (orientation) => {
+  let validString = validateString(iconSizes);
+  if (validString && validString.length > 0) {
+    return validString;
+  }
+
+  let validValues = [
+    "any",
+    "natural",
+    "landscape",
+    "portrait",
+    "portrait-primary",
+    "portrait-secondary",
+    "landscape-primary",
+    "landscape-secondary",
+  ];
+  if (!validValues.includes(orientation)) {
+    return "must be one of " + validValues.join(", ");
+  }
+
+  return "";
+};
+
+export const validatePreferRelatedApplications = (prefer) => {
+  return validateBoolean(prefer);
+};
+
+export const validateScope = (scope) => {
+  return validateUrl(scope);
 };
