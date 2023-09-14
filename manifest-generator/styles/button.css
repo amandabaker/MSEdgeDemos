@@ -66,12 +66,12 @@ button.btn-secondary:hover,
 button.btn-secondary:focus,
 a.btn-secondary:hover,
 a.btn-secondary:focus {
-  background-color: var(--c-gray-light);
+  background-color: var(--c-blue-gray);
 }
 
 button.btn-secondary:focus-visible,
 a.btn-secondary:focus-visible {
-  outline: 2px solid var(--c-gray-light);
+  outline: 2px solid var(--c-blue-gray);
   outline-offset: 2px;
-  background-color: var(--c-gray-light);
+  background-color: var(--c-blue-gray);
 }

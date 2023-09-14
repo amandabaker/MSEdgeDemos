@@ -4,7 +4,7 @@
   --c-white: #ffffff;
   --c-blue: #528bff;
   --c-gray: #555b68;
-  --c-gray-light: #898b90;
+  --c-gray-light: #cccccc;
   --c-blue-gray: #898b90;
   --c-blue-dark: #2870ff;
   --c-selected-key: #FDAEB7;
@@ -51,6 +51,7 @@ h5,
 h6 {
   font-size: inherit;
   font-weight: inherit;
+  margin-top: 0;
 }
 a {
   color: inherit;

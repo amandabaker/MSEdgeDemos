@@ -4,7 +4,7 @@ const template = document.createElement("template");
 template.innerHTML = `
   <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
   <style>
-    .left-pane {
+    .pane {
       height: 100%;
       overflow: hidden;
       display: flex;
@@ -13,6 +13,7 @@ template.innerHTML = `
 
     .page-wrapper {
       flex-grow: 1;
+      overflow: hidden;
     }
 
     .nav-bar {
@@ -26,7 +27,7 @@ template.innerHTML = `
       justify-self: start;
     }
   </style>
-  <div class="left-pane">
+  <div class="pane">
     <div class="page-wrapper">
       <slot></slot>
     </div>

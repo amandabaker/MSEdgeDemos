@@ -9,113 +9,124 @@ import "./display-mode.js";
 import "./color-picker.js";
 import "./long-text-input.js";
 import "./radio-buttons.js";
+import "./styled-card.js";
+import "./multi-block-form.js";
+import "./simple-text-input.js";
 import { updateManifest } from "../state.js";
 
 const pageInfo = [
   {
     id: "name",
     title: "What's your app's name?",
-    content: `<simple-text-input slot="text" placeholder-text="App name"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="App name"></simple-text-input>`,
   },
   {
     id: "short_name",
     title: "Now give it a nice short name",
-    content: `<simple-text-input slot="text" placeholder-text="Short name"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="Short name"></simple-text-input>`,
   },
   {
     id: "start_url",
     title: "Give me a start url",
-    content: `<simple-text-input slot="text" placeholder-text="Start url"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="Start url"></simple-text-input>`,
   },
   {
     id: "display",
     title: "Set a display mode",
-    content: `<display-mode slot="text"></display-mode>`,
+    content: `<display-mode></display-mode>`,
   },
   {
     id: "background_color",
     title: "Pick a background color",
-    content: `<color-picker slot="text"></color-picker>`,
+    content: `<color-picker></color-picker>`,
   },
   {
     id: "theme_color",
     title: "Pick a theme color",
-    content: `<color-picker slot="text"></color-picker>`,
+    content: `<color-picker></color-picker>`,
   },
   {
     id: "description",
     title: "Provide a description",
-    content: `<long-text-input slot="text" placeholder-text="Description"></long-text-input>`,
+    content: `<long-text-input placeholder-text="Description"></long-text-input>`,
   },
   {
     id: "icons",
     title: "give me some icons",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `
+        <multi-block-form max-number-of-blocks="3" fields="['color','src','sizes','type']" value="[{'color': '#000000','src': '/', 'sizes':'200x200', 'type': 'png'}]">
+          <div slot="form">
+            <color-picker field-id="color"></color-picker>
+            <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
+            <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
+            <simple-text-input field-id="type" placeholder="placeholder" label="type"></simple-text-input>
+          </div>
+        </multi-block-form>`,
   },
   {
     id: "categories",
     title: "Categories",
-    content: `<p slot="text">TBD</p>`,
+    content: `<p>TBD</p>`,
   },
   {
     id: "display_override",
     title: "Display Override",
-    content: `<p slot="text">TBD</p>`,
+    content: `<p>TBD</p>`,
   },
   {
     id: "file_handlers",
     title: "File handlers",
-    content: `<p slot="text">TBD</p>`,
+    content: `<p>TBD</p>`,
   },
   {
     id: "id",
     title: "Choose an ID",
-    content: `<simple-text-input slot="text" placeholder-text="ID"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="ID"></simple-text-input>`,
   },
   {
     id: "orientation",
     title: "Choose an orientation",
-    content: `<radio-buttons slot="text" options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
+    content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
   },
   {
     id: "prefer_related_applications",
     title: "Set prefer_related_applications",
-    content: `<radio-buttons slot="text" options="true,false"></radio-buttons>`,
+    content: `<radio-buttons options="true,false"></radio-buttons>`,
   },
   {
     id: "related_applications",
     title: "Set your related applications",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `<p>COMBO PLACEHOLDER</p>`,
   },
   {
     id: "protocol_handlers",
     title: "Set your protocol handlers",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `<p>COMBO PLACEHOLDER</p>`,
   },
   {
     id: "scope",
     title: "Choose a scope",
-    content: `<simple-text-input slot="text" placeholder-text="Scope"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="Scope"></simple-text-input>`,
   },
   {
     id: "screenshot",
     title: "Add a screenshot",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `<p>COMBO PLACEHOLDER</p>`,
   },
   {
     id: "share_target",
     title: "Add a share target",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `<p>COMBO PLACEHOLDER</p>`,
   },
   {
     id: "shortcut",
     title: "Add a shortcut",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `<p>COMBO PLACEHOLDER</p>`,
   },
   {
     id: "widgets",
     title: "Add a widget",
-    content: `<p slot="text">COMBO PLACEHOLDER</p>`,
+    content: `<p>COMBO PLACEHOLDER</p>`,
   },
 ];
 
@@ -150,6 +161,7 @@ template.innerHTML = `
     .app-view > * {
       flex: 1;
       overflow: auto;
+      height: 100%;
     }
 
     .app-view > *:first-child {

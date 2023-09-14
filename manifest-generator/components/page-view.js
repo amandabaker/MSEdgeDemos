@@ -15,10 +15,25 @@ class PageView extends HTMLElement {
       #title {
         text-align: center;
       }
+
+      #content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #form-input {
+        flex-grow: 1;
+        overflow: hidden;
+      }
     </style>
 
-    <h2 id="title">${this.getAttribute("title")}</h2>
-    <slot name="text">ERROR: Slot not filled</slot>`;
+
+    <div id="content">    
+      <h1 id="title">${this.getAttribute("title")}</h1>
+      <div id="form-input"><slot></slot></div>
+    </div>
+    `;
 
     // Create a shadow root
     this.attachShadow({ mode: "open" });
