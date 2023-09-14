@@ -58,7 +58,7 @@ const pageInfo = [
           <div slot="form">
             <simple-text-input field-id="field-1" placeholder="placeholder" label="label"></simple-text-input>
             <simple-text-input field-id="field-2" placeholder="placeholder" label="label 2"></simple-text-input>
-         </div>
+          </div>
         </multi-block-form>`,
   },
   {
