@@ -18,7 +18,7 @@ class ColorPicker extends HTMLElement {
 
     // Create the input element
     this.#inputElement.setAttribute("type", "color");
-    this.#inputElement.value = "#cd5d5d";
+    this.#inputElement.value = this.getAttribute("value") || "#cd5d5d";
     this.#inputElement.setAttribute("class", "container-item");
 
     container.append(this.#inputElement);

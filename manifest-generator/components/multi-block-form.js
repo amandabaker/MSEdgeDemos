@@ -1,5 +1,5 @@
 const attributeOptions = {
-  // The default value of the component, must be an array of objects each with field defined in `fields`  
+  // The default value of the component, must be an array of objects each with field defined in `fields`
   value: {
     name: "value",
     required: true,
@@ -86,7 +86,7 @@ const createCardTemplate = (id, formHTML) => {
 
 class MultiBlockForm extends HTMLElement {
   #formTemplate;
-  #blocksElement;
+  #blockListView;
   #value;
 
   constructor() {
@@ -100,27 +100,29 @@ class MultiBlockForm extends HTMLElement {
   }
 
   build() {
+    // Props should not be updated for internal value, that is why we copy it
+    // into an internal property, #value.
     this.#value = this.props.value;
     this.newBlock = this.shadowRoot.querySelector("#new-block");
     this.newBlock.addEventListener("click", () => {
-      this.addBlock(this.props.value.length);
+      this.addBlockAtIndex(this.props.value.length);
     });
-
+    
     const slot = this.shadowRoot.querySelector("slot");
     const elements = slot.assignedElements();
     if (elements.length !== 1)
       throw new Error("Multi Block Form should only have one child");
 
     this.#formTemplate = elements[0];
-    this.#blocksElement = this.shadowRoot.querySelector("#blocks");
+    this.#blockListView = this.shadowRoot.querySelector("#blocks");
 
     this.clearBlocks();
-    this.#value.forEach((_, ii) => this.addBlock(ii));
+    this.#value.forEach((_entry, index) => this.addBlockAtIndex(index));
   }
 
   clearBlocks() {
-    while (this.#blocksElement.lastElementChild) {
-      this.#blocksElement.removeChild(this.#blocksElement.lastElementChild);
+    while (this.#blockListView.lastElementChild) {
+      this.#blockListView.removeChild(this.#blockListView.lastElementChild);
     }
   }
 
@@ -131,66 +133,73 @@ class MultiBlockForm extends HTMLElement {
     this.newBlock.toggleAttribute("disabled", false);
   }
 
-  addBlock(index) {
-    if (index === this.props.maxNumberOfBlocks) return;
-    if (index === this.props.maxNumberOfBlocks - 1) {
+  addBlockAtIndex(blockIndex) {
+    if (blockIndex === this.props.maxNumberOfBlocks) return;
+    if (blockIndex === this.props.maxNumberOfBlocks - 1) {
       this.disableAddNewButton();
     }
-    if (index === this.#value.length) {
-      this.#value[index] = Object.fromEntries(
+    if (blockIndex === this.#value.length) {
+      // Object.fromEntries API:
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries
+      // TODO(Marcos): add explanation for this case.
+      this.#value[blockIndex] = Object.fromEntries(
         this.props.fields.map((k) => [k, ""])
       );
     }
+
     const form = this.#formTemplate.cloneNode(true);
-    form.toggleAttribute("slot", false);
     this.props.fields.forEach((key) => {
       const field = form.querySelector(`[field-id=${key}]`);
-      field.setAttribute("value", this.#value[index][key]);
+      field.setAttribute("value", this.#value[blockIndex][key]);
     });
-    const cardTemplate = createCardTemplate(index, form.innerHTML);
+    const cardTemplate = createCardTemplate(blockIndex, form.innerHTML);
     const cardNode = cardTemplate.content.cloneNode(true);
-    this.#blocksElement.append(cardNode);
+    this.#blockListView.append(cardNode);
 
     this.props.fields.forEach((key) => {
-      const field = this.#blocksElement.querySelector(
-        `#block-${index} [field-id=${key}]`
+      const field = this.#blockListView.querySelector(
+        `#block-${blockIndex} [field-id=${key}]`
       );
-      field.toggleAttribute("data-helloworld", true);
       field.addEventListener("change", (e) => {
-        this.#value[index][key] = e.target.getUserInput();
+        this.#value[blockIndex][key] = e.target.getUserInput();
       });
     });
 
-    const trash = this.#blocksElement.querySelector(`#trash-${index}`);
-    trash.setAttribute("index", index);
+    const trash = this.#blockListView.querySelector(`#trash-${blockIndex}`);
     trash.addEventListener("click", () => {
-      this.removeBlock(index);
+      this.removeBlockAtIndex(blockIndex);
     });
   }
 
-  removeBlock(index) {
-    if (!this.#value[index]) return;
+  removeBlockAtIndex(blockIndex) {
+    if (!this.#value[blockIndex]) return;
     this.enableAddNewButton();
 
-    this.#value.splice(index, 1);
-    const block = this.#blocksElement.querySelector(`#block-${index}`);
-    block?.remove();
+    this.#value.splice(blockIndex, 1);
 
+    // Clear and redraw all the blocks.
     this.clearBlocks();
-    this.#value.forEach((_, ii) => this.addBlock(ii));
+    this.#value.forEach((_entry, index) => this.addBlockAtIndex(index));
   }
 
-  // This method doesn't validate any form inputs, just html attributes.
+  /** This method doesn't validate any form inputs, just html attributes.
+  / @field changedValue 
+  */
   validateAttributes(changedValue) {
     Object.entries(attributeOptions).forEach(([field, opts]) => {
-      if (changedValue !== undefined && opts.name !== changedValue) return;
+      //
+      if (changedValue !== undefined && opts.name !== changedValue) {
+        return;
+      }
       let attr = this.getAttribute(opts.name);
-      if ((attr === undefined || attr === null) && opts.default)
+      if ((attr === undefined || attr === null) && opts.default) {
         attr = opts.default;
-      if (opts.required && (attr === undefined || attributeOptions === null))
+      }
+      if (opts.required && (attr === undefined || attributeOptions === null)) {
         throw new Error(
           `Attribute ${opts.name} should be set in component ${this.tagName}`
         );
+      }
       if (
         opts.allowedValues &&
         !opts.allowedValues.find((values) => values === attr)
@@ -203,12 +212,14 @@ class MultiBlockForm extends HTMLElement {
 
       this.props[field] = attr;
 
-      if (opts.type === "JSON")
+      if (opts.type === "JSON") {
         this.props[field] = JSON.parse(
           this.getAttribute(opts.name).replace(/'/g, '"')
         );
-      if (opts.type === "number")
+      }
+      if (opts.type === "number") {
         this.props[field] = parseFloat(this.getAttribute(opts.name));
+      }
     });
   }
 
@@ -221,20 +232,22 @@ class MultiBlockForm extends HTMLElement {
     this.validateAttributes(attr);
     if (old !== null && attr === attributeOptions.value.name) {
       this.clearBlocks();
-      this.#value.forEach((_, ii) => this.addBlock(ii));
+      this.#value.forEach((_entry, index) => this.addBlockAtIndex(index));
     }
 
     if (attr === attributeOptions.value.name) {
-      if (!Array.isArray(this.props.value))
+      if (!Array.isArray(this.props.value)) {
         throw new Error(
           `Attribute ${opts.name} should be an array in component ${this.tagName}`
         );
+      }
       this.props.value.forEach((block) => {
         Object.keys(block).forEach((key) => {
-          if (!this.props.fields.includes(key))
+          if (!this.props.fields.includes(key)) {
             throw new Error(
               `Attribute value should have blocks with fields: [${this.props.fields}]\nField "${key}" is not in [${this.props.fields}]`
             );
+          }
         });
       });
     }

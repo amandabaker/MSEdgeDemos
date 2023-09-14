@@ -54,10 +54,12 @@ const pageInfo = [
     id: "icons",
     title: "give me some icons",
     content: `
-        <multi-block-form max-number-of-blocks="3" fields="['field-1','field-2']" value="[{'field-1':'value', 'field-2':'value-2'}, {'field-1':'value-5', 'field-2':'value-4'}]">
+        <multi-block-form max-number-of-blocks="3" fields="['color','src','sizes','type']" value="[{'color': '#000000','src': '/', 'sizes':'200x200', 'type': 'png'}]">
           <div slot="form">
-            <simple-text-input field-id="field-1" placeholder="placeholder" label="label"></simple-text-input>
-            <simple-text-input field-id="field-2" placeholder="placeholder" label="label 2"></simple-text-input>
+            <color-picker field-id="color"></color-picker>
+            <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
+            <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
+            <simple-text-input field-id="type" placeholder="placeholder" label="type"></simple-text-input>
           </div>
         </multi-block-form>`,
   },
