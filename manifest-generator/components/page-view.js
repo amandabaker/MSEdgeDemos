@@ -13,6 +13,7 @@ class PageView extends HTMLElement {
     <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
     <style>
       #title {
+        padding-top: 50%;
         text-align: center;
       }
     </style>

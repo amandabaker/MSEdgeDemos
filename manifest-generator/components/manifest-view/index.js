@@ -1,6 +1,7 @@
 import "./json.js";
 
 import { getManifest } from "../../state.js";
+import "./copy-button.js";
 
 // Define a custom element for representing a JSON node
 const template = document.createElement("template");
@@ -13,9 +14,14 @@ template.innerHTML = `
     max-width: 600px;
     margin: 0 auto;
   }
+  h2 {
+    display: inline;
+    padding-right: 50%;
+  }
 </style>
 <div class="manifest-view">
-  <h2>Manifest</h2>
+    <h2>Manifest</h2>
+    <copy-button></copy-button>
 </div>
 `;
 
