@@ -18,7 +18,7 @@ class ColorPicker extends HTMLElement {
 
     // Create the input element
     this.#inputElement.setAttribute("type", "color");
-    this.#inputElement.value = this.getAttribute("value") || "#cd5d5d";
+    this.#inputElement.setAttribute("id", "color-picker");
     this.#inputElement.setAttribute("class", "container-item");
 
     container.append(this.#inputElement);
@@ -49,6 +49,11 @@ class ColorPicker extends HTMLElement {
     shadow.append(container);
     shadow.append(style);
     shadow.append(stylesheet);
+  }
+
+  connectedCallback() {
+    const currentValue = this.getAttribute("value");
+    this.shadowRoot.getElementById("color-picker").value = currentValue;
   }
 
   getUserInput() {
