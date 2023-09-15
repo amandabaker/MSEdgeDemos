@@ -405,6 +405,9 @@ class AppView extends HTMLElement {
 
     if (!input || typeof input.onValidationCheck !== "function") {
       // Skip as we can not display the error message.
+      // Inputs other than simple text and long text (e.g. color picker)
+      // Doesn't need validation
+      updateManifest(pageId, value);
       return true;
     }
 
