@@ -24,7 +24,6 @@ const manifest = getManifest();
 
 const pageInfo = {
   name: {
-    id: "name",
     title: "What's your app's name?",
     content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
     validation: {
@@ -33,7 +32,6 @@ const pageInfo = {
     },
   },
   short_name: {
-    id: "short_name",
     title: "Now give it a nice short name",
     content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
     validation: {
@@ -42,7 +40,6 @@ const pageInfo = {
     },
   },
   start_url: {
-    id: "start_url",
     title: "Give me a start url",
     content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
     validation: {
@@ -51,7 +48,6 @@ const pageInfo = {
     },
   },
   display: {
-    id: "display",
     title: "Set a display mode",
     content: `<display-mode></display-mode>`,
     validation: {
@@ -60,7 +56,6 @@ const pageInfo = {
     },
   },
   background_color: {
-    id: "background_color",
     title: "Pick a background color",
     content: `<color-picker value="${manifest.background_color}"></color-picker>`,
     validation: {
@@ -69,7 +64,6 @@ const pageInfo = {
     },
   },
   theme_color: {
-    id: "theme_color",
     title: "Pick a theme color",
     content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
     validation: {
@@ -78,7 +72,6 @@ const pageInfo = {
     },
   },
   description: {
-    id: "description",
     title: "Provide a description",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
     validation: {
@@ -87,7 +80,6 @@ const pageInfo = {
     },
   },
   icons: {
-    id: "icons",
     title: "give me some icons",
     content: `
         <multi-block-form max-number-of-blocks="3" fields="['src','sizes','type']" value="[{'src': '/', 'sizes':'200x200', 'type': 'png'}]">
@@ -103,7 +95,6 @@ const pageInfo = {
     },
   },
   categories: {
-    id: "categories",
     title: "Categories",
     content: `<p>TBD</p>`,
     validation: {
@@ -112,7 +103,6 @@ const pageInfo = {
     },
   },
   display_override: {
-    id: "display_override",
     title: "Display Override",
     content: `<p>TBD</p>`,
     validation: {
@@ -121,7 +111,6 @@ const pageInfo = {
     },
   },
   file_handlers: {
-    id: "file_handlers",
     title: "File handlers",
     content: `<p>TBD</p>`,
     validation: {
@@ -130,7 +119,6 @@ const pageInfo = {
     },
   },
   id: {
-    id: "id",
     title: "Choose an ID",
     content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
     validation: {
@@ -139,7 +127,6 @@ const pageInfo = {
     },
   },
   orientation: {
-    id: "orientation",
     title: "Choose an orientation",
     content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
     validation: {
@@ -148,7 +135,6 @@ const pageInfo = {
     },
   },
   prefer_related_applications: {
-    id: "prefer_related_applications",
     title: "Set prefer_related_applications",
     content: `<radio-buttons options="true,false"></radio-buttons>`,
     validation: {
@@ -157,7 +143,6 @@ const pageInfo = {
     },
   },
   related_applications: {
-    id: "related_applications",
     title: "Set your related applications",
     content: `
         <multi-block-form fields="['platform','url', 'id']" value="[{'platform': '','url': '', 'id': ''}]">
@@ -174,7 +159,6 @@ const pageInfo = {
     },
   },
   protocol_handlers: {
-    id: "protocol_handlers",
     title: "Set your protocol handlers",
     content: `
         <multi-block-form fields="['protocol','url']" value="[{'protocol': '','url': ''}]">
@@ -190,7 +174,6 @@ const pageInfo = {
     },
   },
   scope: {
-    id: "scope",
     title: "Choose a scope",
     content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
     validation: {
@@ -199,7 +182,6 @@ const pageInfo = {
     },
   },
   screenshot: {
-    id: "screenshot",
     title: "Add screenshots",
     content: `
         <multi-block-form fields="['src','sizes', 'type', 'form_factor' , 'label' ]" value="[{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}]">
@@ -218,7 +200,6 @@ const pageInfo = {
     },
   },
   share_target: {
-    id: "share_target",
     title: "Add a share target",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
@@ -228,7 +209,6 @@ const pageInfo = {
     },
   },
   shortcut: {
-    id: "shortcut",
     title: "Add a shortcut",
     content: `
         <multi-block-form fields="['name','url', 'description' ]" value="[{'name': '','url': '', 'description': ''}]">
@@ -245,7 +225,6 @@ const pageInfo = {
     },
   },
   widgets: {
-    id: "widgets",
     title: "Add a widget",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
@@ -257,14 +236,13 @@ const pageInfo = {
 };
 
 const renderPages = () => {
-  const pages = Object.values(pageInfo).reduce((pagesTemplate, page) => {
-    return (
-      pagesTemplate +
-      `<page-view page-id="${page.id}" title="${page.title}">
+  let pages = "";
+  for (let [pageId, page] of Object.entries(pageInfo)) {
+    pages +=
+      `<page-view page-id="${pageId}" title="${page.title}">
           ${page.content}
-       </page-view>`
-    );
-  }, "");
+      </page-view>`;
+  }
   return pages;
 };
 
