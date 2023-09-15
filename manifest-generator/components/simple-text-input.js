@@ -16,7 +16,7 @@ template.innerHTML = `
   <div class="table">
     <label hidden></label>
     <input type="text" />
-    <p id="error-text" hidden>Input field invalid</p>
+    <p id="error-text" class="text-error" hidden>Input field invalid</p>
   </div>
 `;
 

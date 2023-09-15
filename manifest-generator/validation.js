@@ -61,33 +61,16 @@ function validateBoolean(prefer) {
   return "";
 }
 
-function validateName(name) {
-  return validateString(name);
-}
-
-function validateStartUrl(startUrl) {
-  return validateUrl(startUrl);
-}
-
-function validateDisplay(display) {
-  let validValues = ["fullscreen", "standalone", "minimal-ui", "browser"];
-  if (!validValues.includes(display)) {
-    return "Display must be one of " + validValues.join(", ");
-  }
-
-  return "";
-}
-
 function validateIconSrc(iconSrc) {
-  // check if iconSrc is null or undefined or empty.
-  if (!iconSrc) {
-    return "Icon src is required";
+  if (typeof iconSrc !== "string") {
+    return "must be a string";
   }
 
-  // check if iconSrc is a string.
-  if (typeof iconSrc !== "string") {
-    return "Icon src must be a string";
+  if (iconSrc.startsWith("/")) {
+    return "";
   }
+
+  return validateUrl(iconSrc);
 }
 
 function validateIconSizes(iconSizes) {
@@ -107,22 +90,6 @@ function validateIconSizes(iconSizes) {
 
 function validateIconType(iconType) {
   return validateString(iconType);
-}
-
-function validateDescription(description) {
-  return validateString(description);
-}
-
-function validateShortName(shortName) {
-  return validateString(shortName);
-}
-
-function validateBackgroundColor(color) {
-  return validateColor(color);
-}
-
-function validateThemeColor(color) {
-  return validateColor(color);
 }
 
 function validateDisplayOverride(displayOverride) {
@@ -145,8 +112,70 @@ function validateDisplayOverride(displayOverride) {
   return "";
 }
 
-function validateOrientation(orientation) {
-  let validString = validateString(iconSizes);
+export const validateName = (name) => {
+  return validateString(name);
+};
+
+export const validateStartUrl = (startUrl) => {
+  if (typeof startUrl !== "string") {
+    return "must be a string";
+  }
+
+  if (startUrl.startsWith("/")) {
+    return "";
+  }
+
+  return validateUrl(startUrl);
+};
+
+export const validateDisplay = (display) => {
+  let validValues = ["fullscreen", "standalone", "minimal-ui", "browser"];
+  if (!validValues.includes(display)) {
+    return "must be one of " + validValues.join(", ");
+  }
+
+  return "";
+};
+
+export const validateShortName = (shortName) => {
+  return validateString(shortName);
+};
+
+export const validateBackgroundColor = (color) => {
+  return validateColor(color);
+};
+
+export const validateThemeColor = (color) => {
+  return validateColor(color);
+};
+
+export const validateDescription = (description) => {
+  return validateString(description);
+};
+
+export const validateIcons = (icons) => {
+  for (let icon of icons) {
+    let validSrc = validateIconSrc(icon.src);
+    if (validSrc && validSrc.length > 0) {
+      return validSrc;
+    }
+
+    let validSizes = validateIconSizes(icon.sizes);
+    if (validSizes && validSizes.length > 0) {
+      return validSizes;
+    }
+
+    let validType = validateIconType(icon.type);
+    if (validType && validType.length > 0) {
+      return validType;
+    }
+  }
+
+  return "";
+};
+
+export const validateOrientation = (orientation) => {
+  let validString = validateString(orientation);
   if (validString && validString.length > 0) {
     return validString;
   }
@@ -166,12 +195,20 @@ function validateOrientation(orientation) {
   }
 
   return "";
-}
+};
 
-function validatePreferRelatedApplications(prefer) {
+export const validatePreferRelatedApplications = (prefer) => {
   return validateBoolean(prefer);
-}
+};
 
-function validateScope(scope) {
+export const validateScope = (scope) => {
+  if (typeof scope !== "string") {
+    return "must be a string";
+  }
+
+  if (scope.startsWith("/")) {
+    return "";
+  }
+
   return validateUrl(scope);
-}
+};
