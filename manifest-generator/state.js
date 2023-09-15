@@ -27,9 +27,9 @@ const defaultManifestJson = {
   related_applications: "",
   protocol_handlers: [],
   scope: "",
-  screenshot: [],
+  screenshots: [],
   share_target: {},
-  shortcut: {},
+  shortcuts: {},
   widgets: {},
 };
 
@@ -52,9 +52,9 @@ const defaultUnsetFieldList = [
   "related_applications",
   "protocol_handlers",
   "scope",
-  "screenshot",
+  "screenshots",
   "share_target",
-  "shortcut",
+  "shortcuts",
   "widgets",
 ];
 
