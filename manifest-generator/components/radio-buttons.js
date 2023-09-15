@@ -16,47 +16,84 @@ class RadioButtons extends HTMLElement {
     let array = this.getAttribute("options").split(",");
     // Create a label/radio button for each item
     array.forEach((element) => {
-      let tableItem = document.createElement("div");
-      tableItem.setAttribute("class", "table-item");
-      // Create radio button and append
+      // Create radio button
       let radioButton = document.createElement("input");
       radioButton.setAttribute("id", element);
       radioButton.setAttribute("type", "radio");
       radioButton.setAttribute("name", "radio-group");
       radioButton.setAttribute("value", element);
-      // Create radio button label and append
+      // Create span element for custom radio buttons
+      let spanElement = document.createElement("span");
+      spanElement.setAttribute("class", "custom-radio");
+      // Create radio label and append
       let radioLabel = document.createElement("label");
-      radioLabel.append(radioButton);
+      radioLabel.setAttribute("class", "radio-button");
       radioLabel.innerHTML += `${element}`;
-      tableItem.append(radioLabel);
-      tableWrapper.append(tableItem);
+      radioLabel.append(radioButton);
+      radioLabel.append(spanElement);
+      // Append radio label to shadow DOM
+      shadow.append(radioLabel);
     });
 
     // Style the elements
     const style = document.createElement("style");
-    style.textContent = `.table-item {
-        margin-bottom: 10px;
-      }
-
-      .table {
-        display: flex;
-        flex-direction: column;
-      }
-
-      label {
+    style.textContent = `
+      .radio-button {
         margin-left: 15px;
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
-      input[type="radio"] {
-        width: 2%;
-        height: 2em;
-        margin-top: -1px;
-        vertical-align: middle;
-        margin-right: 15px;
+      .radio-button input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
       }
-      
-      input[type="radio"]:checked {
-        accent-color: #353942;
+
+      .custom-radio {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 15px;
+        width: 15px;
+        background-color: #252931;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        margin-top: 4px;
+      }
+
+      .custom-radio:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      .radio-button input:checked ~ .custom-radio:after {
+        display: block;
+      }
+
+      .radio-button .custom-radio:after {
+        top: 2px;
+        left: 2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+      }
+
+      .radio-button:hover input ~ .custom-radio {
+        background-color: #ccc;
+      }
+
+      .radio-button input:checked ~ .custom-radio {
+        background-color: #353942;
       }`;
 
     const stylesheetDefault = document.createElement("link");
@@ -67,8 +104,7 @@ class RadioButtons extends HTMLElement {
     );
     shadow.append(stylesheetDefault);
 
-    // Append the table and style to the shadow DOM
-    shadow.append(tableWrapper);
+    // Append the style to the shadow DOM
     shadow.append(style);
   }
 
