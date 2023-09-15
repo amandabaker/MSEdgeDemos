@@ -98,9 +98,14 @@ class Node extends HTMLElement {
     const type = this.getAttribute("type");
     const keyView = this.shadowRoot.querySelector(".key");
     const valueView = this.shadowRoot.querySelector(".value");
-    keyView.textContent = `"${this.key}" : `;
+    if (this.key) {
+      keyView.textContent = `"${this.key}" : `;
+    } else {
+      keyView.textContent = "";
+    }
     this.removeButton = this.shadowRoot.querySelector(".remove");
     const isTopLevel = this.getAttribute("top-level") === "true";
+
     if (isTopLevel) {
       nodeView.addEventListener("click", (e) => {
         document.dispatchEvent(

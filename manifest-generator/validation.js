@@ -92,12 +92,7 @@ function validateIconType(iconType) {
   return validateString(iconType);
 }
 
-function validateDisplayOverride(displayOverride) {
-  let validString = validateString(displayOverride);
-  if (validString && validString.length > 0) {
-    return validString;
-  }
-
+export const validateDisplayOverride = (displayOverride) => {
   let validValues = [
     "fullscreen",
     "standalone",
@@ -105,12 +100,15 @@ function validateDisplayOverride(displayOverride) {
     "browser",
     "window-controls-overlay",
   ];
-  if (!validValues.includes(displayOverride)) {
-    return "Display Overrides must be one of " + validValues.join(", ");
+
+  for (let value of displayOverride) {
+    if (!validValues.includes(value)) {
+      return "must be one of " + validValues.join(", ");
+    }
   }
 
   return "";
-}
+};
 
 export const validateName = (name) => {
   return validateString(name);
