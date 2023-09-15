@@ -171,9 +171,9 @@ class MultiBlockForm extends HTMLElement {
         field.setAttribute("value", value);
         return;
       }
-      const cleanedValue = !value
-        ? field.defaultValue || ""
-        : encodeURIComponent(JSON.stringify(value));
+      const cleanedValue = value
+        ? encodeURIComponent(JSON.stringify(value))
+        : field.defaultValue || "";
       field.setAttribute("value", cleanedValue);
     });
     const cardTemplate = createCardTemplate(blockIndex, form.innerHTML);

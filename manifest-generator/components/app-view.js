@@ -343,7 +343,6 @@ class AppView extends HTMLElement {
     this.jumpToPage(
       Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
     );
-    console.log(getManifest());
   }
 
   prevPage() {
