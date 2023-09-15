@@ -135,7 +135,8 @@ const pageInfo = {
     },
   },
   prefer_related_applications: {
-    title: "Would you prefer to guide users to install a related application from an app store?",
+    title:
+      "Would you prefer to guide users to install a related application from an app store?",
     content: `<radio-buttons value="${manifest.prefer_related_applications}" options="true,false"></radio-buttons>`,
     validation: {
       type: "bool",
@@ -225,7 +226,7 @@ const pageInfo = {
     },
   },
   widgets: {
-    title: "Add somewidgets",
+    title: "Add some widgets",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
       type: "array",
