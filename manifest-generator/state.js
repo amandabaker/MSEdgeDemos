@@ -1,4 +1,3 @@
-// TODO: shorten this after implementing the manifest generator
 const defaultManifestJson = {
   name: "manifest-generator",
   short_name: "manifest-generator",
@@ -148,4 +147,12 @@ export const readDataFromLocalStorage = () => {
   fieldOrderState = fieldOrderValue
     ? JSON.parse(fieldOrderValue)
     : defaultFieldOrder;
+};
+
+export const copyManifest = () => {
+  const manifestState = getManifest();
+  getUnsetFields().forEach((field) => {
+    delete manifestState[field];
+  });
+  navigator.clipboard.writeText(JSON.stringify(manifestState));
 };

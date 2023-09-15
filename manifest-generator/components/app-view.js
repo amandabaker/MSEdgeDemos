@@ -340,16 +340,8 @@ class AppView extends HTMLElement {
   }
 
   nextPage() {
-    if (this.maybeUpdateManifest()) {
-      this.jumpToPage(
-        Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1)
-      );
-    }
-  }
-
-  nextPage() {
     // TODO(stahon): Should we block manifest updates on invalid data?
-    this.updateManifest();
+    if (!this.maybeUpdateManifest()) return;
 
     if (this.currentPageIdIndex + 1 === getFieldOrder().length) {
       addNextUnsetFieldToManifest();
@@ -357,14 +349,12 @@ class AppView extends HTMLElement {
     this.jumpToPage(
       Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
     );
-    updateValidationState();
   }
 
   prevPage() {
     // TODO(stahon): Should we block manifest updates on invalid data?
-    this.updateManifest();
+    if (!this.maybeUpdateManifest()) return;
     this.jumpToPage(Math.max(0, this.currentPageIdIndex - 1));
-    updateValidationState();
   }
 
   skipPage() {
