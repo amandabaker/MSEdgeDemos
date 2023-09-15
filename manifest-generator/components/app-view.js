@@ -164,6 +164,7 @@ const pageInfo = [
         </multi-block-form>`,
     validation: {
       type: "array",
+      // TODO: add validation once combo implemented.
       fn: () => "",
     },
   },
@@ -179,6 +180,7 @@ const pageInfo = [
         </multi-block-form>`,
     validation: {
       type: "array",
+      // TODO: add validation once combo implemented.
       fn: () => "",
     },
   },
@@ -206,6 +208,7 @@ const pageInfo = [
         </multi-block-form>`,
     validation: {
       type: "array",
+      // TODO: add validation once combo implemented.
       fn: () => "",
     },
   },
@@ -215,6 +218,7 @@ const pageInfo = [
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
       type: "array",
+      // TODO: add validation once combo implemented.
       fn: () => "",
     },
   },
@@ -231,6 +235,7 @@ const pageInfo = [
         </multi-block-form>`,
     validation: {
       type: "array",
+      // TODO: add validation once combo implemented.
       fn: () => "",
     },
   },
@@ -240,6 +245,7 @@ const pageInfo = [
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
       type: "array",
+      // TODO: add validation once combo implemented.
       fn: () => "",
     },
   },
@@ -369,7 +375,7 @@ class AppView extends HTMLElement {
     const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );
-    let value = null;
+    let value;
 
     try {
       value = pageElement.getUserInput();
@@ -378,12 +384,12 @@ class AppView extends HTMLElement {
       return true;
     }
 
-    let validation = "";
-    validation = pageInfoItem.validation.fn(value);
+    let validationMessage = "";
+    validationMessage = pageInfoItem.validation.fn(value);
 
     // we should validate non-empty values only.
     if (value === undefined || value === "") {
-      validation = "";
+      validationMessage = "";
     }
 
     // Notify the slot that the validation succeeded or failed.
@@ -393,28 +399,20 @@ class AppView extends HTMLElement {
       .querySelector("slot")
       .assignedElements()[0];
 
-    if (validation === "") {
-      // clear the error message.
-      if (input && typeof input.onValidationCheck === "function") {
-        input.onValidationCheck(
-          true /* validation successful? */,
-          "" /* error message */
-        );
-      }
-
-      updateManifest(pageId, value);
+    if (!input || typeof input.onValidationCheck !== "function") {
+      // Skip as we can not display the error message.
       return true;
-    } else {
-      // display the error message.
-      if (input && typeof input.onValidationCheck === "function") {
-        input.onValidationCheck(
-          false /* validation successful? */,
-          pageId + " " + validation /* error message */
-        );
-      }
     }
 
-    return false;
+    const isSuccess = validationMessage === "";
+    const errorMessage = isSuccess ? "" : pageId + " " + validationMessage;
+    input.onValidationCheck(isSuccess, errorMessage);
+
+    if (isSuccess) {
+      updateManifest(pageId, value);
+    }
+
+    return isSuccess;
   }
 }
 
