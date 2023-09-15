@@ -13,6 +13,7 @@ import "./styled-card.js";
 import "./multi-block-form.js";
 import "./simple-text-input.js";
 import { updateManifest, getManifest } from "../state.js";
+import * as validations from "../validation.js";
 
 const manifest = getManifest();
 
@@ -21,36 +22,64 @@ const pageInfo = [
     id: "name",
     title: "What's your app's name?",
     content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
+    validation: {
+      type: "string",
+      fn: validations.validateName,
+    },
   },
   {
     id: "short_name",
     title: "Now give it a nice short name",
     content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
+    validation: {
+      type: "string",
+      fn: validations.validateShortName,
+    },
   },
   {
     id: "start_url",
     title: "Give me a start url",
     content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
+    validation: {
+      type: "string",
+      fn: validations.validateStartUrl,
+    },
   },
   {
     id: "display",
     title: "Set a display mode",
     content: `<display-mode></display-mode>`,
+    validation: {
+      type: "string",
+      fn: validations.validateDisplay,
+    },
   },
   {
     id: "background_color",
     title: "Pick a background color",
     content: `<color-picker value="${manifest.background_color}"></color-picker>`,
+    validation: {
+      type: "string",
+      fn: validations.validateBackgroundColor,
+    },
   },
   {
     id: "theme_color",
     title: "Pick a theme color",
     content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
+    validation: {
+      type: "string",
+      fn: validations.validateThemeColor,
+    },
   },
   {
     id: "description",
     title: "Provide a description",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
+    validation: {
+      type: "string",
+      fn: validations.validateDescription,
+    },
   },
   {
     id: "icons",
@@ -63,36 +92,64 @@ const pageInfo = [
             <simple-text-input field-id="type" placeholder="placeholder" label="type"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      type: "array",
+      fn: validations.validateIcons,
+    },
   },
   {
     id: "categories",
     title: "Categories",
     content: `<p>TBD</p>`,
+    validation: {
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "display_override",
     title: "Display Override",
     content: `<p>TBD</p>`,
+    validation: {
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "file_handlers",
     title: "File handlers",
     content: `<p>TBD</p>`,
+    validation: {
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "id",
     title: "Choose an ID",
     content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
+    validation: {
+      type: "string",
+      fn: () => "",
+    },
   },
   {
     id: "orientation",
     title: "Choose an orientation",
     content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
+    validation: {
+      type: "string",
+      fn: validations.validateOrientation,
+    },
   },
   {
     id: "prefer_related_applications",
     title: "Set prefer_related_applications",
     content: `<radio-buttons options="true,false"></radio-buttons>`,
+    validation: {
+      type: "bool",
+      fn: validations.validatePreferRelatedApplications,
+    },
   },
   {
     id: "related_applications",
@@ -105,6 +162,11 @@ const pageInfo = [
             <simple-text-input field-id="id" placeholder="com.example.app1" label="id"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      type: "array",
+      // TODO: add validation once combo implemented.
+      fn: () => "",
+    },
   },
   {
     id: "protocol_handlers",
@@ -116,11 +178,20 @@ const pageInfo = [
             <simple-text-input field-id="url" placeholder="https://my.app/?uri=%s" label="url"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      type: "array",
+      // TODO: add validation once combo implemented.
+      fn: () => "",
+    },
   },
   {
     id: "scope",
     title: "Choose a scope",
     content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
+    validation: {
+      type: "string",
+      fn: validations.validateScope,
+    },
   },
   {
     id: "screenshot",
@@ -135,11 +206,21 @@ const pageInfo = [
             <simple-text-input field-id="label" placeholder="Homescreen of Awesome App" label="label"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      type: "array",
+      // TODO: add validation once combo implemented.
+      fn: () => "",
+    },
   },
   {
     id: "share_target",
     title: "Add a share target",
     content: `<p>COMBO PLACEHOLDER</p>`,
+    validation: {
+      type: "array",
+      // TODO: add validation once combo implemented.
+      fn: () => "",
+    },
   },
   {
     id: "shortcut",
@@ -152,11 +233,21 @@ const pageInfo = [
             <simple-text-input field-id="description" placeholder="List of events planned for today" label="description"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      type: "array",
+      // TODO: add validation once combo implemented.
+      fn: () => "",
+    },
   },
   {
     id: "widgets",
     title: "Add a widget",
     content: `<p>COMBO PLACEHOLDER</p>`,
+    validation: {
+      type: "array",
+      // TODO: add validation once combo implemented.
+      fn: () => "",
+    },
   },
 ];
 
@@ -237,42 +328,22 @@ class AppView extends HTMLElement {
     });
   }
 
-  updateValidationState() {
-    const pageId = pageInfo[this.currentPageIdIndex].id;
-    const page = this.shadowRoot.querySelector(
-      `page-view[page-id="${pageId}"]`
-    );
-
-    // Notify the slot that the validation succeeded or failed.
-    // Some slots don't have onValidationCheck() - just see if that function
-    // exists before trying to call it.
-    const input = page.shadowRoot.querySelector("slot").assignedElements()[0];
-    if (input && typeof input.onValidationCheck === "function") {
-      input.onValidationCheck(
-        true /* validation successful? */,
-        "error" /* error message */
+  nextPage() {
+    if (this.maybeUpdateManifest()) {
+      this.jumpToPage(
+        Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1)
       );
     }
   }
 
-  nextPage() {
-    // TODO(stahon): Should we block manifest updates on invalid data?
-    this.updateManifest();
-    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
-
-    updateValidationState();
-  }
-
   prevPage() {
-    // TODO(stahon): Should we block manifest updates on invalid data?
-    this.updateManifest();
-    this.currentPageIdIndex--;
-    if (this.currentPageIdIndex == -1) {
-      this.currentPageIdIndex = pageInfo.length - 1;
+    if (this.maybeUpdateManifest()) {
+      this.currentPageIdIndex--;
+      if (this.currentPageIdIndex == -1) {
+        this.currentPageIdIndex = pageInfo.length - 1;
+      }
+      this.jumpToPage(this.currentPageIdIndex);
     }
-    this.jumpToPage(this.currentPageIdIndex);
-
-    updateValidationState();
   }
 
   skipPage() {
@@ -298,13 +369,50 @@ class AppView extends HTMLElement {
   }
 
   // To-do: Update this to use events.
-  updateManifest() {
-    const pageId = pageInfo[this.currentPageIdIndex].id;
-    const page = this.shadowRoot.querySelector(
+  maybeUpdateManifest() {
+    const pageInfoItem = pageInfo[this.currentPageIdIndex];
+    const pageId = pageInfoItem.id;
+    const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );
-    const value = page.getUserInput();
-    updateManifest(pageId, value);
+    let value;
+
+    try {
+      value = pageElement.getUserInput();
+    } catch (e) {
+      // Some fields do not have getUserInput defined. Skip those.
+      return true;
+    }
+
+    let validationMessage = "";
+    validationMessage = pageInfoItem.validation.fn(value);
+
+    // we should validate non-empty values only.
+    if (value === undefined || value === "") {
+      validationMessage = "";
+    }
+
+    // Notify the slot that the validation succeeded or failed.
+    // Some slots don't have onValidationCheck() - just see if that function
+    // exists before trying to call it.
+    const input = pageElement.shadowRoot
+      .querySelector("slot")
+      .assignedElements()[0];
+
+    if (!input || typeof input.onValidationCheck !== "function") {
+      // Skip as we can not display the error message.
+      return true;
+    }
+
+    const isSuccess = validationMessage === "";
+    const errorMessage = isSuccess ? "" : pageId + " " + validationMessage;
+    input.onValidationCheck(isSuccess, errorMessage);
+
+    if (isSuccess) {
+      updateManifest(pageId, value);
+    }
+
+    return isSuccess;
   }
 }
 

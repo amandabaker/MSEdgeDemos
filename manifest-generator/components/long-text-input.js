@@ -34,9 +34,8 @@ class LongTextInput extends HTMLElement {
 
     // Create the optionally visible error element
     this.#errorText = document.createElement("p");
-    this.#errorText.textContent = "TEMPORARY ERROR MESSAGE";
-    this.#errorText.setAttribute("class", "text-error");
-    
+    this.#errorText.setAttribute("hidden", "");
+
     // Load saved value from manifest
     if (this.getAttribute("value")) {
       this.#inputElement.value = `${this.getAttribute("value")}`;
