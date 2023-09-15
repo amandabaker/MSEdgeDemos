@@ -115,7 +115,7 @@ export const validateStartUrl = (startUrl) => {
 export const validateDisplay = (display) => {
   let validValues = ["fullscreen", "standalone", "minimal-ui", "browser"];
   if (!validValues.includes(display)) {
-    return "Display must be one of " + validValues.join(", ");
+    return "must be one of " + validValues.join(", ");
   }
 
   return "";

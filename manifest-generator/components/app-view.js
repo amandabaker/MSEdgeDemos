@@ -166,7 +166,7 @@ const pageInfo = [
     validation: {
       required: false,
       type: "string",
-      fn: () => validateOrientation,
+      fn: validateOrientation,
     },
   },
   {
@@ -352,24 +352,6 @@ class AppView extends HTMLElement {
     });
   }
 
-  updateValidationState() {
-    const pageId = pageInfo[this.currentPageIdIndex].id;
-    const page = this.shadowRoot.querySelector(
-      `page-view[page-id="${pageId}"]`
-    );
-
-    // Notify the slot that the validation succeeded or failed.
-    // Some slots don't have onValidationCheck() - just see if that function
-    // exists before trying to call it.
-    const input = page.shadowRoot.querySelector("slot").assignedElements()[0];
-    if (input && typeof input.onValidationCheck === "function") {
-      input.onValidationCheck(
-        true /* validation successful? */,
-        "error" /* error message */
-      );
-    }
-  }
-
   nextPage() {
     if (this.maybeUpdateManifest()) {
       this.jumpToPage(
@@ -412,18 +394,41 @@ class AppView extends HTMLElement {
 
   // To-do: Update this to use events.
   maybeUpdateManifest() {
-    const page = pageInfo[this.currentPageIdIndex];
-    const pageId = page.id;
+    const pageInfoItem = pageInfo[this.currentPageIdIndex];
+    const pageId = pageInfoItem.id;
     const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );
     const value = pageElement.getUserInput();
     let validation = "";
-    validation = page.validation.fn(value);
+    validation = pageInfoItem.validation.fn(value);
+
+    // Notify the slot that the validation succeeded or failed.
+    // Some slots don't have onValidationCheck() - just see if that function
+    // exists before trying to call it.
+    const input = pageElement.shadowRoot
+      .querySelector("slot")
+      .assignedElements()[0];
 
     if (validation === "") {
+      // clear the error message.
+      if (input && typeof input.onValidationCheck === "function") {
+        input.onValidationCheck(
+          true /* validation successful? */,
+          "" /* error message */
+        );
+      }
+
       updateManifest(pageId, value);
       return true;
+    } else {
+      // display the error message.
+      if (input && typeof input.onValidationCheck === "function") {
+        input.onValidationCheck(
+          false /* validation successful? */,
+          pageId + " " + validation /* error message */
+        );
+      }
     }
 
     return false;
