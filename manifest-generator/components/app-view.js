@@ -35,9 +35,7 @@ const pageInfo = [
   {
     id: "display",
     title: "Set a display mode",
-    // This would eventually need a input control we don't have yet. Use simple-text-input
-    // for now as not to break the manifest.json on submission of this page.
-    content: `<simple-text-input placeholder-text="Placeholder"></simple-text-input>`,
+    content: `<display-mode></display-mode>`,
   },
   {
     id: "background_color",
