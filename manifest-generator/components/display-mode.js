@@ -98,7 +98,7 @@ class DisplayMode extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
-  connectedCallback(){
+  connectedCallback() {
     const checkedValue = this.getAttribute("value");
     this.shadowRoot.getElementById(checkedValue).checked = true;
   }

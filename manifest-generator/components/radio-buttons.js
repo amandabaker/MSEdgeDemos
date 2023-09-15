@@ -72,7 +72,7 @@ class RadioButtons extends HTMLElement {
     shadow.append(style);
   }
 
-  connectedCallback(){
+  connectedCallback() {
     const checkedValue = this.getAttribute("value");
     this.shadowRoot.getElementById(checkedValue).checked = true;
   }
