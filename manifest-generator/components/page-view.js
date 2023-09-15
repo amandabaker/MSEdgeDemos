@@ -4,6 +4,8 @@
 
 class PageView extends HTMLElement {
   #id;
+  #paddingTopControls = ["MULTI-BLOCK-FORM"];
+  #paddingTop = 200;
 
   constructor() {
     super();
@@ -11,27 +13,6 @@ class PageView extends HTMLElement {
     const pageViewTemplate = document.createElement("template");
     pageViewTemplate.innerHTML = `
     <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
-    <style>
-      #title {
-        padding-top: 200px;
-        text-align: center;
-      }
-
-      #content {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      #form-input {
-        flex-grow: 1;
-        overflow: hidden;
-      }
-    </style>
-
-
     <div id="content">    
       <h1 id="title">${this.getAttribute("title")}</h1>
       <div id="form-input"><slot></slot></div>
@@ -44,6 +25,35 @@ class PageView extends HTMLElement {
 
     // Set the id field based on the id attribute
     this.#id = this.getAttribute("page-id");
+
+    // Check to see if the slotted control is one of the special controls
+    // that wants the title at the top.
+    const slots = this.shadowRoot.querySelector("slot").assignedElements();
+    const tagInSlot = slots[0].tagName;
+    if (this.#paddingTopControls.indexOf(tagInSlot) > -1) {
+      this.#paddingTop = 0;
+    }
+
+    const style = document.createElement("style");
+    style.innerHTML = `
+    #title {
+      padding-top: ${this.#paddingTop}px;
+      text-align: center;
+    }
+
+    #content {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    #form-input {
+      flex-grow: 1;
+      overflow: hidden;
+    }`;
+    this.shadowRoot.appendChild(style);
   }
 
   get pageId() {
