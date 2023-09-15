@@ -12,13 +12,18 @@ import "./radio-buttons.js";
 import "./styled-card.js";
 import "./multi-block-form.js";
 import "./simple-text-input.js";
-import { updateManifest, getManifest } from "../state.js";
+import {
+  addNextUnsetFieldToManifest,
+  getFieldOrder,
+  updateManifest,
+  getManifest,
+} from "../state.js";
 import * as validations from "../validation.js";
 
 const manifest = getManifest();
 
-const pageInfo = [
-  {
+const pageInfo = {
+  name: {
     id: "name",
     title: "What's your app's name?",
     content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
@@ -27,7 +32,7 @@ const pageInfo = [
       fn: validations.validateName,
     },
   },
-  {
+  short_name: {
     id: "short_name",
     title: "Now give it a nice short name",
     content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
@@ -36,7 +41,7 @@ const pageInfo = [
       fn: validations.validateShortName,
     },
   },
-  {
+  start_url: {
     id: "start_url",
     title: "Give me a start url",
     content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
@@ -45,7 +50,7 @@ const pageInfo = [
       fn: validations.validateStartUrl,
     },
   },
-  {
+  display: {
     id: "display",
     title: "Set a display mode",
     content: `<display-mode></display-mode>`,
@@ -54,7 +59,7 @@ const pageInfo = [
       fn: validations.validateDisplay,
     },
   },
-  {
+  background_color: {
     id: "background_color",
     title: "Pick a background color",
     content: `<color-picker value="${manifest.background_color}"></color-picker>`,
@@ -63,7 +68,7 @@ const pageInfo = [
       fn: validations.validateBackgroundColor,
     },
   },
-  {
+  theme_color: {
     id: "theme_color",
     title: "Pick a theme color",
     content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
@@ -72,7 +77,7 @@ const pageInfo = [
       fn: validations.validateThemeColor,
     },
   },
-  {
+  description: {
     id: "description",
     title: "Provide a description",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
@@ -81,7 +86,7 @@ const pageInfo = [
       fn: validations.validateDescription,
     },
   },
-  {
+  icons: {
     id: "icons",
     title: "give me some icons",
     content: `
@@ -97,7 +102,7 @@ const pageInfo = [
       fn: validations.validateIcons,
     },
   },
-  {
+  categories: {
     id: "categories",
     title: "Categories",
     content: `<p>TBD</p>`,
@@ -106,7 +111,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  display_override: {
     id: "display_override",
     title: "Display Override",
     content: `<p>TBD</p>`,
@@ -115,7 +120,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  file_handlers: {
     id: "file_handlers",
     title: "File handlers",
     content: `<p>TBD</p>`,
@@ -124,7 +129,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  id: {
     id: "id",
     title: "Choose an ID",
     content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
@@ -133,7 +138,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  orientation: {
     id: "orientation",
     title: "Choose an orientation",
     content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
@@ -142,7 +147,7 @@ const pageInfo = [
       fn: validations.validateOrientation,
     },
   },
-  {
+  prefer_related_applications: {
     id: "prefer_related_applications",
     title: "Set prefer_related_applications",
     content: `<radio-buttons options="true,false"></radio-buttons>`,
@@ -151,7 +156,7 @@ const pageInfo = [
       fn: validations.validatePreferRelatedApplications,
     },
   },
-  {
+  related_applications: {
     id: "related_applications",
     title: "Set your related applications",
     content: `
@@ -168,7 +173,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  protocol_handlers: {
     id: "protocol_handlers",
     title: "Set your protocol handlers",
     content: `
@@ -184,7 +189,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  scope: {
     id: "scope",
     title: "Choose a scope",
     content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
@@ -193,7 +198,7 @@ const pageInfo = [
       fn: validations.validateScope,
     },
   },
-  {
+  screenshot: {
     id: "screenshot",
     title: "Add screenshots",
     content: `
@@ -212,7 +217,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  share_target: {
     id: "share_target",
     title: "Add a share target",
     content: `<p>COMBO PLACEHOLDER</p>`,
@@ -222,7 +227,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  shortcut: {
     id: "shortcut",
     title: "Add a shortcut",
     content: `
@@ -239,7 +244,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
+  widgets: {
     id: "widgets",
     title: "Add a widget",
     content: `<p>COMBO PLACEHOLDER</p>`,
@@ -249,17 +254,17 @@ const pageInfo = [
       fn: () => "",
     },
   },
-];
+};
 
 const renderPages = () => {
-  let pages = "";
-  for (let page of pageInfo) {
-    pages += `
-    <page-view page-id="${page.id}" title="${page.title}">
-      ${page.content}
-    </page-view>
-    `;
-  }
+  const pages = Object.values(pageInfo).reduce((pagesTemplate, page) => {
+    return (
+      pagesTemplate +
+      `<page-view page-id="${page.id}" title="${page.title}">
+          ${page.content}
+       </page-view>`
+    );
+  }, "");
   return pages;
 };
 
@@ -290,10 +295,14 @@ template.innerHTML = `
     }
   </style>
   <div class="app-view">
-    <navigation-view current-id="${pageInfo[0].id}" page-selector="page-view">
+    <navigation-view current-id="${
+      getFieldOrder()[0] || ""
+    }" page-selector="page-view">
       ${renderPages()}
     </navigation-view>
-    <manifest-view current-page-id="${pageInfo[0].id}"></manifest-view>
+    <manifest-view current-page-id="${
+      getFieldOrder()[0] || ""
+    }"></manifest-view>
   </div>
 `;
 
@@ -304,9 +313,17 @@ class AppView extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.navigationView = this.shadowRoot.querySelector("navigation-view");
+    this.manifestView = this.shadowRoot.querySelector("manifest-view");
 
     this.currentPageIdIndex = 0;
-
+    this.navigationView.setAttribute(
+      "current-id",
+      getFieldOrder()[this.currentPageIdIndex]
+    );
+    this.manifestView.setAttribute(
+      "current-page-id",
+      getFieldOrder()[this.currentPageIdIndex]
+    );
     this.navigationView.addEventListener("next", () => this.nextPage());
     this.navigationView.addEventListener("prev", () => this.prevPage());
     this.navigationView.addEventListener("skip", () => this.skipPage());
@@ -316,15 +333,9 @@ class AppView extends HTMLElement {
       this.currentPageIdIndex =
         e.detail.index !== undefined
           ? e.detail.index
-          : (() => {
-              // get the index of the page from the pageInfo array.
-              for (let i = 0; i < pageInfo.length; i++) {
-                if (pageInfo[i].id === e.detail.pageId) {
-                  return i;
-                }
-              }
-              return 0;
-            })();
+          : getFieldOrder().findIndex(
+              (fieldId) => fieldId == e.detail.pageId
+            ) || 0;
     });
   }
 
@@ -336,18 +347,33 @@ class AppView extends HTMLElement {
     }
   }
 
-  prevPage() {
-    if (this.maybeUpdateManifest()) {
-      this.currentPageIdIndex--;
-      if (this.currentPageIdIndex == -1) {
-        this.currentPageIdIndex = pageInfo.length - 1;
-      }
-      this.jumpToPage(this.currentPageIdIndex);
+  nextPage() {
+    // TODO(stahon): Should we block manifest updates on invalid data?
+    this.updateManifest();
+
+    if (this.currentPageIdIndex + 1 === getFieldOrder().length) {
+      addNextUnsetFieldToManifest();
     }
+    this.jumpToPage(
+      Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
+    );
+    updateValidationState();
+  }
+
+  prevPage() {
+    // TODO(stahon): Should we block manifest updates on invalid data?
+    this.updateManifest();
+    this.jumpToPage(Math.max(0, this.currentPageIdIndex - 1));
+    updateValidationState();
   }
 
   skipPage() {
-    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
+    if (this.currentPageIdIndex + 1 === getFieldOrder().length) {
+      addNextUnsetFieldToManifest();
+    }
+    this.jumpToPage(
+      Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
+    );
   }
 
   jumpToPage(pageIndex) {
@@ -361,7 +387,7 @@ class AppView extends HTMLElement {
         composed: true,
         bubbles: true,
         detail: {
-          pageId: pageInfo[this.currentPageIdIndex].id,
+          pageId: getFieldOrder()[this.currentPageIdIndex],
           index: this.currentPageIdIndex,
         },
       })
@@ -370,8 +396,8 @@ class AppView extends HTMLElement {
 
   // To-do: Update this to use events.
   maybeUpdateManifest() {
-    const pageInfoItem = pageInfo[this.currentPageIdIndex];
-    const pageId = pageInfoItem.id;
+    const pageId = getFieldOrder()[this.currentPageIdIndex];
+    const pageInfoItem = pageInfo[pageId];
     const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );

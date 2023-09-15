@@ -54,7 +54,7 @@ class PageView extends HTMLElement {
     let inputElements = this.shadowRoot
       .querySelector("slot")
       .assignedElements();
-    return inputElements[0].getUserInput();
+    return inputElements[0].getUserInput?.();
   }
 }
 

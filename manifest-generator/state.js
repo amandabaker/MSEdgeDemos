@@ -34,7 +34,17 @@ const defaultManifestJson = {
   widgets: {},
 };
 
-const defaultUnsetFields = [
+const defaultFieldOrder = ["name"];
+
+const defaultUnsetFieldList = [
+  "short_name",
+  "start_url",
+  "display",
+  "background_color",
+  "theme_color",
+  "description",
+  "icons",
+  "prefer_related_applications",
   "categories",
   "display_override",
   "file_handlers",
@@ -49,8 +59,12 @@ const defaultUnsetFields = [
   "widgets",
 ];
 
+// This contains all of the possible manifest fields and their state.
 let manifestState = {};
-let unsetFieldsState = {};
+// These are all the unset fields that users can add to.
+let unsetFieldListState = [];
+// This tracks the order of fields in the manifest.json.
+let fieldOrderState = [];
 
 // Read (Get) entire object from LocalStorage.
 // Other places can use this as:
@@ -61,12 +75,35 @@ export const getManifest = () => {
 };
 
 export const getUnsetFields = () => {
-  return structuredClone(unsetFieldsState);
+  return structuredClone(unsetFieldListState);
+};
+
+export const getFieldOrder = () => {
+  return structuredClone(fieldOrderState);
+};
+
+export const addNextUnsetFieldToManifest = () => {
+  addFieldToManifest(getUnsetFields()[0]);
 };
 
 export const addFieldToManifest = (key) => {
-  const index = unsetFieldsState.findIndex((fieldKey) => fieldKey === key);
-  unsetFieldsState.splice(index, 1);
+  if (fieldOrderState.includes(key)) return;
+  const index = unsetFieldListState.findIndex((fieldKey) => fieldKey === key);
+  if (index === -1) return;
+  unsetFieldListState.splice(index, 1);
+  fieldOrderState.push(key);
+  localStorage.setItem("unsetFieldList", JSON.stringify(unsetFieldListState));
+  localStorage.setItem("fieldOrder", JSON.stringify(fieldOrderState));
+};
+
+export const removeFieldFromManifest = (key) => {
+  if (unsetFieldListState.includes(key)) return;
+  const index = fieldOrderState.findIndex((fieldKey) => fieldKey === key);
+  if (index === -1) return;
+  unsetFieldListState.push(key);
+  fieldOrderState.push(key);
+  localStorage.setItem("unsetFieldList", JSON.stringify(unsetFieldListState));
+  localStorage.setItem("fieldOrder", JSON.stringify(fieldOrderState));
 };
 
 export const updateManifest = (key, value) => {
@@ -98,13 +135,17 @@ const setManifest = (newState) => {
   localStorage.setItem("manifest", JSON.stringify(newState));
 };
 
-export const readManifestFromLocalStorage = () => {
+export const readDataFromLocalStorage = () => {
   const manifestString = localStorage.getItem("manifest");
   manifestState = manifestString
     ? JSON.parse(manifestString)
     : defaultManifestJson;
-  const unsetFieldsValue = localStorage.getItem("unsetFields");
-  unsetFieldsState = unsetFieldsValue
-    ? JSON.parse(unsetFieldsValue)
-    : defaultUnsetFields;
+  const unsetFieldListValue = localStorage.getItem("unsetFieldList");
+  unsetFieldListState = unsetFieldListValue
+    ? JSON.parse(unsetFieldListValue)
+    : defaultUnsetFieldList;
+  const fieldOrderValue = localStorage.getItem("fieldOrder");
+  fieldOrderState = fieldOrderValue
+    ? JSON.parse(fieldOrderValue)
+    : defaultFieldOrder;
 };

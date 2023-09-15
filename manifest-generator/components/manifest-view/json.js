@@ -33,11 +33,13 @@ class JSONView extends HTMLElement {
     this.json = JSON.parse(decodeURIComponent(jsonValue));
     const unsetFieldsValue = this.getAttribute("unset-fields");
     this.unsetFields = JSON.parse(decodeURIComponent(unsetFieldsValue));
+    const fieldOrderValue = this.getAttribute("field-order");
+    this.fieldOrder = JSON.parse(decodeURIComponent(fieldOrderValue));
     this.render();
   }
 
   static get observedAttributes() {
-    return ["selected-page-id", "json", "unset-fields"];
+    return ["selected-page-id", "json", "unset-fields", "field-order"];
   }
 
   attributeChangedCallback(name, _oldValue, newValue) {
@@ -55,6 +57,13 @@ class JSONView extends HTMLElement {
       const decodedValue = decodeURIComponent(newValue);
       try {
         this.unsetFields = JSON.parse(decodedValue);
+        this.render();
+      } catch (e) {}
+    }
+    if (name === "field-order" && newValue) {
+      const decodedValue = decodeURIComponent(newValue);
+      try {
+        this.fieldOrder = JSON.parse(decodedValue);
         this.render();
       } catch (e) {}
     }
@@ -87,7 +96,8 @@ class JSONView extends HTMLElement {
   }
 
   renderNodes(jsonView, json, unsetFields, isSelectedPage, isRoot) {
-    Object.keys(json).forEach((key) => {
+    const keys = isRoot ? this.fieldOrder : Object.keys(json);
+    keys.forEach((key) => {
       if (isRoot && unsetFields.includes(key)) return;
       const node = document.createElement("json-node");
       var nodeType = typeof json[key];

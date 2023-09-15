@@ -1,5 +1,6 @@
 :root {
   --c-bkg: #252931;
+  --c-bkg-dark: #1d222a;
   --c-bkg-secondary: #353942;
   --c-white: #ffffff;
   --c-blue: #528bff;
@@ -7,7 +8,7 @@
   --c-gray-light: #cccccc;
   --c-blue-gray: #898b90;
   --c-blue-dark: #2870ff;
-  --c-selected-key: #FDAEB7;
+  --c-selected-key: #fdaeb7;
   --c-red: #cb463a;
   --c-bkg-card: var(--c-bkg-secondary);
   --c-text: var(--c-white);
