@@ -2,6 +2,8 @@
 // See page-view-example.html for usage eaxmple.
 // Has a public API `getId()` that returns this page's unique ID, set via page-id attribute.
 
+import "./tooltip.js";
+
 class PageView extends HTMLElement {
   #id;
   #controlTypesWithoutTopPadding = ["MULTI-BLOCK-FORM"];
@@ -16,6 +18,10 @@ class PageView extends HTMLElement {
     <div id="content">    
       <h1 id="title">${this.getAttribute("title")}</h1>
       <div id="form-input"><slot></slot></div>
+      <tooltip-component>
+        <span slot="title">${this.getAttribute("tooltip-title")}</span>
+        <div slot="content">${this.getAttribute("tooltip-content")}</div>
+      </tooltip-component>
     </div>
     `;
 
