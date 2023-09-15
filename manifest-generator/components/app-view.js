@@ -272,12 +272,14 @@ template.innerHTML = `
     }
   </style>
   <div class="app-view">
-    <navigation-view current-id="${getFieldOrder()[0] || ""
-  }" page-selector="page-view">
+    <navigation-view current-id="${
+      getFieldOrder()[0] || ""
+    }" page-selector="page-view">
       ${renderPages()}
     </navigation-view>
-    <manifest-view current-page-id="${getFieldOrder()[0] || ""
-  }"></manifest-view>
+    <manifest-view current-page-id="${
+      getFieldOrder()[0] || ""
+    }"></manifest-view>
   </div>
 `;
 
