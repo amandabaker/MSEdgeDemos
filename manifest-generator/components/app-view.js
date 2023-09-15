@@ -238,8 +238,7 @@ const pageInfo = {
 const renderPages = () => {
   let pages = "";
   for (let [pageId, page] of Object.entries(pageInfo)) {
-    pages +=
-      `<page-view page-id="${pageId}" title="${page.title}">
+    pages += `<page-view page-id="${pageId}" title="${page.title}">
           ${page.content}
       </page-view>`;
   }
@@ -294,13 +293,15 @@ class AppView extends HTMLElement {
     this.manifestView = this.shadowRoot.querySelector("manifest-view");
 
     this.currentPageIdIndex = 0;
-    this.updateCurrentPageAttributes();
+
     this.navigationView.addEventListener("next", () => this.nextPage());
     this.navigationView.addEventListener("prev", () => this.prevPage());
     this.navigationView.addEventListener("skip", () => this.skipPage());
 
     document.addEventListener("page-change", (e) => {
       this.updateCurrentPageAttributes();
+      // Detail index is not defined when event comes from 
+      // outside app-view. 
       if (e.detail.index !== undefined) {
         this.currentPageIdIndex = e.detail.index;
       } else {
@@ -329,7 +330,6 @@ class AppView extends HTMLElement {
   }
 
   nextPage() {
-    // TODO(stahon): Should we block manifest updates on invalid data?
     if (!this.maybeUpdateManifest()) return;
 
     if (this.currentPageIdIndex + 1 === getFieldOrder().length) {
@@ -341,7 +341,6 @@ class AppView extends HTMLElement {
   }
 
   prevPage() {
-    // TODO(stahon): Should we block manifest updates on invalid data?
     if (!this.maybeUpdateManifest()) return;
     this.jumpToPage(Math.max(0, this.currentPageIdIndex - 1));
   }

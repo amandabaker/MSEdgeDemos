@@ -86,9 +86,13 @@ export const addNextUnsetFieldToManifest = () => {
 };
 
 export const addFieldToManifest = (key) => {
-  if (fieldOrderState.includes(key)) return;
+  if (fieldOrderState.includes(key)) {
+    return;
+  }
   const index = unsetFieldListState.findIndex((fieldKey) => fieldKey === key);
-  if (index === -1) return;
+  if (index === -1) {
+    return;
+  }
   unsetFieldListState.splice(index, 1);
   fieldOrderState.push(key);
   localStorage.setItem("unsetFieldList", JSON.stringify(unsetFieldListState));
@@ -96,9 +100,13 @@ export const addFieldToManifest = (key) => {
 };
 
 export const removeFieldFromManifest = (key) => {
-  if (unsetFieldListState.includes(key)) return;
+  if (unsetFieldListState.includes(key)) {
+    return;
+  }
   const index = fieldOrderState.findIndex((fieldKey) => fieldKey === key);
-  if (index === -1) return;
+  if (index === -1) {
+    return;
+  }
   unsetFieldListState.push(key);
   fieldOrderState.splice(index, 1);
   localStorage.setItem("unsetFieldList", JSON.stringify(unsetFieldListState));

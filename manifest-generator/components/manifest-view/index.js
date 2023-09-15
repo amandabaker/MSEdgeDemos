@@ -106,20 +106,22 @@ template.innerHTML = `
 
 // create a web component
 class ManifestView extends HTMLElement {
+  #jsonView;
+
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     const manifestView = this.shadowRoot.querySelector(".manifest-view");
-    this.jsonView = document.createElement("json-view");
+    this.#jsonView = document.createElement("json-view");
     this.updateJsonViewAttributes();
-    this.jsonView.setAttribute(
+    this.#jsonView.setAttribute(
       "selected-page-id",
       this.getAttribute("current-page-id")
     );
-    this.jsonView.setAttribute("root", true);
-    manifestView.appendChild(this.jsonView);
+    this.#jsonView.setAttribute("root", true);
+    manifestView.appendChild(this.#jsonView);
 
     this.unsetFieldListView =
       this.shadowRoot.querySelector(".unset-field-list");
@@ -131,7 +133,7 @@ class ManifestView extends HTMLElement {
     });
 
     document.addEventListener("manifest-change", (e) => {
-      this.jsonView.setAttribute(
+      this.#jsonView.setAttribute(
         "json",
         encodeURIComponent(JSON.stringify(e.detail.manifest))
       );
@@ -144,15 +146,15 @@ class ManifestView extends HTMLElement {
   }
 
   updateJsonViewAttributes() {
-    this.jsonView.setAttribute(
+    this.#jsonView.setAttribute(
       "json",
       encodeURIComponent(JSON.stringify(getManifest()))
     );
-    this.jsonView.setAttribute(
+    this.#jsonView.setAttribute(
       "unset-fields",
       encodeURIComponent(JSON.stringify(getUnsetFields()))
     );
-    this.jsonView.setAttribute(
+    this.#jsonView.setAttribute(
       "field-order",
       encodeURIComponent(JSON.stringify(getFieldOrder()))
     );

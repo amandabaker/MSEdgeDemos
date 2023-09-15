@@ -98,7 +98,10 @@ class JSONView extends HTMLElement {
   renderNodes(jsonView, json, unsetFields, isSelectedPage, isRoot) {
     const keys = isRoot ? this.fieldOrder : Object.keys(json);
     keys.forEach((key) => {
-      if (isRoot && unsetFields.includes(key)) return;
+      if (isRoot && unsetFields.includes(key)) {
+        return;
+      }
+
       const node = document.createElement("json-node");
       var nodeType = typeof json[key];
       // find if object is an array
