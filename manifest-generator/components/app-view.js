@@ -13,23 +13,9 @@ import "./styled-card.js";
 import "./multi-block-form.js";
 import "./simple-text-input.js";
 import { updateManifest, getManifest } from "../state.js";
+import * as validations from "../validation.js";
 
 const manifest = getManifest();
-
-import {
-  validateName,
-  validateStartUrl,
-  validateDisplay,
-  validateShortName,
-  validateBackgroundColor,
-  validateThemeColor,
-  validateDescription,
-  validateIcons,
-  validateOrientation,
-  validatePreferRelatedApplications,
-  validateScope,
-} from "../validation.js";
-import { updateManifest } from "../state.js";
 
 const pageInfo = [
   {
@@ -37,9 +23,8 @@ const pageInfo = [
     title: "What's your app's name?",
     content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
     validation: {
-      required: true,
       type: "string",
-      fn: validateName,
+      fn: validations.validateName,
     },
   },
   {
@@ -47,9 +32,8 @@ const pageInfo = [
     title: "Now give it a nice short name",
     content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
     validation: {
-      required: false,
       type: "string",
-      fn: validateShortName,
+      fn: validations.validateShortName,
     },
   },
   {
@@ -57,9 +41,8 @@ const pageInfo = [
     title: "Give me a start url",
     content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
     validation: {
-      required: true,
       type: "string",
-      fn: validateStartUrl,
+      fn: validations.validateStartUrl,
     },
   },
   {
@@ -67,9 +50,8 @@ const pageInfo = [
     title: "Set a display mode",
     content: `<display-mode></display-mode>`,
     validation: {
-      required: true,
       type: "string",
-      fn: validateDisplay,
+      fn: validations.validateDisplay,
     },
   },
   {
@@ -77,9 +59,8 @@ const pageInfo = [
     title: "Pick a background color",
     content: `<color-picker value="${manifest.background_color}"></color-picker>`,
     validation: {
-      required: false,
       type: "string",
-      fn: validateBackgroundColor,
+      fn: validations.validateBackgroundColor,
     },
   },
   {
@@ -87,9 +68,8 @@ const pageInfo = [
     title: "Pick a theme color",
     content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
     validation: {
-      required: false,
       type: "string",
-      fn: validateThemeColor,
+      fn: validations.validateThemeColor,
     },
   },
   {
@@ -97,9 +77,8 @@ const pageInfo = [
     title: "Provide a description",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
     validation: {
-      required: false,
       type: "string",
-      fn: validateDescription,
+      fn: validations.validateDescription,
     },
   },
   {
@@ -114,9 +93,8 @@ const pageInfo = [
           </div>
         </multi-block-form>`,
     validation: {
-      required: true,
       type: "array",
-      fn: validateIcons,
+      fn: validations.validateIcons,
     },
   },
   {
@@ -124,7 +102,6 @@ const pageInfo = [
     title: "Categories",
     content: `<p>TBD</p>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -134,7 +111,6 @@ const pageInfo = [
     title: "Display Override",
     content: `<p>TBD</p>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -144,7 +120,6 @@ const pageInfo = [
     title: "File handlers",
     content: `<p>TBD</p>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -154,7 +129,6 @@ const pageInfo = [
     title: "Choose an ID",
     content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
     validation: {
-      required: false,
       type: "string",
       fn: () => "",
     },
@@ -164,9 +138,8 @@ const pageInfo = [
     title: "Choose an orientation",
     content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
     validation: {
-      required: false,
       type: "string",
-      fn: validateOrientation,
+      fn: validations.validateOrientation,
     },
   },
   {
@@ -174,9 +147,8 @@ const pageInfo = [
     title: "Set prefer_related_applications",
     content: `<radio-buttons options="true,false"></radio-buttons>`,
     validation: {
-      required: false,
       type: "bool",
-      fn: validatePreferRelatedApplications,
+      fn: validations.validatePreferRelatedApplications,
     },
   },
   {
@@ -191,7 +163,6 @@ const pageInfo = [
           </div>
         </multi-block-form>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -206,15 +177,18 @@ const pageInfo = [
             <simple-text-input field-id="url" placeholder="https://my.app/?uri=%s" label="url"></simple-text-input>
           </div>
         </multi-block-form>`,
+    validation: {
+      type: "array",
+      fn: () => "",
+    },
   },
   {
     id: "scope",
     title: "Choose a scope",
     content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
     validation: {
-      required: false,
       type: "string",
-      fn: validateScope,
+      fn: validations.validateScope,
     },
   },
   {
@@ -231,7 +205,6 @@ const pageInfo = [
           </div>
         </multi-block-form>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -241,7 +214,6 @@ const pageInfo = [
     title: "Add a share target",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -258,7 +230,6 @@ const pageInfo = [
           </div>
         </multi-block-form>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -268,7 +239,6 @@ const pageInfo = [
     title: "Add a widget",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
-      required: false,
       type: "array",
       fn: () => "",
     },
@@ -399,9 +369,22 @@ class AppView extends HTMLElement {
     const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );
-    const value = pageElement.getUserInput();
+    let value = null;
+
+    try {
+      value = pageElement.getUserInput();
+    } catch (e) {
+      // Some fields do not have getUserInput defined. Skip those.
+      return true;
+    }
+
     let validation = "";
     validation = pageInfoItem.validation.fn(value);
+
+    // we should validate non-empty values only.
+    if (value === undefined || value === "") {
+      validation = "";
+    }
 
     // Notify the slot that the validation succeeded or failed.
     // Some slots don't have onValidationCheck() - just see if that function

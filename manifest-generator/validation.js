@@ -62,6 +62,14 @@ function validateBoolean(prefer) {
 }
 
 function validateIconSrc(iconSrc) {
+  if (typeof iconSrc !== "string") {
+    return "must be a string";
+  }
+
+  if (iconSrc.startsWith("/")) {
+    return "";
+  }
+
   return validateUrl(iconSrc);
 }
 
@@ -109,6 +117,14 @@ export const validateName = (name) => {
 };
 
 export const validateStartUrl = (startUrl) => {
+  if (typeof startUrl !== "string") {
+    return "must be a string";
+  }
+
+  if (startUrl.startsWith("/")) {
+    return "";
+  }
+
   return validateUrl(startUrl);
 };
 
@@ -159,7 +175,7 @@ export const validateIcons = (icons) => {
 };
 
 export const validateOrientation = (orientation) => {
-  let validString = validateString(iconSizes);
+  let validString = validateString(orientation);
   if (validString && validString.length > 0) {
     return validString;
   }
@@ -186,5 +202,13 @@ export const validatePreferRelatedApplications = (prefer) => {
 };
 
 export const validateScope = (scope) => {
+  if (typeof scope !== "string") {
+    return "must be a string";
+  }
+
+  if (scope.startsWith("/")) {
+    return "";
+  }
+
   return validateUrl(scope);
 };

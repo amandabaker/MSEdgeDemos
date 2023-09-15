@@ -13,7 +13,7 @@ class PageView extends HTMLElement {
     <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
     <style>
       #title {
-        padding-top: 30%;
+        padding-top: 200px;
         text-align: center;
       }
 
@@ -27,6 +27,7 @@ class PageView extends HTMLElement {
 
       #form-input {
         flex-grow: 1;
+        overflow: hidden;
       }
     </style>
 
