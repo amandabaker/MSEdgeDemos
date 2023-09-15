@@ -12,13 +12,15 @@ import "./radio-buttons.js";
 import "./styled-card.js";
 import "./multi-block-form.js";
 import "./simple-text-input.js";
+
+import * as validations from "../validation.js";
+
 import {
   addNextUnsetFieldToManifest,
   getFieldOrder,
-  updateManifest,
   getManifest,
+  updateManifest,
 } from "../state.js";
-import * as validations from "../validation.js";
 
 const manifest = getManifest();
 
@@ -30,6 +32,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateName,
     },
+    tooltipTitle: "The name of the web application",
+    tooltipContent:
+      "The name member is a string that represents the name of the web application as it is usually displayed to the user (e.g., amongst a list of other applications, or as a label for an icon).",
   },
   short_name: {
     title: "Now give it a nice short name",
@@ -38,6 +43,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateShortName,
     },
+    tooltipTitle: "The short name of the web application",
+    tooltipContent:
+      "The short_name member is a string that represents the name of the web application displayed to the user if there is not enough space to display name (e.g., as a label for an icon on the phone home screen).",
   },
   start_url: {
     title: "Give me a start url",
@@ -46,6 +54,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateStartUrl,
     },
+    tooltipTitle: "The start URL of the web application",
+    tooltipContent:
+      "The start_url member is a string that represents the start URL of the web application — the prefered URL that should be loaded when the user launches the web application (e.g., when the user taps on the web application's icon from a device's application menu or homescreen).",
   },
   display: {
     title: "Set a display mode",
@@ -54,6 +65,10 @@ const pageInfo = {
       type: "string",
       fn: validations.validateDisplay,
     },
+    content: `<display-mode></display-mode>`,
+    tooltipTitle: "The display mode of the web application",
+    tooltipContent:
+      "The display member is a string that determines the developers’ preferred display mode for the website. The display mode changes how much of browser UI is shown to the user and can range from browser (when the full browser window is shown) to fullscreen (when the app is full-screened).",
   },
   background_color: {
     title: "Pick a background color",
@@ -62,6 +77,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateBackgroundColor,
     },
+    tooltipTitle: "The background color of the web application",
+    tooltipContent:
+      "The background_color member defines a placeholder background color for the application page to display before its stylesheet is loaded. This value is used by the user agent to draw the background color of a shortcut when the manifest is available before the stylesheet has loaded.",
   },
   theme_color: {
     title: "Pick a theme color",
@@ -70,6 +88,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateThemeColor,
     },
+    tooltipTitle: "The theme color of the web application",
+    tooltipContent:
+      "The theme_color member defines the default theme color for the application. This sometimes affects how the OS displays the site (e.g., on Android's task switcher, the theme color surrounds the site).",
   },
   description: {
     title: "Provide a description of your app",
@@ -78,6 +99,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateDescription,
     },
+    tooltipTitle: "The description of the web application",
+    tooltipContent:
+      "The description member is a string that describes the web application to the user. This description may be used by search engines when displaying search results.",
   },
   icons: {
     title: "Choose your icons",
@@ -93,6 +117,9 @@ const pageInfo = {
       type: "array",
       fn: validations.validateIcons,
     },
+    tooltipTitle: "The icons of the web application",
+    tooltipContent:
+      "The icons member is an array of image objects that represent icon images. The minimum requirement is one icon of size 192x192px, and at least one icon of size 512x512px is recommended.",
   },
   categories: {
     title: "Specify categories that your app belongs to",
@@ -101,6 +128,9 @@ const pageInfo = {
       type: "array",
       fn: () => "",
     },
+    tooltipTitle: "The categories of the web application",
+    tooltipContent:
+      "The categories member is an array of strings defining the names of categories that the application supposedly belongs to. The set of categories is not standardized and can vary between different app stores.",
   },
   display_override: {
     title: "Choose your display overrides",
@@ -109,6 +139,9 @@ const pageInfo = {
       type: "array",
       fn: () => "",
     },
+    tooltipTitle: "The display override of the web application",
+    tooltipContent:
+      "The display_override member is a string that defines the developers’ preferred display mode for the website. The display mode changes how much of browser UI is shown to the user and can range from browser (when the full browser window is shown) to fullscreen (when the app is full-screened).",
   },
   file_handlers: {
     title: "Specify the types of files your app handle?",
@@ -117,6 +150,9 @@ const pageInfo = {
       type: "array",
       fn: () => "",
     },
+    tooltipTitle: "The file handlers of the web application",
+    tooltipContent:
+      "The file_handlers member is an array of objects defining handlers for various file types.",
   },
   id: {
     title: "Choose an ID",
@@ -125,6 +161,9 @@ const pageInfo = {
       type: "string",
       fn: () => "",
     },
+    tooltipTitle: "The ID of the web application",
+    tooltipContent:
+      "The id member is a string that represents the developer's preferred ID for the web application. This ID may be used in various APIs' identifiers (e.g., in the Push API).",
   },
   orientation: {
     title: "Choose an orientation",
@@ -133,6 +172,10 @@ const pageInfo = {
       type: "string",
       fn: validations.validateOrientation,
     },
+    content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
+    tooltipTitle: "The orientation of the web application",
+    tooltipContent:
+      "The orientation member is a string that defines the default orientation for all the website's top-level browsing contexts.",
   },
   prefer_related_applications: {
     title:
@@ -142,6 +185,10 @@ const pageInfo = {
       type: "bool",
       fn: validations.validatePreferRelatedApplications,
     },
+    content: `<radio-buttons options="true,false"></radio-buttons>`,
+    tooltipTitle: "The prefer_related_applications of the web application",
+    tooltipContent:
+      "The prefer_related_applications member is a boolean that specifies that applications listed in related_applications should be preferred over the website. If this is set to true and the user has one or more related applications installed, the user agent should promote the related applications above the website when launching the web application.",
   },
   related_applications: {
     title: "Set your related applications, if any",
@@ -158,6 +205,9 @@ const pageInfo = {
       // TODO: add validation once combo implemented.
       fn: () => "",
     },
+    tooltipTitle: "The related applications of the web application",
+    tooltipContent:
+      "The related_applications member is an array of application objects that declare the web application to be part of a package of other applications. This allows the user agent to recommend related applications to the user after it has been installed.",
   },
   protocol_handlers: {
     title: "Set your protocol handlers",
@@ -178,6 +228,9 @@ const pageInfo = {
       // TODO: add validation once combo implemented.
       fn: () => "",
     },
+    tooltipTitle: "The protocol handlers of the web application",
+    tooltipContent:
+      "The protocol_handlers member is an array of objects that define URL schemes of potential external applications that will be able to handle links from the web application.",
   },
   scope: {
     title: "Choose a scope",
@@ -186,6 +239,9 @@ const pageInfo = {
       type: "string",
       fn: validations.validateScope,
     },
+    tooltipTitle: "The scope of the web application",
+    tooltipContent:
+      "The scope member is a string that defines the navigation scope of this web application's application context. It restricts what web pages can be viewed while the manifest is applied. If the user navigates outside the scope, it reverts to a normal web page inside a browser tab or window.",
   },
   screenshots: {
     title: "Add screenshots",
@@ -204,6 +260,9 @@ const pageInfo = {
       // TODO: add validation once combo implemented.
       fn: () => "",
     },
+    tooltipTitle: "The screenshots of the web application",
+    tooltipContent:
+      "The screenshots member is an array of objects that define screenshots of the web application. These images are intended to be used by progressive web app stores.",
   },
   share_target: {
     title: "Add a share target",
@@ -213,6 +272,9 @@ const pageInfo = {
       // TODO: add validation once combo implemented.
       fn: () => "",
     },
+    tooltipTitle: "The share target of the web application",
+    tooltipContent:
+      "The share_target member is an object that defines a target on which to trigger a share action. This object is a dictionary whose keys describe the share target parameters. The value of each key is itself a dictionary that defines the parameters for a specific share target.",
   },
   shortcuts: {
     title: "Add shortcuts",
@@ -229,6 +291,9 @@ const pageInfo = {
       // TODO: add validation once combo implemented.
       fn: () => "",
     },
+    tooltipTitle: "The shortcuts of the web application",
+    tooltipContent:
+      "The shortcuts member is an object that defines shortcuts to particular web pages or web functionality in the application. This object is a dictionary whose keys are the names of the shortcuts and whose values are dictionaries themselves. The values define the URL of the shortcut and the name of the shortcut.",
   },
   widgets: {
     title: "Add some widgets",
@@ -238,15 +303,24 @@ const pageInfo = {
       // TODO: add validation once combo implemented.
       fn: () => "",
     },
+    tooltipTitle: "The widgets of the web application",
+    tooltipContent:
+      "The widgets member is an object that defines a widget configuration. This object is a dictionary whose keys describe the widget configuration parameters. The value of each key is itself a dictionary that defines the parameters for a specific widget configuration.",
   },
 };
 
 const renderPages = () => {
   let pages = "";
   for (let [pageId, page] of Object.entries(pageInfo)) {
-    pages += `<page-view page-id="${pageId}" title="${page.title}">
-          ${page.content}
-      </page-view>`;
+    pages += `
+    <page-view 
+      page-id="${pageId}" 
+      title="${page.title}" 
+      tooltip-title="${page.tooltipTitle}"
+      tooltip-content="${page.tooltipContent}"
+    >
+      ${page.content}
+    </page-view>`;
   }
   return pages;
 };
