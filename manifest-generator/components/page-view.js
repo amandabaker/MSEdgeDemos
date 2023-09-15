@@ -4,7 +4,7 @@
 
 class PageView extends HTMLElement {
   #id;
-  #paddingTopControls = ["MULTI-BLOCK-FORM"];
+  #controlTypesWithoutTopPadding = ["MULTI-BLOCK-FORM"];
   #paddingTop = 200;
 
   constructor() {
@@ -30,7 +30,7 @@ class PageView extends HTMLElement {
     // that wants the title at the top.
     const slots = this.shadowRoot.querySelector("slot").assignedElements();
     const tagInSlot = slots[0].tagName;
-    if (this.#paddingTopControls.indexOf(tagInSlot) > -1) {
+    if (this.#controlTypesWithoutTopPadding.indexOf(tagInSlot) > -1) {
       this.#paddingTop = 0;
     }
 
