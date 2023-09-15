@@ -2,8 +2,9 @@ const attributeOptions = {
   // The default value of the component, must be an array of objects each with field defined in `fields`
   value: {
     name: "value",
-    required: true,
+    required: false,
     type: "JSON",
+    default: "%5B%5D",
   },
   // The fields ids of all the form inputs in your form. All fields should have a field-id attribute.
   fields: {
@@ -99,6 +100,10 @@ class MultiBlockForm extends HTMLElement {
     return Object.values(attributeOptions).map((opt) => opt.name);
   }
 
+  get defaultValue() {
+    return "%5B%5D";
+  }
+
   build() {
     // Props should not be updated for internal value, that is why we copy it
     // into an internal property, #value.
@@ -107,7 +112,7 @@ class MultiBlockForm extends HTMLElement {
     this.newBlock.addEventListener("click", () => {
       this.addBlockAtIndex(this.props.value.length);
     });
-    
+
     const slot = this.shadowRoot.querySelector("slot");
     const elements = slot.assignedElements();
     if (elements.length !== 1)
@@ -121,7 +126,7 @@ class MultiBlockForm extends HTMLElement {
   }
 
   clearBlocks() {
-    while (this.#blockListView.lastElementChild) {
+    while (this.#blockListView?.lastElementChild) {
       this.#blockListView.removeChild(this.#blockListView.lastElementChild);
     }
   }
@@ -131,6 +136,16 @@ class MultiBlockForm extends HTMLElement {
   }
   enableAddNewButton() {
     this.newBlock.toggleAttribute("disabled", false);
+  }
+
+  dispatchValueChangeEvent() {
+    this.shadowRoot.dispatchEvent(
+      new CustomEvent("change", { bubbles: true, composed: true })
+    );
+  }
+
+  onValidationCheck() {
+    // TODO(Marcos): Show error;
   }
 
   addBlockAtIndex(blockIndex) {
@@ -143,14 +158,23 @@ class MultiBlockForm extends HTMLElement {
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries
       // TODO(Marcos): add explanation for this case.
       this.#value[blockIndex] = Object.fromEntries(
-        this.props.fields.map((k) => [k, ""])
+        this.props.fields.map((k) => [k, null])
       );
+      this.dispatchValueChangeEvent();
     }
 
     const form = this.#formTemplate.cloneNode(true);
     this.props.fields.forEach((key) => {
       const field = form.querySelector(`[field-id=${key}]`);
-      field.setAttribute("value", this.#value[blockIndex][key]);
+      const value = this.#value[blockIndex][key];
+      if (typeof value === "string" || value instanceof String) {
+        field.setAttribute("value", value);
+        return;
+      }
+      const cleanedValue = !value
+        ? field.defaultValue || ""
+        : encodeURIComponent(JSON.stringify(value));
+      field.setAttribute("value", cleanedValue);
     });
     const cardTemplate = createCardTemplate(blockIndex, form.innerHTML);
     const cardNode = cardTemplate.content.cloneNode(true);
@@ -162,6 +186,7 @@ class MultiBlockForm extends HTMLElement {
       );
       field.addEventListener("change", (e) => {
         this.#value[blockIndex][key] = e.target.getUserInput();
+        this.dispatchValueChangeEvent();
       });
     });
 
@@ -176,6 +201,7 @@ class MultiBlockForm extends HTMLElement {
     this.enableAddNewButton();
 
     this.#value.splice(blockIndex, 1);
+    this.dispatchValueChangeEvent();
 
     // Clear and redraw all the blocks.
     this.clearBlocks();
@@ -213,9 +239,8 @@ class MultiBlockForm extends HTMLElement {
       this.props[field] = attr;
 
       if (opts.type === "JSON") {
-        this.props[field] = JSON.parse(
-          this.getAttribute(opts.name).replace(/'/g, '"')
-        );
+        const decodedValue = decodeURIComponent(attr);
+        this.props[field] = JSON.parse(decodedValue);
       }
       if (opts.type === "number") {
         this.props[field] = parseFloat(this.getAttribute(opts.name));
@@ -231,6 +256,7 @@ class MultiBlockForm extends HTMLElement {
   attributeChangedCallback(attr, old) {
     this.validateAttributes(attr);
     if (old !== null && attr === attributeOptions.value.name) {
+      this.#value = this.props.value;
       this.clearBlocks();
       this.#value.forEach((_entry, index) => this.addBlockAtIndex(index));
     }

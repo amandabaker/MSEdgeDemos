@@ -114,6 +114,7 @@ export const removeFieldFromManifest = (key) => {
 };
 
 export const updateManifest = (key, value) => {
+  console.trace();
   const manifest = getManifest();
   manifest[key] = value;
   setManifest(manifest);

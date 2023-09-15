@@ -82,7 +82,7 @@ const pageInfo = {
   icons: {
     title: "give me some icons",
     content: `
-        <multi-block-form max-number-of-blocks="3" fields="['src','sizes','type']" value="[{'src': '/', 'sizes':'200x200', 'type': 'png'}]">
+        <multi-block-form max-number-of-blocks="3" fields="%5B%22src%22%2C%22sizes%22%2C%22type%22%5D" value="%5B%7B%22src%22%3A%20%22%2F%22%2C%20%22sizes%22%3A%22200x200%22%2C%20%22type%22%3A%20%22png%22%7D%5D">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
@@ -145,7 +145,7 @@ const pageInfo = {
   related_applications: {
     title: "Set your related applications",
     content: `
-        <multi-block-form fields="['platform','url', 'id']" value="[{'platform': '','url': '', 'id': ''}]">
+        <multi-block-form fields="%5B%22platform%22%2C%22url%22%2C%20%22id%22%5D" value="%5B%7B%22platform%22%3A%20%22%22%2C%22url%22%3A%20%22%22%2C%20%22id%22%3A%20%22%22%7D%5D">
           <div slot="form">
             <simple-text-input field-id="platform" placeholder="windows" label="platform"></simple-text-input>
             <simple-text-input field-id="url" placeholder="https://path.to.store.app/my-app" label="URL"></simple-text-input>
@@ -161,10 +161,15 @@ const pageInfo = {
   protocol_handlers: {
     title: "Set your protocol handlers",
     content: `
-        <multi-block-form fields="['protocol','url']" value="[{'protocol': '','url': ''}]">
+        <multi-block-form fields="%5B%22multi%22%2C%22simple%22%5D" value="%5B%7B%22multi%22%3A%5B%5D%2C%22simple%22%3A%22%22%7D%5D">
           <div slot="form">
-            <simple-text-input field-id="protocol" placeholder="web+customProtocol" label="protocol"></simple-text-input>
-            <simple-text-input field-id="url" placeholder="https://my.app/?uri=%s" label="url"></simple-text-input>
+            <simple-text-input field-id="simple" placeholder="web+customProtocol" label="protocol"></simple-text-input>
+            <p>label</p>
+            <multi-block-form field-id="multi" fields="%5B%22test%22%5D" value="%5B%5D">
+              <div slot="form">
+                <simple-text-input field-id="test" placeholder="web+customProtocol" label="protocol"></simple-text-input>
+              </div>
+            </multi-block-form>
           </div>
         </multi-block-form>`,
     validation: {
@@ -184,7 +189,7 @@ const pageInfo = {
   screenshots: {
     title: "Add screenshots",
     content: `
-        <multi-block-form fields="['src','sizes', 'type', 'form_factor' , 'label' ]" value="[{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}]">
+        <multi-block-form fields="%5B%22src%22%2C%22sizes%22%2C%20%22type%22%2C%20%22form_factor%22%20%2C%20%22label%22%20%5D" value="%5B%7B%22src%22%3A%20%22%22%2C%22sizes%22%3A%20%22%22%2C%20%22type%22%3A%20%22%22%2C%20%22form_factor%22%3A%20%22%22%2C%20%22label%22%3A%20%22%22%7D%5D">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="screenshot1.webp" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="1280x720" label="sizes"></simple-text-input>
@@ -211,7 +216,7 @@ const pageInfo = {
   shortcuts: {
     title: "Add shortcuts",
     content: `
-        <multi-block-form fields="['name','url', 'description' ]" value="[{'name': '','url': '', 'description': ''}]">
+        <multi-block-form fields="%5B%22name%22%2C%22url%22%2C%20%22description%22%20%5D" value="%5B%7B%22name%22%3A%20%22%22%2C%22url%22%3A%20%22%22%2C%20%22description%22%3A%20%22%22%7D%5D">
           <div slot="form">
             <simple-text-input field-id="name" placeholder="Today's agenda" label="name"></simple-text-input>
             <simple-text-input field-id="url" placeholder="/today" label="url"></simple-text-input>
@@ -338,6 +343,7 @@ class AppView extends HTMLElement {
     this.jumpToPage(
       Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
     );
+    console.log(getManifest());
   }
 
   prevPage() {
