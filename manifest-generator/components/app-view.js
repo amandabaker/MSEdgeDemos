@@ -12,23 +12,25 @@ import "./radio-buttons.js";
 import "./styled-card.js";
 import "./multi-block-form.js";
 import "./simple-text-input.js";
-import { updateManifest } from "../state.js";
+import { updateManifest, getManifest } from "../state.js";
+
+const manifest = getManifest();
 
 const pageInfo = [
   {
     id: "name",
     title: "What's your app's name?",
-    content: `<simple-text-input placeholder-text="App name"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
   },
   {
     id: "short_name",
     title: "Now give it a nice short name",
-    content: `<simple-text-input placeholder-text="Short name"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
   },
   {
     id: "start_url",
     title: "Give me a start url",
-    content: `<simple-text-input placeholder-text="Start url"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
   },
   {
     id: "display",
@@ -40,17 +42,17 @@ const pageInfo = [
   {
     id: "background_color",
     title: "Pick a background color",
-    content: `<color-picker></color-picker>`,
+    content: `<color-picker value="${manifest.background_color}"></color-picker>`,
   },
   {
     id: "theme_color",
     title: "Pick a theme color",
-    content: `<color-picker></color-picker>`,
+    content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
   },
   {
     id: "description",
     title: "Provide a description",
-    content: `<long-text-input placeholder-text="Description"></long-text-input>`,
+    content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
   },
   {
     id: "icons",
@@ -82,7 +84,7 @@ const pageInfo = [
   {
     id: "id",
     title: "Choose an ID",
-    content: `<simple-text-input placeholder-text="ID"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
   },
   {
     id: "orientation",
@@ -120,7 +122,7 @@ const pageInfo = [
   {
     id: "scope",
     title: "Choose a scope",
-    content: `<simple-text-input placeholder-text="Scope"></simple-text-input>`,
+    content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
   },
   {
     id: "screenshot",
