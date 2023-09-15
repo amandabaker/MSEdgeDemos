@@ -26,7 +26,6 @@
 :before {
   box-sizing: border-box;
   border: 0 solid #e5e7eb;
-  color: var(--c-text);
 }
 
 html {
@@ -37,6 +36,7 @@ html {
     BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
     Noto Color Emoji;
+  color: var(--c-text);
 }
 
 body {

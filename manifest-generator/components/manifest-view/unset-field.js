@@ -9,6 +9,7 @@ template.innerHTML = `
       gap: 0.4em;
       background-color: transparent;
       transition: var(--transition-color);
+      color: var(--c-gray-light);
       cursor: pointer;
       padding: 0.05em 0.5em 0.05em 0.3em;
       border-radius: 999px;
@@ -16,10 +17,11 @@ template.innerHTML = `
     
     p {
       margin: 0;
+      color: var(--c-gray-light);
     }
 
     .field:hover {
-      background-color: var(--c-gray-light);
+      background-color: var(--c-bkg-secondary);
     }
   </style>
   <div class="field">

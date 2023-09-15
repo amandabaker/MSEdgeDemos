@@ -316,6 +316,30 @@ class AppView extends HTMLElement {
     this.manifestView = this.shadowRoot.querySelector("manifest-view");
 
     this.currentPageIdIndex = 0;
+    this.updateCurrentPageAttributes();
+    this.navigationView.addEventListener("next", () => this.nextPage());
+    this.navigationView.addEventListener("prev", () => this.prevPage());
+    this.navigationView.addEventListener("skip", () => this.skipPage());
+
+    document.addEventListener("page-change", (e) => {
+      this.updateCurrentPageAttributes();
+      this.currentPageIdIndex =
+        e.detail.index !== undefined
+          ? e.detail.index
+          : getFieldOrder().findIndex(
+              (fieldId) => fieldId == e.detail.pageId
+            ) || 0;
+    });
+    document.addEventListener("remove-node", () => {
+      this.currentPageIdIndex = Math.min(
+        getFieldOrder().length - 1,
+        this.currentPageIdIndex
+      );
+      this.updateCurrentPageAttributes();
+    });
+  }
+
+  updateCurrentPageAttributes() {
     this.navigationView.setAttribute(
       "current-id",
       getFieldOrder()[this.currentPageIdIndex]
@@ -324,19 +348,6 @@ class AppView extends HTMLElement {
       "current-page-id",
       getFieldOrder()[this.currentPageIdIndex]
     );
-    this.navigationView.addEventListener("next", () => this.nextPage());
-    this.navigationView.addEventListener("prev", () => this.prevPage());
-    this.navigationView.addEventListener("skip", () => this.skipPage());
-
-    document.addEventListener("page-change", (e) => {
-      this.navigationView.setAttribute("current-id", e.detail.pageId);
-      this.currentPageIdIndex =
-        e.detail.index !== undefined
-          ? e.detail.index
-          : getFieldOrder().findIndex(
-              (fieldId) => fieldId == e.detail.pageId
-            ) || 0;
-    });
   }
 
   nextPage() {

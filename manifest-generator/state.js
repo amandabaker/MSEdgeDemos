@@ -100,7 +100,7 @@ export const removeFieldFromManifest = (key) => {
   const index = fieldOrderState.findIndex((fieldKey) => fieldKey === key);
   if (index === -1) return;
   unsetFieldListState.push(key);
-  fieldOrderState.push(key);
+  fieldOrderState.splice(index, 1);
   localStorage.setItem("unsetFieldList", JSON.stringify(unsetFieldListState));
   localStorage.setItem("fieldOrder", JSON.stringify(fieldOrderState));
 };
