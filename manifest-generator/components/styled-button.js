@@ -5,13 +5,19 @@ template.innerHTML = `
   <button class="btn-primary"><slot></slot></button>
 `;
 
-const attributes = {
+const attributeOptions = {
   // type: "primary" | "secondary"
   type: {
     name: "type",
     required: false,
     allowedValues: ["primary", "secondary"],
     default: "primary",
+  },
+  size: {
+    name: "size",
+    required: false,
+    allowedValues: ["sm", "base"],
+    default: "base",
   },
 };
 
@@ -24,17 +30,20 @@ class StyledButton extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return Object.values(attributes).map((opt) => opt.name);
+    return Object.values(attributeOptions).map((opt) => opt.name);
   }
 
   // This method doesn't validate any form inputs, just html attributes.
   validateAttributes(changedValue) {
-    Object.entries(attributes).forEach(([field, opts]) => {
+    Object.entries(attributeOptions).forEach(([field, opts]) => {
       if (changedValue !== undefined && opts.name !== changedValue) return;
       let attribute = this.getAttribute(opts.name);
       if ((attribute === undefined || attribute === null) && opts.default)
         attribute = opts.default;
-      if (opts.required && (attribute === undefined || attributes === null))
+      if (
+        opts.required &&
+        (attribute === undefined || attributeOptions === null)
+      )
         throw new Error(
           `Attribute ${opts.name} should be set in component ${this.tagName}`
         );
@@ -42,20 +51,28 @@ class StyledButton extends HTMLElement {
         throw new Error(
           `Attribute ${opts.name} can only be values: [${opts.allowedValues}]`
         );
-      this[field] = attribute;
+      if (!this.props) this.props = {};
+      this.props[field] = attribute;
     });
   }
 
   connectedCallback() {
     this.validateAttributes();
+    this.button.setAttribute("size", this.props.size);
   }
 
   attributeChangedCallback(attr) {
     this.validateAttributes();
 
-    if (attr === attributes.type.name) {
-      this.button.classList.toggle("btn-primary", this.type === "primary");
-      this.button.classList.toggle("btn-secondary", this.type === "secondary");
+    if (attr === attributeOptions.type.name) {
+      this.button.classList.toggle(
+        "btn-primary",
+        this.props.type === "primary"
+      );
+      this.button.classList.toggle(
+        "btn-secondary",
+        this.props.type === "secondary"
+      );
     }
   }
 }

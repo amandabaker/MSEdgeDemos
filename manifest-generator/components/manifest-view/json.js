@@ -31,15 +31,18 @@ class JSONView extends HTMLElement {
   connectedCallback() {
     const jsonValue = this.getAttribute("json");
     this.json = JSON.parse(decodeURIComponent(jsonValue));
-
+    const unsetFieldsValue = this.getAttribute("unset-fields");
+    this.unsetFields = JSON.parse(decodeURIComponent(unsetFieldsValue));
+    const fieldOrderValue = this.getAttribute("field-order");
+    this.fieldOrder = JSON.parse(decodeURIComponent(fieldOrderValue));
     this.render();
   }
 
   static get observedAttributes() {
-    return ["selected-page-id", "json"];
+    return ["selected-page-id", "json", "unset-fields", "field-order"];
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, _oldValue, newValue) {
     if (name === "selected-page-id") {
       this.toggleSelectedPage(newValue);
     }
@@ -47,6 +50,20 @@ class JSONView extends HTMLElement {
       const decodedValue = decodeURIComponent(newValue);
       try {
         this.json = JSON.parse(decodedValue);
+        this.render();
+      } catch (e) {}
+    }
+    if (name === "unset-fields" && newValue) {
+      const decodedValue = decodeURIComponent(newValue);
+      try {
+        this.unsetFields = JSON.parse(decodedValue);
+        this.render();
+      } catch (e) {}
+    }
+    if (name === "field-order" && newValue) {
+      const decodedValue = decodeURIComponent(newValue);
+      try {
+        this.fieldOrder = JSON.parse(decodedValue);
         this.render();
       } catch (e) {}
     }
@@ -58,7 +75,13 @@ class JSONView extends HTMLElement {
     const isRoot = this.getAttribute("root") !== null;
     const isSelectedPage = this.getAttribute("selected-page-id");
 
-    this.renderNodes(jsonView, this.json, isSelectedPage, isRoot);
+    this.renderNodes(
+      jsonView,
+      this.json,
+      this.unsetFields,
+      isSelectedPage,
+      isRoot
+    );
   }
 
   toggleSelectedPage(selectedPageId) {
@@ -72,8 +95,13 @@ class JSONView extends HTMLElement {
     }
   }
 
-  renderNodes(jsonView, json, isSelectedPage, isRoot) {
-    Object.keys(json).forEach((key) => {
+  renderNodes(jsonView, json, unsetFields, isSelectedPage, isRoot) {
+    const keys = isRoot ? this.fieldOrder : Object.keys(json);
+    keys.forEach((key) => {
+      if (isRoot && unsetFields.includes(key)) {
+        return;
+      }
+
       const node = document.createElement("json-node");
       var nodeType = typeof json[key];
       // find if object is an array

@@ -1,4 +1,4 @@
-import { readManifestFromLocalStorage } from "./state.js";
+import { readDataFromLocalStorage } from "./state.js";
 
 const registerServiceWorker = async () => {
   try {
@@ -14,4 +14,4 @@ if (navigator.serviceWorker) {
 
 // Grab previous state from Local Storage so that progress is not lost
 // across sessions.
-readManifestFromLocalStorage();
+readDataFromLocalStorage();

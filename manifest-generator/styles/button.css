@@ -14,6 +14,10 @@ button {
 
   cursor: pointer;
   margin: 0 0.2em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
 }
 
 a.btn-primary,
@@ -74,4 +78,13 @@ a.btn-secondary:focus-visible {
   outline: 2px solid var(--c-blue-gray);
   outline-offset: 2px;
   background-color: var(--c-blue-gray);
+}
+
+button.btn-primary[size="sm"],
+a.btn-primary[size="sm"],
+button.btn-secondary[size="sm"],
+a.btn-secondary[size="sm"] {
+  padding: 0.4em 0.6em;
+  font-size: 14px;
+  text-transform: none;
 }

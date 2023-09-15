@@ -12,14 +12,18 @@ import "./radio-buttons.js";
 import "./styled-card.js";
 import "./multi-block-form.js";
 import "./simple-text-input.js";
-import { updateManifest, getManifest } from "../state.js";
+import {
+  addNextUnsetFieldToManifest,
+  getFieldOrder,
+  updateManifest,
+  getManifest,
+} from "../state.js";
 import * as validations from "../validation.js";
 
 const manifest = getManifest();
 
-const pageInfo = [
-  {
-    id: "name",
+const pageInfo = {
+  name: {
     title: "What's your app's name?",
     content: `<simple-text-input placeholder-text="App name" value="${manifest.name}"></simple-text-input>`,
     validation: {
@@ -27,8 +31,7 @@ const pageInfo = [
       fn: validations.validateName,
     },
   },
-  {
-    id: "short_name",
+  short_name: {
     title: "Now give it a nice short name",
     content: `<simple-text-input placeholder-text="Short name" value="${manifest.short_name}"></simple-text-input>`,
     validation: {
@@ -36,8 +39,7 @@ const pageInfo = [
       fn: validations.validateShortName,
     },
   },
-  {
-    id: "start_url",
+  start_url: {
     title: "Give me a start url",
     content: `<simple-text-input placeholder-text="Start url" value="${manifest.start_url}"></simple-text-input>`,
     validation: {
@@ -45,8 +47,7 @@ const pageInfo = [
       fn: validations.validateStartUrl,
     },
   },
-  {
-    id: "display",
+  display: {
     title: "Set a display mode",
     content: `<display-mode value="${manifest.display}"></display-mode>`,
     validation: {
@@ -54,8 +55,7 @@ const pageInfo = [
       fn: validations.validateDisplay,
     },
   },
-  {
-    id: "background_color",
+  background_color: {
     title: "Pick a background color",
     content: `<color-picker value="${manifest.background_color}"></color-picker>`,
     validation: {
@@ -63,8 +63,7 @@ const pageInfo = [
       fn: validations.validateBackgroundColor,
     },
   },
-  {
-    id: "theme_color",
+  theme_color: {
     title: "Pick a theme color",
     content: `<color-picker value="${manifest.theme_color}"></color-picker>`,
     validation: {
@@ -72,8 +71,7 @@ const pageInfo = [
       fn: validations.validateThemeColor,
     },
   },
-  {
-    id: "description",
+  description: {
     title: "Provide a description",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
     validation: {
@@ -81,8 +79,7 @@ const pageInfo = [
       fn: validations.validateDescription,
     },
   },
-  {
-    id: "icons",
+  icons: {
     title: "give me some icons",
     content: `
         <multi-block-form max-number-of-blocks="3" fields="['src','sizes','type']" value="[{'src': '/', 'sizes':'200x200', 'type': 'png'}]">
@@ -97,8 +94,7 @@ const pageInfo = [
       fn: validations.validateIcons,
     },
   },
-  {
-    id: "categories",
+  categories: {
     title: "Categories",
     content: `<p>TBD</p>`,
     validation: {
@@ -106,8 +102,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "display_override",
+  display_override: {
     title: "Display Override",
     content: `<p>TBD</p>`,
     validation: {
@@ -115,8 +110,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "file_handlers",
+  file_handlers: {
     title: "File handlers",
     content: `<p>TBD</p>`,
     validation: {
@@ -124,8 +118,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "id",
+  id: {
     title: "Choose an ID",
     content: `<simple-text-input placeholder-text="ID" value="${manifest.id}"></simple-text-input>`,
     validation: {
@@ -133,8 +126,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "orientation",
+  orientation: {
     title: "Choose an orientation",
     content: `<radio-buttons value="${manifest.orientation}" options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
     validation: {
@@ -142,8 +134,7 @@ const pageInfo = [
       fn: validations.validateOrientation,
     },
   },
-  {
-    id: "prefer_related_applications",
+  prefer_related_applications: {
     title: "Set prefer_related_applications",
     content: `<radio-buttons value="${manifest.prefer_related_applications}" options="true,false"></radio-buttons>`,
     validation: {
@@ -151,8 +142,7 @@ const pageInfo = [
       fn: validations.validatePreferRelatedApplications,
     },
   },
-  {
-    id: "related_applications",
+  related_applications: {
     title: "Set your related applications",
     content: `
         <multi-block-form fields="['platform','url', 'id']" value="[{'platform': '','url': '', 'id': ''}]">
@@ -168,8 +158,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "protocol_handlers",
+  protocol_handlers: {
     title: "Set your protocol handlers",
     content: `
         <multi-block-form fields="['protocol','url']" value="[{'protocol': '','url': ''}]">
@@ -184,8 +173,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "scope",
+  scope: {
     title: "Choose a scope",
     content: `<simple-text-input placeholder-text="Scope" value="${manifest.scope}"></simple-text-input>`,
     validation: {
@@ -193,8 +181,7 @@ const pageInfo = [
       fn: validations.validateScope,
     },
   },
-  {
-    id: "screenshot",
+  screenshot: {
     title: "Add screenshots",
     content: `
         <multi-block-form fields="['src','sizes', 'type', 'form_factor' , 'label' ]" value="[{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}]">
@@ -212,8 +199,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "share_target",
+  share_target: {
     title: "Add a share target",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
@@ -222,8 +208,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "shortcut",
+  shortcut: {
     title: "Add a shortcut",
     content: `
         <multi-block-form fields="['name','url', 'description' ]" value="[{'name': '','url': '', 'description': ''}]">
@@ -239,8 +224,7 @@ const pageInfo = [
       fn: () => "",
     },
   },
-  {
-    id: "widgets",
+  widgets: {
     title: "Add a widget",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
@@ -249,16 +233,14 @@ const pageInfo = [
       fn: () => "",
     },
   },
-];
+};
 
 const renderPages = () => {
   let pages = "";
-  for (let page of pageInfo) {
-    pages += `
-    <page-view page-id="${page.id}" title="${page.title}">
-      ${page.content}
-    </page-view>
-    `;
+  for (let [pageId, page] of Object.entries(pageInfo)) {
+    pages += `<page-view page-id="${pageId}" title="${page.title}">
+          ${page.content}
+      </page-view>`;
   }
   return pages;
 };
@@ -290,10 +272,14 @@ template.innerHTML = `
     }
   </style>
   <div class="app-view">
-    <navigation-view current-id="${pageInfo[0].id}" page-selector="page-view">
+    <navigation-view current-id="${
+      getFieldOrder()[0] || ""
+    }" page-selector="page-view">
       ${renderPages()}
     </navigation-view>
-    <manifest-view current-page-id="${pageInfo[0].id}"></manifest-view>
+    <manifest-view current-page-id="${
+      getFieldOrder()[0] || ""
+    }"></manifest-view>
   </div>
 `;
 
@@ -304,6 +290,7 @@ class AppView extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.navigationView = this.shadowRoot.querySelector("navigation-view");
+    this.manifestView = this.shadowRoot.querySelector("manifest-view");
 
     this.currentPageIdIndex = 0;
 
@@ -312,42 +299,59 @@ class AppView extends HTMLElement {
     this.navigationView.addEventListener("skip", () => this.skipPage());
 
     document.addEventListener("page-change", (e) => {
-      this.navigationView.setAttribute("current-id", e.detail.pageId);
-      this.currentPageIdIndex =
-        e.detail.index !== undefined
-          ? e.detail.index
-          : (() => {
-              // get the index of the page from the pageInfo array.
-              for (let i = 0; i < pageInfo.length; i++) {
-                if (pageInfo[i].id === e.detail.pageId) {
-                  return i;
-                }
-              }
-              return 0;
-            })();
+      this.updateCurrentPageAttributes();
+      // Detail index is not defined when event comes from 
+      // outside app-view. 
+      if (e.detail.index !== undefined) {
+        this.currentPageIdIndex = e.detail.index;
+      } else {
+        const index = getFieldOrder().indexOf(e.detail.pageId);
+        this.currentPageIdIndex = index === -1 ? 0 : index;
+      }
+    });
+    document.addEventListener("remove-node", () => {
+      this.currentPageIdIndex = Math.min(
+        getFieldOrder().length - 1,
+        this.currentPageIdIndex
+      );
+      this.updateCurrentPageAttributes();
     });
   }
 
+  updateCurrentPageAttributes() {
+    this.navigationView.setAttribute(
+      "current-id",
+      getFieldOrder()[this.currentPageIdIndex]
+    );
+    this.manifestView.setAttribute(
+      "current-page-id",
+      getFieldOrder()[this.currentPageIdIndex]
+    );
+  }
+
   nextPage() {
-    if (this.maybeUpdateManifest()) {
-      this.jumpToPage(
-        Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1)
-      );
+    if (!this.maybeUpdateManifest()) return;
+
+    if (this.currentPageIdIndex + 1 === getFieldOrder().length) {
+      addNextUnsetFieldToManifest();
     }
+    this.jumpToPage(
+      Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
+    );
   }
 
   prevPage() {
-    if (this.maybeUpdateManifest()) {
-      this.currentPageIdIndex--;
-      if (this.currentPageIdIndex == -1) {
-        this.currentPageIdIndex = pageInfo.length - 1;
-      }
-      this.jumpToPage(this.currentPageIdIndex);
-    }
+    if (!this.maybeUpdateManifest()) return;
+    this.jumpToPage(Math.max(0, this.currentPageIdIndex - 1));
   }
 
   skipPage() {
-    this.jumpToPage(Math.min(this.currentPageIdIndex + 1, pageInfo.length - 1));
+    if (this.currentPageIdIndex + 1 === getFieldOrder().length) {
+      addNextUnsetFieldToManifest();
+    }
+    this.jumpToPage(
+      Math.min(this.currentPageIdIndex + 1, getFieldOrder().length - 1)
+    );
   }
 
   jumpToPage(pageIndex) {
@@ -361,7 +365,7 @@ class AppView extends HTMLElement {
         composed: true,
         bubbles: true,
         detail: {
-          pageId: pageInfo[this.currentPageIdIndex].id,
+          pageId: getFieldOrder()[this.currentPageIdIndex],
           index: this.currentPageIdIndex,
         },
       })
@@ -370,8 +374,8 @@ class AppView extends HTMLElement {
 
   // To-do: Update this to use events.
   maybeUpdateManifest() {
-    const pageInfoItem = pageInfo[this.currentPageIdIndex];
-    const pageId = pageInfoItem.id;
+    const pageId = getFieldOrder()[this.currentPageIdIndex];
+    const pageInfoItem = pageInfo[pageId];
     const pageElement = this.shadowRoot.querySelector(
       `page-view[page-id="${pageId}"]`
     );
