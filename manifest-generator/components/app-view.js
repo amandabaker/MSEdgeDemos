@@ -181,7 +181,7 @@ const pageInfo = {
       fn: validations.validateScope,
     },
   },
-  screenshot: {
+  screenshots: {
     title: "Add screenshots",
     content: `
         <multi-block-form fields="['src','sizes', 'type', 'form_factor' , 'label' ]" value="[{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}]">
@@ -208,8 +208,8 @@ const pageInfo = {
       fn: () => "",
     },
   },
-  shortcut: {
-    title: "Add a shortcut",
+  shortcuts: {
+    title: "Add shortcuts",
     content: `
         <multi-block-form fields="['name','url', 'description' ]" value="[{'name': '','url': '', 'description': ''}]">
           <div slot="form">
@@ -300,8 +300,8 @@ class AppView extends HTMLElement {
 
     document.addEventListener("page-change", (e) => {
       this.updateCurrentPageAttributes();
-      // Detail index is not defined when event comes from 
-      // outside app-view. 
+      // Detail index is not defined when event comes from
+      // outside app-view.
       if (e.detail.index !== undefined) {
         this.currentPageIdIndex = e.detail.index;
       } else {
