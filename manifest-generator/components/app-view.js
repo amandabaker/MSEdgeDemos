@@ -72,7 +72,7 @@ const pageInfo = {
     },
   },
   description: {
-    title: "Provide a description",
+    title: "Provide a description of your app",
     content: `<long-text-input placeholder-text="Description" value="${manifest.description}"></long-text-input>`,
     validation: {
       type: "string",
@@ -80,7 +80,7 @@ const pageInfo = {
     },
   },
   icons: {
-    title: "give me some icons",
+    title: "Choose your icons",
     content: `
         <multi-block-form max-number-of-blocks="3" fields="%5B%22src%22%2C%22sizes%22%2C%22type%22%5D" value="%5B%7B%22src%22%3A%20%22%2F%22%2C%20%22sizes%22%3A%22200x200%22%2C%20%22type%22%3A%20%22png%22%7D%5D">
           <div slot="form">
@@ -95,7 +95,7 @@ const pageInfo = {
     },
   },
   categories: {
-    title: "Categories",
+    title: "Specify categories that your app belongs to",
     content: `<p>TBD</p>`,
     validation: {
       type: "array",
@@ -103,7 +103,7 @@ const pageInfo = {
     },
   },
   display_override: {
-    title: "Display Override",
+    title: "Choose your display overrides",
     content: `<p>TBD</p>`,
     validation: {
       type: "array",
@@ -111,7 +111,7 @@ const pageInfo = {
     },
   },
   file_handlers: {
-    title: "File handlers",
+    title: "Specify the types of files your app handle?",
     content: `<p>TBD</p>`,
     validation: {
       type: "array",
@@ -135,7 +135,8 @@ const pageInfo = {
     },
   },
   prefer_related_applications: {
-    title: "Set prefer_related_applications",
+    title:
+      "Would you prefer to guide users to install a related application from an app store?",
     content: `<radio-buttons value="${manifest.prefer_related_applications}" options="true,false"></radio-buttons>`,
     validation: {
       type: "bool",
@@ -143,7 +144,7 @@ const pageInfo = {
     },
   },
   related_applications: {
-    title: "Set your related applications",
+    title: "Set your related applications, if any",
     content: `
         <multi-block-form fields="%5B%22platform%22%2C%22url%22%2C%20%22id%22%5D" value="%5B%7B%22platform%22%3A%20%22%22%2C%22url%22%3A%20%22%22%2C%20%22id%22%3A%20%22%22%7D%5D">
           <div slot="form">
@@ -230,7 +231,7 @@ const pageInfo = {
     },
   },
   widgets: {
-    title: "Add a widget",
+    title: "Add some widgets",
     content: `<p>COMBO PLACEHOLDER</p>`,
     validation: {
       type: "array",
