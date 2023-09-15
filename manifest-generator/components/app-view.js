@@ -48,7 +48,7 @@ const pageInfo = [
   {
     id: "display",
     title: "Set a display mode",
-    content: `<display-mode></display-mode>`,
+    content: `<display-mode value="${manifest.display}"></display-mode>`,
     validation: {
       type: "string",
       fn: validations.validateDisplay,
@@ -136,7 +136,7 @@ const pageInfo = [
   {
     id: "orientation",
     title: "Choose an orientation",
-    content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
+    content: `<radio-buttons value="${manifest.orientation}" options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
     validation: {
       type: "string",
       fn: validations.validateOrientation,
@@ -145,7 +145,7 @@ const pageInfo = [
   {
     id: "prefer_related_applications",
     title: "Set prefer_related_applications",
-    content: `<radio-buttons options="true,false"></radio-buttons>`,
+    content: `<radio-buttons value="${manifest.prefer_related_applications}" options="true,false"></radio-buttons>`,
     validation: {
       type: "bool",
       fn: validations.validatePreferRelatedApplications,

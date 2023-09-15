@@ -56,7 +56,7 @@ template.innerHTML = `
             <label class="item-label">Minimal-UI</label>
             <div class="table-item">
                 <label class="radio-button">
-                    <input type="radio" name="radio-group" value="minimal-ui">
+                    <input id="minimal-ui" type="radio" name="radio-group" value="minimal-ui">
                         <img src="/manifest-generator/images/minimal-ui.png" alt="minimal-ui">
                 </label>
             </div>
@@ -65,7 +65,7 @@ template.innerHTML = `
             <label class="item-label">Standalone</label>
             <div class="table-item">
                 <label class="radio-button">
-                    <input type="radio" name="radio-group" value="standalone">
+                    <input id="standalone" type="radio" name="radio-group" value="standalone">
                     <img src="/manifest-generator/images/standalone.png" alt="standalone">
                 </label>
             </div>
@@ -74,7 +74,7 @@ template.innerHTML = `
             <label class="item-label">Fullscreen</label>
             <div class="table-item">
                 <label class="radio-button">
-                    <input type="radio" name="radio-group" value="fullscreen">
+                    <input id="fullscreen" type="radio" name="radio-group" value="fullscreen">
                     <img src="/manifest-generator/images/fullscreen.png" alt="fullscreen">
                 </label>
             </div>
@@ -83,7 +83,7 @@ template.innerHTML = `
             <label class="item-label">Browser</label>
             <div class="table-item">
                 <label class="radio-button">
-                    <input type="radio" name="radio-group" value="browser">
+                    <input id="browser" type="radio" name="radio-group" value="browser">
                     <img src="/manifest-generator/images/browser.png" alt="browser">
                 </label>
             </div>
@@ -96,6 +96,11 @@ class DisplayMode extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+
+  connectedCallback() {
+    const checkedValue = this.getAttribute("value");
+    this.shadowRoot.getElementById(checkedValue).checked = true;
   }
 
   getUserInput() {
