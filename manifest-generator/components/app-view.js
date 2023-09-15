@@ -323,12 +323,12 @@ class AppView extends HTMLElement {
 
     document.addEventListener("page-change", (e) => {
       this.updateCurrentPageAttributes();
-      this.currentPageIdIndex =
-        e.detail.index !== undefined
-          ? e.detail.index
-          : getFieldOrder().findIndex(
-              (fieldId) => fieldId == e.detail.pageId
-            ) || 0;
+      if (e.detail.index !== undefined) {
+        this.currentPageIdIndex = e.detail.index;
+      } else {
+        const index = getFieldOrder().indexOf(e.detail.pageId);
+        this.currentPageIdIndex = index === -1 ? 0 : index;
+      }
     });
     document.addEventListener("remove-node", () => {
       this.currentPageIdIndex = Math.min(
