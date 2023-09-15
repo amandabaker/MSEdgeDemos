@@ -20,13 +20,14 @@ class RadioButtons extends HTMLElement {
       tableItem.setAttribute("class", "table-item");
       // Create radio button and append
       let radioButton = document.createElement("input");
+      radioButton.setAttribute("id", element);
       radioButton.setAttribute("type", "radio");
       radioButton.setAttribute("name", "radio-group");
       radioButton.setAttribute("value", element);
-      tableItem.append(radioButton);
       // Create radio button label and append
       let radioLabel = document.createElement("label");
-      radioLabel.textContent = element;
+      radioLabel.append(radioButton);
+      radioLabel.innerHTML += `${element}`;
       tableItem.append(radioLabel);
       tableWrapper.append(tableItem);
     });
@@ -51,7 +52,7 @@ class RadioButtons extends HTMLElement {
         height: 2em;
         margin-top: -1px;
         vertical-align: middle;
-        margin-right: 0;
+        margin-right: 15px;
       }
       
       input[type="radio"]:checked {
@@ -69,6 +70,11 @@ class RadioButtons extends HTMLElement {
     // Append the table and style to the shadow DOM
     shadow.append(tableWrapper);
     shadow.append(style);
+  }
+
+  connectedCallback(){
+    const checkedValue = this.getAttribute("value");
+    this.shadowRoot.getElementById(checkedValue).checked = true;
   }
 
   getUserInput() {
