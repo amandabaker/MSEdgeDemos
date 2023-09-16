@@ -11,6 +11,7 @@ import "./long-text-input.js";
 import "./radio-buttons.js";
 import "./styled-card.js";
 import "./multi-block-form.js";
+import "./multi-string-block-form.js";
 import "./simple-text-input.js";
 
 import * as validations from "../validation.js";
@@ -134,10 +135,13 @@ const pageInfo = {
   },
   display_override: {
     title: "Choose your display overrides",
-    content: `<p>TBD</p>`,
+    title: "Display Override",
+    content: `
+        <multi-string-block-form max-number-of-blocks="5" value="${manifest.display_override}">
+        </multi-string-block-form>`,
     validation: {
       type: "array",
-      fn: () => "",
+      fn: validations.validateDisplayOverride,
     },
     tooltipTitle: "The display override of the web application",
     tooltipContent:

@@ -37,8 +37,18 @@ class JSONArray extends HTMLElement {
     const jsonValue = this.json;
     const arrayNode = this.shadowRoot.querySelector(".node");
     for (let json of jsonValue) {
-      const node = document.createElement("json-view");
-      node.setAttribute("json", encodeURIComponent(JSON.stringify(json)));
+      let node;
+      if (typeof json === "object") {
+        node = document.createElement("json-view");
+        node.setAttribute("json", encodeURIComponent(JSON.stringify(json)));
+      } else if (Array.isArray(json)) {
+        node = document.createElement("json-array");
+        node.setAttribute("json", encodeURIComponent(JSON.stringify(json)));
+      } else {
+        node = document.createElement("json-node");
+        node.setAttribute("value", json);
+        node.setAttribute("type", typeof json);
+      }
       arrayNode.appendChild(node);
     }
   }

@@ -1,3 +1,5 @@
+import "./simple-text-input.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
   <link rel="stylesheet" href="/manifest-generator/styles/defaults.css" />
@@ -71,6 +73,10 @@ class SimpleTextInput extends HTMLElement {
 
   getUserInput() {
     return this.#inputElement.value;
+  }
+
+  setUserInput(value) {
+    this.#inputElement.value = value;
   }
 
   // This method doesn't validate any form inputs, just html attributes.
