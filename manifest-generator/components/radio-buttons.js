@@ -110,7 +110,9 @@ class RadioButtons extends HTMLElement {
 
   connectedCallback() {
     const checkedValue = this.getAttribute("value");
-    this.shadowRoot.getElementById(checkedValue).checked = true;
+    if (this.shadowRoot.getElementById(checkedValue)) {
+      this.shadowRoot.getElementById(checkedValue).checked = true;
+    }
   }
 
   getUserInput() {
