@@ -25,6 +25,10 @@ import {
 
 const manifest = getManifest();
 
+const stringifyAndEncode = (value) => {
+  return encodeURIComponent(JSON.stringify(value));
+}
+
 const pageInfo = {
   name: {
     title: "What's your app's name?",
@@ -57,7 +61,7 @@ const pageInfo = {
     },
     tooltipTitle: "The start URL of the web application",
     tooltipContent:
-      "The start_url member is a string that represents the start URL of the web application — the prefered URL that should be loaded when the user launches the web application (e.g., when the user taps on the web application's icon from a device's application menu or homescreen).",
+      "The start_url member is a string that represents the start URL of the web application — the preferred URL that should be loaded when the user launches the web application (e.g., when the user taps on the web application's icon from a device's application menu or homescreen).",
   },
   display: {
     title: "Set a display mode",
@@ -66,7 +70,6 @@ const pageInfo = {
       type: "string",
       fn: validations.validateDisplay,
     },
-    content: `<display-mode></display-mode>`,
     tooltipTitle: "The display mode of the web application",
     tooltipContent:
       "The display member is a string that determines the developers’ preferred display mode for the website. The display mode changes how much of browser UI is shown to the user and can range from browser (when the full browser window is shown) to fullscreen (when the app is full-screened).",
@@ -107,7 +110,7 @@ const pageInfo = {
   icons: {
     title: "Choose your icons",
     content: `
-        <multi-block-form max-number-of-blocks="3" fields="%5B%22src%22%2C%22sizes%22%2C%22type%22%5D" value="%5B%7B%22src%22%3A%20%22%2F%22%2C%20%22sizes%22%3A%22200x200%22%2C%20%22type%22%3A%20%22png%22%7D%5D">
+        <multi-block-form max-number-of-blocks="3" fields="${stringifyAndEncode(['src','sizes','type'])}" value="${stringifyAndEncode([{'src': '/', 'sizes':'200x200', 'type': 'png'}])}">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
@@ -149,6 +152,8 @@ const pageInfo = {
   },
   file_handlers: {
     title: "Specify the types of files your app handle?",
+    // Copying the multi-multi (nested) example here so that protocol handlers
+    // is implemented properly. Note that the code below is very incorrect.
     content: `<p>TBD</p>`,
     validation: {
       type: "array",
@@ -176,7 +181,6 @@ const pageInfo = {
       type: "string",
       fn: validations.validateOrientation,
     },
-    content: `<radio-buttons options="any,natural,landscape,landscape-primary,landscape-secondary,portrait,portrait-primary,portrait-secondary"></radio-buttons>`,
     tooltipTitle: "The orientation of the web application",
     tooltipContent:
       "The orientation member is a string that defines the default orientation for all the website's top-level browsing contexts.",
@@ -189,7 +193,6 @@ const pageInfo = {
       type: "bool",
       fn: validations.validatePreferRelatedApplications,
     },
-    content: `<radio-buttons options="true,false"></radio-buttons>`,
     tooltipTitle: "The prefer_related_applications of the web application",
     tooltipContent:
       "The prefer_related_applications member is a boolean that specifies that applications listed in related_applications should be preferred over the website. If this is set to true and the user has one or more related applications installed, the user agent should promote the related applications above the website when launching the web application.",
@@ -197,7 +200,7 @@ const pageInfo = {
   related_applications: {
     title: "Set your related applications, if any",
     content: `
-        <multi-block-form fields="%5B%22platform%22%2C%22url%22%2C%20%22id%22%5D" value="%5B%7B%22platform%22%3A%20%22%22%2C%22url%22%3A%20%22%22%2C%20%22id%22%3A%20%22%22%7D%5D">
+        <multi-block-form fields="${stringifyAndEncode(['platform','url', 'id'])}" value="${stringifyAndEncode([{'platform': '','url': '', 'id': ''}])}">
           <div slot="form">
             <simple-text-input field-id="platform" placeholder="windows" label="platform"></simple-text-input>
             <simple-text-input field-id="url" placeholder="https://path.to.store.app/my-app" label="URL"></simple-text-input>
@@ -216,15 +219,10 @@ const pageInfo = {
   protocol_handlers: {
     title: "Set your protocol handlers",
     content: `
-        <multi-block-form fields="%5B%22multi%22%2C%22simple%22%5D" value="%5B%7B%22multi%22%3A%5B%5D%2C%22simple%22%3A%22%22%7D%5D">
+        <multi-block-form fields="${stringifyAndEncode(['protocol','url'])}" value="${stringifyAndEncode([{'protocol': '','url': ''}])}">
           <div slot="form">
-            <simple-text-input field-id="simple" placeholder="web+customProtocol" label="protocol"></simple-text-input>
-            <p>label</p>
-            <multi-block-form field-id="multi" fields="%5B%22test%22%5D" value="%5B%5D">
-              <div slot="form">
-                <simple-text-input field-id="test" placeholder="web+customProtocol" label="protocol"></simple-text-input>
-              </div>
-            </multi-block-form>
+            <simple-text-input field-id="protocol" placeholder="web+customProtocol" label="protocol"></simple-text-input>
+            <simple-text-input field-id="url" placeholder="web+customProtocol" label="url"></simple-text-input>
           </div>
         </multi-block-form>`,
     validation: {
@@ -250,7 +248,7 @@ const pageInfo = {
   screenshots: {
     title: "Add screenshots",
     content: `
-        <multi-block-form fields="%5B%22src%22%2C%22sizes%22%2C%20%22type%22%2C%20%22form_factor%22%20%2C%20%22label%22%20%5D" value="%5B%7B%22src%22%3A%20%22%22%2C%22sizes%22%3A%20%22%22%2C%20%22type%22%3A%20%22%22%2C%20%22form_factor%22%3A%20%22%22%2C%20%22label%22%3A%20%22%22%7D%5D">
+        <multi-block-form fields="${stringifyAndEncode(['src','sizes', 'type', 'form_factor' , 'label' ])}" value="${stringifyAndEncode([{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}])}">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="screenshot1.webp" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="1280x720" label="sizes"></simple-text-input>
@@ -270,7 +268,53 @@ const pageInfo = {
   },
   share_target: {
     title: "Add a share target",
-    content: `<p>COMBO PLACEHOLDER</p>`,
+    content: `
+    <multi-block-form fields="${stringifyAndEncode(['action', 'enctype', 'method', 'params'])}" value="${stringifyAndEncode([
+      {
+        'action': '',
+        'enctype': '',
+        'method': '',
+        'params': [{
+          'title': '',
+          'text': '',
+          'url': '',
+          'files': [{
+            'name': '',
+            'accept': '',
+          }]
+        }]
+      }])}">
+      <div slot="form">
+        <simple-text-input field-id="action" placeholder="/shared-content-receiver/" label="action"></simple-text-input>
+        <simple-text-input field-id="enctype" placeholder="multipart/form-data" label="enctype"></simple-text-input>
+        <simple-text-input field-id="method" placeholder="GET" label="method"></simple-text-input>
+        <p>params</p>
+        <multi-block-form field-id="params" fields="${stringifyAndEncode(['title', 'text', 'url', 'files'])}" value="${stringifyAndEncode([{
+          'title': '',
+          'text': '',
+          'url': '',
+          'files': [{
+            'name': '',
+            'accept': '',
+          }]
+        }])}">
+          <div slot="form">
+            <simple-text-input field-id="title" placeholder="web+customProtocol" label="title""></simple-text-input>
+            <simple-text-input field-id="text" placeholder="web+customProtocol" label="text""></simple-text-input>
+            <simple-text-input field-id="url" placeholder="web+customProtocol" label="url""></simple-text-input>
+            <multi-block-form field-id="files" fields="${stringifyAndEncode(['name', 'accept'])}" value="${stringifyAndEncode([{
+                'name': '',
+                'accept': '',
+              }])}">
+              <div slot="form">
+                <simple-text-input field-id="name" placeholder="lists" label="name""></simple-text-input>
+                <simple-text-input field-id="accept" placeholder="["text/csv", ".csv"]" label="accept""></simple-text-input>
+              </div>
+            </multi-block-form>
+          </div>
+        </multi-block-form>
+      </div>
+    </multi-block-form>`,
     validation: {
       type: "array",
       // TODO: add validation once combo implemented.
@@ -283,7 +327,7 @@ const pageInfo = {
   shortcuts: {
     title: "Add shortcuts",
     content: `
-        <multi-block-form fields="%5B%22name%22%2C%22url%22%2C%20%22description%22%20%5D" value="%5B%7B%22name%22%3A%20%22%22%2C%22url%22%3A%20%22%22%2C%20%22description%22%3A%20%22%22%7D%5D">
+        <multi-block-form fields="${stringifyAndEncode(['name','url', 'description'])}" value="${stringifyAndEncode([{'name': '','url': '', 'description': ''}])}">
           <div slot="form">
             <simple-text-input field-id="name" placeholder="Today's agenda" label="name"></simple-text-input>
             <simple-text-input field-id="url" placeholder="/today" label="url"></simple-text-input>
@@ -317,9 +361,9 @@ const renderPages = () => {
   let pages = "";
   for (let [pageId, page] of Object.entries(pageInfo)) {
     pages += `
-    <page-view 
-      page-id="${pageId}" 
-      title="${page.title}" 
+    <page-view
+      page-id="${pageId}"
+      title="${page.title}"
       tooltip-title="${page.tooltipTitle}"
       tooltip-content="${page.tooltipContent}"
     >

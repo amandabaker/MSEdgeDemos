@@ -42,6 +42,7 @@ const attributeOptions = {
 class SimpleTextInput extends HTMLElement {
   #inputElement;
   #errorText;
+  #props;
 
   constructor() {
     super();
@@ -90,8 +91,8 @@ class SimpleTextInput extends HTMLElement {
         throw new Error(
           `Attribute ${opts.name} should be set in component ${this.tagName}`
         );
-      if (!this.props) this.props = {};
-      this.props[field] = attribute;
+      if (!this.#props) this.#props = {};
+      this.#props[field] = attribute;
     });
   }
   connectedCallback() {
@@ -105,7 +106,7 @@ class SimpleTextInput extends HTMLElement {
   attributeChangedCallback(attr, oldVal) {
     this.validateAttributes(attr);
     if (oldVal !== null && attr == attributeOptions.value.name)
-      this.#inputElement.value = this.props.value;
+      this.#inputElement.value = this.#props.value;
   }
 
   onValidationCheck(did_succeed, errorText) {
