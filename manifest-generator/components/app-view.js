@@ -152,8 +152,6 @@ const pageInfo = {
   },
   file_handlers: {
     title: "Specify the types of files your app handle?",
-    // Copying the multi-multi (nested) example here so that protocol handlers
-    // is implemented properly. Note that the code below is very incorrect.
     content: `<p>TBD</p>`,
     validation: {
       type: "array",
