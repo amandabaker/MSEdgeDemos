@@ -127,14 +127,16 @@ const pageInfo = {
   },
   categories: {
     title: "Specify categories that your app belongs to",
-    content: `<p>TBD</p>`,
+    content: `
+        <multi-string-block-form max-number-of-blocks="10" value="${manifest.categories}">
+        </multi-string-block-form>`,
     validation: {
       type: "array",
-      fn: () => "",
+      fn: validations.validateCategories,
     },
-    tooltipTitle: "The categories of the web application",
+    tooltipTitle: "The categories that the web application belongs to",
     tooltipContent:
-      "The categories member is an array of strings defining the names of categories that the application supposedly belongs to. The set of categories is not standardized and can vary between different app stores.",
+      "The categories member is an array of strings defining the names of categories that the application supposedly belongs to. The set of categories is not standardized and can vary between different app stores. A list of commonly used categories can be found at https://github.com/w3c/manifest/wiki/Categories",
   },
   display_override: {
     title: "Choose your display overrides",
