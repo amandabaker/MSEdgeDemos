@@ -1,6 +1,6 @@
 {
   "arrowParens": "always",
-  "bracketSameLine": true,
+  "bracketSameLine": false,
   "bracketSpacing": true,
   "printWidth": 80,
   "singleAttributePerLine": false,
