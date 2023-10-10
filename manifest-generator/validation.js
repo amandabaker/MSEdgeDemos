@@ -216,7 +216,7 @@ export const validateCategories = (categories) => {
     if (typeof category !== "string") {
       return "must be a string";
     }
-  })
+  });
 
   return "";
-}
+};

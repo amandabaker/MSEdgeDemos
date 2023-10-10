@@ -27,7 +27,7 @@ const manifest = getManifest();
 
 const stringifyAndEncode = (value) => {
   return encodeURIComponent(JSON.stringify(value));
-}
+};
 
 const pageInfo = {
   name: {
@@ -110,7 +110,11 @@ const pageInfo = {
   icons: {
     title: "Choose your icons",
     content: `
-        <multi-block-form max-number-of-blocks="3" fields="${stringifyAndEncode(['src','sizes','type'])}" value="${stringifyAndEncode([{'src': '/', 'sizes':'200x200', 'type': 'png'}])}">
+        <multi-block-form max-number-of-blocks="3" fields="${stringifyAndEncode(
+          ["src", "sizes", "type"]
+        )}" value="${stringifyAndEncode([
+      { src: "/", sizes: "200x200", type: "png" },
+    ])}">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
@@ -200,7 +204,11 @@ const pageInfo = {
   related_applications: {
     title: "Set your related applications, if any",
     content: `
-        <multi-block-form fields="${stringifyAndEncode(['platform','url', 'id'])}" value="${stringifyAndEncode([{'platform': '','url': '', 'id': ''}])}">
+        <multi-block-form fields="${stringifyAndEncode([
+          "platform",
+          "url",
+          "id",
+        ])}" value="${stringifyAndEncode([{ platform: "", url: "", id: "" }])}">
           <div slot="form">
             <simple-text-input field-id="platform" placeholder="windows" label="platform"></simple-text-input>
             <simple-text-input field-id="url" placeholder="https://path.to.store.app/my-app" label="URL"></simple-text-input>
@@ -219,7 +227,10 @@ const pageInfo = {
   protocol_handlers: {
     title: "Set your protocol handlers",
     content: `
-        <multi-block-form fields="${stringifyAndEncode(['protocol','url'])}" value="${stringifyAndEncode([{'protocol': '','url': ''}])}">
+        <multi-block-form fields="${stringifyAndEncode([
+          "protocol",
+          "url",
+        ])}" value="${stringifyAndEncode([{ protocol: "", url: "" }])}">
           <div slot="form">
             <simple-text-input field-id="protocol" placeholder="web+customProtocol" label="protocol"></simple-text-input>
             <simple-text-input field-id="url" placeholder="web+customProtocol" label="url"></simple-text-input>
@@ -248,7 +259,15 @@ const pageInfo = {
   screenshots: {
     title: "Add screenshots",
     content: `
-        <multi-block-form fields="${stringifyAndEncode(['src','sizes', 'type', 'form_factor' , 'label' ])}" value="${stringifyAndEncode([{'src': '','sizes': '', 'type': '', 'form_factor': '', 'label': ''}])}">
+        <multi-block-form fields="${stringifyAndEncode([
+          "src",
+          "sizes",
+          "type",
+          "form_factor",
+          "label",
+        ])}" value="${stringifyAndEncode([
+      { src: "", sizes: "", type: "", form_factor: "", label: "" },
+    ])}">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="screenshot1.webp" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="1280x720" label="sizes"></simple-text-input>
@@ -269,43 +288,67 @@ const pageInfo = {
   share_target: {
     title: "Add a share target",
     content: `
-    <multi-block-form fields="${stringifyAndEncode(['action', 'enctype', 'method', 'params'])}" value="${stringifyAndEncode([
+    <multi-block-form fields="${stringifyAndEncode([
+      "action",
+      "enctype",
+      "method",
+      "params",
+    ])}" value="${stringifyAndEncode([
       {
-        'action': '',
-        'enctype': '',
-        'method': '',
-        'params': [{
-          'title': '',
-          'text': '',
-          'url': '',
-          'files': [{
-            'name': '',
-            'accept': '',
-          }]
-        }]
-      }])}">
+        action: "",
+        enctype: "",
+        method: "",
+        params: [
+          {
+            title: "",
+            text: "",
+            url: "",
+            files: [
+              {
+                name: "",
+                accept: "",
+              },
+            ],
+          },
+        ],
+      },
+    ])}">
       <div slot="form">
         <simple-text-input field-id="action" placeholder="/shared-content-receiver/" label="action"></simple-text-input>
         <simple-text-input field-id="enctype" placeholder="multipart/form-data" label="enctype"></simple-text-input>
         <simple-text-input field-id="method" placeholder="GET" label="method"></simple-text-input>
         <p>params</p>
-        <multi-block-form field-id="params" fields="${stringifyAndEncode(['title', 'text', 'url', 'files'])}" value="${stringifyAndEncode([{
-          'title': '',
-          'text': '',
-          'url': '',
-          'files': [{
-            'name': '',
-            'accept': '',
-          }]
-        }])}">
+        <multi-block-form field-id="params" fields="${stringifyAndEncode([
+          "title",
+          "text",
+          "url",
+          "files",
+        ])}" value="${stringifyAndEncode([
+      {
+        title: "",
+        text: "",
+        url: "",
+        files: [
+          {
+            name: "",
+            accept: "",
+          },
+        ],
+      },
+    ])}">
           <div slot="form">
             <simple-text-input field-id="title" placeholder="web+customProtocol" label="title""></simple-text-input>
             <simple-text-input field-id="text" placeholder="web+customProtocol" label="text""></simple-text-input>
             <simple-text-input field-id="url" placeholder="web+customProtocol" label="url""></simple-text-input>
-            <multi-block-form field-id="files" fields="${stringifyAndEncode(['name', 'accept'])}" value="${stringifyAndEncode([{
-                'name': '',
-                'accept': '',
-              }])}">
+            <multi-block-form field-id="files" fields="${stringifyAndEncode([
+              "name",
+              "accept",
+            ])}" value="${stringifyAndEncode([
+      {
+        name: "",
+        accept: "",
+      },
+    ])}">
               <div slot="form">
                 <simple-text-input field-id="name" placeholder="lists" label="name""></simple-text-input>
                 <simple-text-input field-id="accept" placeholder="["text/csv", ".csv"]" label="accept""></simple-text-input>
@@ -327,7 +370,13 @@ const pageInfo = {
   shortcuts: {
     title: "Add shortcuts",
     content: `
-        <multi-block-form fields="${stringifyAndEncode(['name','url', 'description'])}" value="${stringifyAndEncode([{'name': '','url': '', 'description': ''}])}">
+        <multi-block-form fields="${stringifyAndEncode([
+          "name",
+          "url",
+          "description",
+        ])}" value="${stringifyAndEncode([
+      { name: "", url: "", description: "" },
+    ])}">
           <div slot="form">
             <simple-text-input field-id="name" placeholder="Today's agenda" label="name"></simple-text-input>
             <simple-text-input field-id="url" placeholder="/today" label="url"></simple-text-input>

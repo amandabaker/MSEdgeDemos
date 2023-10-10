@@ -111,14 +111,15 @@ class MultiBlockForm extends HTMLElement {
       this.addBlockAtIndex(this.#props.value.length);
     });
 
-
     this.clearBlocks();
     this.#value.forEach((_entry, index) => this.addBlockAtIndex(index));
   }
 
   clearBlocks() {
     while (this.getBlockListView()?.lastElementChild) {
-      this.getBlockListView().removeChild(this.getBlockListView().lastElementChild);
+      this.getBlockListView().removeChild(
+        this.getBlockListView().lastElementChild
+      );
     }
   }
 
