@@ -210,3 +210,13 @@ export const validateScope = (scope) => {
 
   return validateUrl(scope);
 };
+
+export const validateCategories = (categories) => {
+  categories.forEach((category) => {
+    if (typeof category !== "string") {
+      return "must be a string";
+    }
+  })
+
+  return "";
+}
