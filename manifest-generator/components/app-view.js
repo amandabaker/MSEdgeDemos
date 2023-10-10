@@ -136,7 +136,7 @@ const pageInfo = {
     },
     tooltipTitle: "The categories that the web application belongs to",
     tooltipContent:
-      "The categories member is an array of strings defining the names of categories that the application supposedly belongs to. The set of categories is not standardized and can vary between different app stores. A list of commonly categories can be found at https://github.com/w3c/manifest/wiki/Categories",
+      "The categories member is an array of strings defining the names of categories that the application supposedly belongs to. The set of categories is not standardized and can vary between different app stores. A list of commonly used categories can be found at https://github.com/w3c/manifest/wiki/Categories",
   },
   display_override: {
     title: "Choose your display overrides",
