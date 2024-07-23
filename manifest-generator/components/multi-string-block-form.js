@@ -7,7 +7,7 @@ template.innerHTML = `
         height: 100%;
         display: flex;
         flex-direction: column;
-        overflow: scroll;
+        overflow: auto;
       }
       button {
         font-size: 16px;
@@ -23,14 +23,14 @@ template.innerHTML = `
         cursor: pointer;
       }
       button:not(:disabled):hover {
-        background-color: var(--c-bkg-secondary) 
+        background-color: var(--c-bkg-secondary)
       }
       #new-block {
         align-self: start;
         padding-right: 1em;
       }
       #new-block:disabled {
-        opacity: 0.3; 
+        opacity: 0.3;
         cursor: default;
       }
       .block {

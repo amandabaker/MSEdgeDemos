@@ -20,13 +20,13 @@ template.innerHTML = `
     height: 100%;
     overflow: hidden;
   }
-  
+
   .editor {
     background-color: var(--c-bkg-dark);
     padding-top: 0;
     border-radius: var(--border-radius);
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .manifest-view {
@@ -50,7 +50,7 @@ template.innerHTML = `
   }
 
   .toolbar {
-    background-color: var(--c-bkg-dark);    
+    background-color: var(--c-bkg-dark);
     position: sticky;
     top: -0.1em;
     padding: 1em;
@@ -65,7 +65,7 @@ template.innerHTML = `
   .toolbar .actions {
     display: flex;
     align-items: center;
-  } 
+  }
 
   p {
     margin: 0;
@@ -85,7 +85,7 @@ template.innerHTML = `
     <div class="manifest-view-wrapper">
       <div class="toolbar">
         <p>manifest.json</p>
-        <div class="actions"> 
+        <div class="actions">
           <copy-button></copy-button>
           <styled-button type="secondary" size="sm">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="15" height="15"><rect width="256" height="256" fill="none"/><line x1="128" y1="152" x2="128" y2="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><path d="M216,152v56a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V152" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><polyline points="168 112 128 152 88 112" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg>
