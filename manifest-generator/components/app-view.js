@@ -306,7 +306,7 @@ const pageInfo = {
             files: [
               {
                 name: "",
-                accept: "",
+                accept: [],
               },
             ],
           },
@@ -331,7 +331,7 @@ const pageInfo = {
             files: [
               {
                 name: "",
-                accept: "",
+                accept: [],
               },
             ],
           },
@@ -340,18 +340,21 @@ const pageInfo = {
             <simple-text-input field-id="title" placeholder="web+customProtocol" label="title""></simple-text-input>
             <simple-text-input field-id="text" placeholder="web+customProtocol" label="text""></simple-text-input>
             <simple-text-input field-id="url" placeholder="web+customProtocol" label="url""></simple-text-input>
+            <p>files</p>
             <multi-block-form field-id="files" fields="${stringifyAndEncode([
               "name",
               "accept",
             ])}" value="${stringifyAndEncode([
               {
                 name: "",
-                accept: "",
+                accept: [],
               },
             ])}">
               <div slot="form">
                 <simple-text-input field-id="name" placeholder="lists" label="name""></simple-text-input>
-                <simple-text-input field-id="accept" placeholder="["text/csv", ".csv"]" label="accept""></simple-text-input>
+                <p>accept</p>
+                <multi-string-block-form max-number-of-blocks="5" field-id="accept" label="accept" value="">
+                </multi-string-block-form>
               </div>
             </multi-block-form>
           </div>
