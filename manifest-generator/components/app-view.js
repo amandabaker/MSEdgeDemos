@@ -113,8 +113,8 @@ const pageInfo = {
         <multi-block-form max-number-of-blocks="3" fields="${stringifyAndEncode(
           ["src", "sizes", "type"]
         )}" value="${stringifyAndEncode([
-      { src: "/", sizes: "200x200", type: "png" },
-    ])}">
+          { src: "/", sizes: "200x200", type: "png" },
+        ])}">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="placeholder" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="placeholder" label="sizes"></simple-text-input>
@@ -266,8 +266,8 @@ const pageInfo = {
           "form_factor",
           "label",
         ])}" value="${stringifyAndEncode([
-      { src: "", sizes: "", type: "", form_factor: "", label: "" },
-    ])}">
+          { src: "", sizes: "", type: "", form_factor: "", label: "" },
+        ])}">
           <div slot="form">
             <simple-text-input field-id="src" placeholder="screenshot1.webp" label="src"></simple-text-input>
             <simple-text-input field-id="sizes" placeholder="1280x720" label="sizes"></simple-text-input>
@@ -324,18 +324,18 @@ const pageInfo = {
           "url",
           "files",
         ])}" value="${stringifyAndEncode([
-      {
-        title: "",
-        text: "",
-        url: "",
-        files: [
           {
-            name: "",
-            accept: "",
+            title: "",
+            text: "",
+            url: "",
+            files: [
+              {
+                name: "",
+                accept: "",
+              },
+            ],
           },
-        ],
-      },
-    ])}">
+        ])}">
           <div slot="form">
             <simple-text-input field-id="title" placeholder="web+customProtocol" label="title""></simple-text-input>
             <simple-text-input field-id="text" placeholder="web+customProtocol" label="text""></simple-text-input>
@@ -344,11 +344,11 @@ const pageInfo = {
               "name",
               "accept",
             ])}" value="${stringifyAndEncode([
-      {
-        name: "",
-        accept: "",
-      },
-    ])}">
+              {
+                name: "",
+                accept: "",
+              },
+            ])}">
               <div slot="form">
                 <simple-text-input field-id="name" placeholder="lists" label="name""></simple-text-input>
                 <simple-text-input field-id="accept" placeholder="["text/csv", ".csv"]" label="accept""></simple-text-input>
@@ -375,8 +375,8 @@ const pageInfo = {
           "url",
           "description",
         ])}" value="${stringifyAndEncode([
-      { name: "", url: "", description: "" },
-    ])}">
+          { name: "", url: "", description: "" },
+        ])}">
           <div slot="form">
             <simple-text-input field-id="name" placeholder="Today's agenda" label="name"></simple-text-input>
             <simple-text-input field-id="url" placeholder="/today" label="url"></simple-text-input>

@@ -2,6 +2,7 @@
   "arrowParens": "always",
   "bracketSameLine": false,
   "bracketSpacing": true,
+  "endOfLine": "crlf",
   "printWidth": 80,
   "singleAttributePerLine": false,
   "semi": true,
