@@ -27,7 +27,7 @@ template.innerHTML = `
       height: 100%;
       display: flex;
       flex-direction: column;
-      overflow: scroll;
+      overflow: auto;
     }
     button {
       font-size: 16px;
