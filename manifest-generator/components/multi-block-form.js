@@ -162,10 +162,12 @@ class MultiBlockForm extends HTMLElement {
   }
 
   addBlockAtIndex(blockIndex) {
-    if (blockIndex === this.#props.maxNumberOfBlocks) return;
-    if (blockIndex === this.#props.maxNumberOfBlocks - 1) {
+    if (blockIndex === this.#props.maxNumberOfBlocks) {
+      return;
+    } else if (blockIndex === this.#props.maxNumberOfBlocks - 1) {
       this.disableAddNewButton();
     }
+
     if (blockIndex === this.#value.length) {
       // TODO(Marcos): add explanation for this case.
       this.#value[blockIndex] = Object.fromEntries(

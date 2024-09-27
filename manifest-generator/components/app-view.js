@@ -158,7 +158,26 @@ const pageInfo = {
   },
   file_handlers: {
     title: "Specify the types of files your app handle?",
-    content: `<p>TBD</p>`,
+    content: `
+    <multi-block-form fields="${stringifyAndEncode([
+      "action",
+      "accept",
+    ])}" value="${stringifyAndEncode([
+      {
+        action: "",
+        accept: {
+          "": "",
+        },
+      },
+    ])}">
+      <div slot="form">
+        <simple-text-input field-id="action" placeholder="/handle-audio-file" label="action"></simple-text-input>
+        <p>accept</p>
+        <key-value-pairs-block-form field-id="accept" value="${stringifyAndEncode([{"": ""}])}">
+        </key-value-pairs-block-form>
+      </div>
+    </multi-block-form>
+    `,
     validation: {
       type: "array",
       fn: () => "",
